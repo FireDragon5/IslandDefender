@@ -1,11 +1,12 @@
 package me.firedragon5.clashcraft.filemanager.player;
 
-import me.firedragon5.clashcraft.filemanager.clans.ClanFolderManager;
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PlayerFileManager {
@@ -130,6 +131,12 @@ public class PlayerFileManager {
 
 		if (playerFile.exists()) {
 			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+//			If the player is in a clan, then return
+			if (!Objects.equals(playerConfig.getString("clan-name"), "none")) {
+				UtilsMessage.errorMessage(playerName, "You are already in a clan!");
+				return;
+			}
 
 			playerConfig.set("clan-name", clanName);
 		}

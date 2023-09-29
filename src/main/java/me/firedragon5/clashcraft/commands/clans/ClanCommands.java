@@ -2,7 +2,6 @@ package me.firedragon5.clashcraft.commands.clans;
 
 import me.firedragon5.clashcraft.filemanager.clans.ClanFolderManager;
 import me.firedragon5.clashcraft.filemanager.player.PlayerFileManager;
-import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,7 +35,7 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 
 				ClanFolderManager.getFileManager().addClan(player ,args[1], args[2]);
 				PlayerFileManager.setPlayerClanName(player, args[1]);
-				UtilsMessage.sendMessage(player, "&aYou have created the clan " + args[1]);
+
 
 			} else {
 				player.sendMessage( "&cYou do not have permission to use this command!");

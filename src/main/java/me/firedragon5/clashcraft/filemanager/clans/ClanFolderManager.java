@@ -1,6 +1,5 @@
 package me.firedragon5.clashcraft.filemanager.clans;
 
-import me.firedragon5.clashcraft.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -8,7 +7,6 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.List;
-import java.util.Objects;
 
 public class ClanFolderManager {
 
@@ -73,11 +71,19 @@ public void addClan(Player player, String clanName, String clanTag) {
 	YamlConfiguration clanConfig;
 
 
-//	if player has a clan name in the players folder, then return
-	if (!Objects.equals(PlayerFileManager.getPlayerClanName(player), "none")) {
-		UtilsMessage.errorMessage(player, "You already have a clan!");
+//	Check max clans
+	if (!canCreateClan()) {
+		UtilsMessage.errorMessage(player, "The server has reached max's clans!");
 		return;
 	}
+
+//	Check if the clan name or tag is blacklisted
+	if (isBlacklisted(clanName, clanTag)) {
+		UtilsMessage.errorMessage(player, "The clan name or tag is blacklisted!");
+		return;
+	}
+
+
 
 
 	try {
@@ -99,11 +105,14 @@ public void addClan(Player player, String clanName, String clanTag) {
 		clanConfig.addDefault("clan-power", "none");
 		clanConfig.addDefault("clan-balance", "none");
 
+
 		clanConfig.options().copyDefaults(true);
 		clanConfig.save(clanFile);
 
-		// Debug: Print the path where the file is saved
-		System.out.println("Clan file saved to: " + clanFile.getAbsolutePath());
+//		Send message that clan was created
+		UtilsMessage.correctMessage(player, "Clan created! &a/clan info " + clanName
+				+ " &7to view info about your clan!");
+
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
@@ -148,6 +157,28 @@ public void addClan(Player player, String clanName, String clanTag) {
 		clanConfig.set("clan-members", clanMembers);
 	}
 
+
+//	Check if the clan amount is not equal to the max clans
+	public boolean canCreateClan() {
+		int clanCount = 0;
+		for (File file : clanFolder.listFiles()) {
+			if (file.isFile()) {
+				clanCount++;
+			}
+		}
+
+		return clanCount != getMaxClans();
+	}
+
+//	Check blacklist names and tag
+	public boolean isBlacklisted(String clanName, String clanTag) {
+		List<String> blacklistedClanNames = getBlacklistedClanNames();
+		List<String> blacklistedClanTags = getBlacklistedClanTags();
+
+		return blacklistedClanNames.contains(clanName) || blacklistedClanTags.contains(clanTag);
+	}
+
+
 //-------------- Clan Config -----------------//
 //	This is the config for the clans.yml file
 
@@ -159,6 +190,8 @@ public void addClan(Player player, String clanName, String clanTag) {
 		clanConfig.addDefault("rank-to-create", "default");
 		clanConfig.addDefault("blacklisted-clan-names", "clan");
 		clanConfig.addDefault("blacklisted-clan-tags", "clan");
+		clanConfig.addDefault("clan-cost", 1000);
+
 
 		clanConfig.options().copyDefaults(true);
 		saveClanConfig();
@@ -184,6 +217,10 @@ public void addClan(Player player, String clanName, String clanTag) {
 
 		if (clanConfig.getStringList("blacklisted-clan-tags").isEmpty()) {
 			clanConfig.set("blacklisted-clan-tags", "clan");
+		}
+
+		if (clanConfig.getString("clan-cost") == null) {
+			clanConfig.set("clan-cost", 1000);
 		}
 
 		saveClanConfig();
