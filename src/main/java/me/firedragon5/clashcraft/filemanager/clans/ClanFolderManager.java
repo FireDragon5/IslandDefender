@@ -2,6 +2,7 @@ package me.firedragon5.clashcraft.filemanager.clans;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.List;
@@ -98,6 +99,25 @@ public class ClanFolderManager {
 		return new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 	}
 
+//	Join clan
+	public void joinClan(String clanName, Player playerName) {
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+
+		List<String> clanMembers = clanConfig.getStringList("clan-members");
+		clanMembers.add(playerName.getName());
+		clanConfig.set("clan-members", clanMembers);
+	}
+
+//	Leave clan
+	public void leaveClan(Player playerName) {
+		File clanFile = new File("plugins/ClashCraft/clans/" + playerName.getName() + ".yml");
+		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+
+		List<String> clanMembers = clanConfig.getStringList("clan-members");
+		clanMembers.remove(playerName.getName());
+		clanConfig.set("clan-members", clanMembers);
+	}
 
 //-------------- Clan Config -----------------//
 //	This is the config for the clans.yml file
@@ -213,14 +233,19 @@ public class ClanFolderManager {
 	}
 
 
+//	 Clans power
+	public int getClanPower(String clanName) {
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+		return clanConfig.getInt("clan-power");
+	}
 
-
-
-
-
-
-
-
+//	Clan balance
+	public int getClanBalance(String clanName) {
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+		return clanConfig.getInt("clan-balance");
+	}
 
 
 
