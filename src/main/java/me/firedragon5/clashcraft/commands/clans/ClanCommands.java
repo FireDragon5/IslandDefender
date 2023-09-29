@@ -2,6 +2,7 @@ package me.firedragon5.clashcraft.commands.clans;
 
 import me.firedragon5.clashcraft.filemanager.clans.ClanFolderManager;
 import me.firedragon5.clashcraft.filemanager.player.PlayerFileManager;
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +34,9 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 		if (args[0].equalsIgnoreCase("create")) {
 			if (sender.hasPermission("clashcraft.clan.create")) {
 
-				ClanFolderManager.getFileManager().addClan(args[1]);
+				ClanFolderManager.getFileManager().addClan(player ,args[1], args[2]);
+				PlayerFileManager.setPlayerClanName(player, args[1]);
+				UtilsMessage.sendMessage(player, "&aYou have created the clan " + args[1]);
 
 			} else {
 				player.sendMessage( "&cYou do not have permission to use this command!");
@@ -71,20 +74,57 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 
 		List <String> tabComplete = new ArrayList<>();
 
-		if (strings.length == 1) {
-			tabComplete.add("create");
-			tabComplete.add("join");
-			tabComplete.add("leave");
-			tabComplete.add("invite");
-			tabComplete.add("kick");
-			tabComplete.add("promote");
-			tabComplete.add("demote");
-			tabComplete.add("disband");
-			tabComplete.add("info");
-			tabComplete.add("list");
-			tabComplete.add("help");
-		}
 
+			// create <clanName> <clanTag>
+			if (strings.length == 1) {
+				tabComplete.add("create");
+				tabComplete.add("join");
+				tabComplete.add("leave");
+				tabComplete.add("invite");
+				tabComplete.add("kick");
+				tabComplete.add("promote");
+				tabComplete.add("demote");
+				tabComplete.add("disband");
+				tabComplete.add("info");
+				tabComplete.add("list");
+				tabComplete.add("help");
+			} else if (strings.length == 2) {
+				if (strings[0].equalsIgnoreCase("create")) {
+					tabComplete.add("<clanName>");
+				} else if (strings[0].equalsIgnoreCase("join")) {
+					tabComplete.add("<clanName>");
+				} else if (strings[0].equalsIgnoreCase("leave")) {
+					tabComplete.add("<clanName>");
+				} else if (strings[0].equalsIgnoreCase("invite")) {
+					tabComplete.add("<playerName>");
+				} else if (strings[0].equalsIgnoreCase("kick")) {
+					tabComplete.add("<playerName>");
+				} else if (strings[0].equalsIgnoreCase("promote")) {
+					tabComplete.add("<playerName>");
+				} else if (strings[0].equalsIgnoreCase("demote")) {
+					tabComplete.add("<playerName>");
+				} else if (strings[0].equalsIgnoreCase("disband")) {
+					tabComplete.add("<clanName>");
+				} else if (strings[0].equalsIgnoreCase("info")) {
+					tabComplete.add("<clanName>");
+				} else if (strings[0].equalsIgnoreCase("list")) {
+					tabComplete.add("<clanName>");
+				} else if (strings[0].equalsIgnoreCase("help")) {
+					tabComplete.add("<clanName>");
+				}
+			} else if (strings.length == 3) {
+				if (strings[0].equalsIgnoreCase("create")) {
+					tabComplete.add("<clanTag>");
+				} else if (strings[0].equalsIgnoreCase("join")) {
+					tabComplete.add("<clanTag>");
+				} else if (strings[0].equalsIgnoreCase("leave")) {
+					tabComplete.add("<clanTag>");
+				} else if (strings[0].equalsIgnoreCase("invite")) {
+					tabComplete.add("<clanName>");
+				} else if (strings[0].equalsIgnoreCase("kick")) {
+					tabComplete.add("<clanName>");
+				}
+			}
 
 
 		return tabComplete;

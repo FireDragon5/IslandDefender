@@ -1,11 +1,14 @@
 package me.firedragon5.clashcraft.filemanager.clans;
 
+import me.firedragon5.clashcraft.filemanager.player.PlayerFileManager;
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 public class ClanFolderManager {
 
@@ -27,10 +30,6 @@ public class ClanFolderManager {
 	}
 
 	public void setup() {
-		clanFolder = new File("plugins/ClashCraft/clans");
-		if (!clanFolder.exists()) {
-			clanFolder.mkdirs();
-		}
 
 		clanFile = new File("plugins/ClashCraft/clans.yml");
 
@@ -69,16 +68,46 @@ public class ClanFolderManager {
 
 //	Add a new clan to the folder,
 //	For example: /clan/<clanname> folder
-	public void addClan(String clanName) {
-		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
-		if (clanExists(clanName)) {
-			try {
-				clanFile.createNewFile();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+public void addClan(Player player, String clanName, String clanTag) {
+	File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+	YamlConfiguration clanConfig;
+
+
+//	if player has a clan name in the players folder, then return
+	if (!Objects.equals(PlayerFileManager.getPlayerClanName(player), "none")) {
+		UtilsMessage.errorMessage(player, "You already have a clan!");
+		return;
 	}
+
+
+	try {
+		if (!clanFile.exists()) {
+			clanFile.createNewFile();
+		}else {
+			UtilsMessage.errorMessage(player, "Clan already exists!");
+			return;
+		}
+
+		clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+
+		// Set default values
+		clanConfig.addDefault("clan-name", clanName);
+		clanConfig.addDefault("clan-tag", clanTag);
+		clanConfig.addDefault("clan-leader", player.getName());
+		clanConfig.addDefault("clan-members", "none");
+		clanConfig.addDefault("clan-allies", "none");
+		clanConfig.addDefault("clan-power", "none");
+		clanConfig.addDefault("clan-balance", "none");
+
+		clanConfig.options().copyDefaults(true);
+		clanConfig.save(clanFile);
+
+		// Debug: Print the path where the file is saved
+		System.out.println("Clan file saved to: " + clanFile.getAbsolutePath());
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+}
 
 //	Remove a clan from the folder
 	public void removeClan(String clanName) {
@@ -132,6 +161,31 @@ public class ClanFolderManager {
 		clanConfig.addDefault("blacklisted-clan-tags", "clan");
 
 		clanConfig.options().copyDefaults(true);
+		saveClanConfig();
+	}
+
+//	Check if the yml file has all the correct values
+	public void checkClanConfig() {
+		if (clanConfig.getString("max-clans") == null) {
+			clanConfig.set("max-clans", 5);
+		}
+
+		if (clanConfig.getString("max-members") == null) {
+			clanConfig.set("max-members", 10);
+		}
+
+		if (clanConfig.getString("rank-to-create") == null) {
+			clanConfig.set("rank-to-create", "default");
+		}
+
+		if (clanConfig.getStringList("blacklisted-clan-names").isEmpty()) {
+			clanConfig.set("blacklisted-clan-names", "clan");
+		}
+
+		if (clanConfig.getStringList("blacklisted-clan-tags").isEmpty()) {
+			clanConfig.set("blacklisted-clan-tags", "clan");
+		}
+
 		saveClanConfig();
 	}
 

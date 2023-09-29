@@ -13,9 +13,13 @@ public class JoinEvent implements Listener {
 	public void onJoin(PlayerJoinEvent event){
 
 		Player player = event.getPlayer();
+		
 
 //		When the player joins the server add them to the folder
 		PlayerFileManager.addPlayer(player);
+
+//		Check if the player has all the correct stuff in their yml file
+		PlayerFileManager.checkPlayer(player);
 
 //		Set the join message
 		event.setJoinMessage("Welcome to the server " + player.getName());

@@ -56,6 +56,34 @@ public class PlayerFileManager {
 
 	}
 
+//	make a method that checks if the players has all the correct stuff in their yml file
+	public static void checkPlayer(Player playerName) {
+
+		UUID playerUUID = playerName.getUniqueId();
+
+		File playerFile = new File("plugins/ClashCraft/players/" + playerUUID + ".yml");
+
+		if (playerFile.exists()) {
+			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+			if (playerConfig.getString("clan-name") == null) {
+				playerConfig.set("clan-name", "none");
+			}
+
+			if (playerConfig.getString("rank") == null) {
+				playerConfig.set("rank", "none");
+			}
+
+			try {
+				playerConfig.save(playerFile);
+				playerConfig.options().copyDefaults(true);
+				playerConfig.save(playerFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 //	Get player clan name
 	public static String getPlayerClanName(Player playerName) {
 
