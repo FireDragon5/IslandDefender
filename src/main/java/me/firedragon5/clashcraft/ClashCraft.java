@@ -1,7 +1,10 @@
 package me.firedragon5.clashcraft;
 
+import me.firedragon5.clashcraft.commands.clans.ClanCommands;
+import me.firedragon5.clashcraft.events.JoinEvent;
 import me.firedragon5.clashcraft.filemanager.clans.ClanFolderManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
 
 public final class ClashCraft extends JavaPlugin {
 
@@ -14,6 +17,14 @@ public final class ClashCraft extends JavaPlugin {
         clanManager = ClanFolderManager.getFileManager();
         clanManager.setup();
         clanManager.loadClanConfig();
+
+
+//        register Events
+        getServer().getPluginManager().registerEvents(new JoinEvent(), this);
+
+
+//        register commands
+        getCommand("clans").setExecutor(new ClanCommands());
 
 
     }

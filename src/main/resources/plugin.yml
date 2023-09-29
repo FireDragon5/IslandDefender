@@ -2,3 +2,8 @@ name: ClashCraft
 version: '${project.version}'
 main: me.firedragon5.clashcraft.ClashCraft
 api-version: '1.20'
+
+commands:
+  clans:
+    aliases: [clan, c]
+    description: Clan commands
