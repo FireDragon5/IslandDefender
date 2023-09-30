@@ -23,6 +23,7 @@ public final class ClashCraft extends JavaPlugin {
 
 //        register Events
         getServer().getPluginManager().registerEvents(new JoinEvent(), this);
+        getServer().getPluginManager().registerEvents(new Utils(), this);
 
 //        register Commands
         getCommand("clan").setExecutor(new ClanCommands());

@@ -1,5 +1,6 @@
 package me.firedragon5.clashcraft.events;
 
+import me.firedragon5.clashcraft.Utils;
 import me.firedragon5.clashcraft.filemanager.player.PlayerFileManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +23,7 @@ public class JoinEvent implements Listener {
 		PlayerFileManager.checkPlayer(player);
 
 //		Set the join message
-		event.setJoinMessage("Welcome to the server " + player.getName());
+		event.setJoinMessage(Utils.chat("&a" + player.getName() + " has joined the server!"));
 
 	}
 
