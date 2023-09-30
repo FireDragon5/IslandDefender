@@ -13,8 +13,16 @@ public class ListCommand {
 			return;
 		}
 
-		UtilsMessage.sendMessage(player, "Clans: " + ClanFolderManager.getFileManager().getClanList());
+//		[Clans] :
+//		1. Clan1
+//		2. Clan2
+//		etc
 
+		int i = 1;
+		UtilsMessage.sendMessage(player ,"&a[Clans] :");
+		for (String clan : ClanFolderManager.getFileManager().getClanList()) {
+			UtilsMessage.sendMessage(player, "&6&l" + i + ". &a" + clan);
+		}
 
 	}
 
