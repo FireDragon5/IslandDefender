@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.Objects;
 
 public class ClanFolderManager {
 
@@ -68,7 +68,7 @@ public class ClanFolderManager {
 
 	//	Add a new clan to the folder,
 //	For example: /clan/<clanname> folder
-	public void addClan(Player player, String clanName, String clanTag) {
+	public void createClan(Player player, String clanName, String clanTag) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		YamlConfiguration clanConfig;
 
@@ -111,14 +111,14 @@ public class ClanFolderManager {
 			clanConfig.addDefault("clan-allies", "none");
 			clanConfig.addDefault("clan-power", "none");
 			clanConfig.addDefault("clan-balance", "none");
+			clanConfig.addDefault("clan-visible", "public");
 
 
 			clanConfig.options().copyDefaults(true);
 			clanConfig.save(clanFile);
 
-//		Send message that clan was created
-			UtilsMessage.correctMessage(player, "Clan created! &a/clan info " + clanName
-					+ " &7to view info about your clan!");
+//		Send clickable message that clan was created
+			UtilsMessage.clickableMessage(player, "&aClick here to view your clan info! &b&l", "/clan info " + clanName);
 
 			PlayerFileManager.setPlayerClanName(player, clanName);
 
@@ -129,7 +129,10 @@ public class ClanFolderManager {
 	}
 
 	//	Remove a clan from the folder
-	public void removeClan(String clanName) {
+	public void deleteClan(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			clanFile.delete();
@@ -151,6 +154,12 @@ public class ClanFolderManager {
 	public void joinClan(String clanName, Player playerName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+
+//		Players can only join public clans
+		if (!Objects.equals(clanConfig.getString("clan-visible"), "public")) {
+			UtilsMessage.errorMessage(playerName, "This clan is not public ask for an invite!");
+			return;
+		}
 
 		List<String> clanMembers = clanConfig.getStringList("clan-members");
 		clanMembers.add(playerName.getName());
@@ -317,8 +326,6 @@ public class ClanFolderManager {
 
 	public List<String> getBlacklistedClanNames() {
 
-		Logger.getLogger("ClashCraft").info(clanConfig.getStringList("blacklisted-clan-names").toString());
-
 		return clanConfig.getStringList("blacklisted-clan-names");
 	}
 
@@ -407,6 +414,101 @@ public class ClanFolderManager {
 			return clanConfig.getString("clan-created");
 		}
 		return null;
+	}
+
+	//	Clan visible
+	public String getClanVisible(String clanName) {
+
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+			return clanConfig.getString("clan-visible");
+		}
+		return null;
+	}
+
+	//	Set clan visible
+	public void setClanVisible(Player player, String visible) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+			clanConfig.set("clan-visible", visible);
+		}
+	}
+
+
+//--------------------------------------------//
+
+
+//-------------------Admin---------------------//
+
+	//	Clan power
+	public void setClanPowerAdmin(String clanName, int power) {
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+			clanConfig.set("clan-power", power);
+		}
+	}
+
+	//	Clan balance
+	public void setClanBalanceAdmin(String clanName, int balance) {
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+			clanConfig.set("clan-balance", balance);
+		}
+	}
+
+	//	Clan allies
+	public void setClanAlliesAdmin(String clanName, List<String> allies) {
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+			clanConfig.set("clan-allies", allies);
+		}
+	}
+
+	//	Clan enemies
+	public void setClanEnemiesAdmin(String clanName, List<String> enemies) {
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+			clanConfig.set("clan-enemies", enemies);
+		}
+	}
+
+	//	Clan created
+	public void setClanCreatedAdmin(String clanName, String date) {
+
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+			clanConfig.set("clan-created", date);
+		}
+	}
+
+	//	Clan visible
+	public void setClanVisibleAdmin(String clanName, String visible) {
+
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+
+			clanConfig.set("clan-visible", visible);
+		}
+	}
+
+	//	Delete clan
+	public void deleteClanAdmin(String clanName) {
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		if (clanFile.exists()) {
+			clanFile.delete();
+		}
 	}
 
 

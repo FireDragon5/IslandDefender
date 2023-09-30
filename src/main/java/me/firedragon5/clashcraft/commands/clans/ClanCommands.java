@@ -38,33 +38,48 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 
 			JoinCommand.joinClan(player, args[1]);
 
-		}else if (args[0].equalsIgnoreCase("leave")) {
+		} else if (args[0].equalsIgnoreCase("leave")) {
 
 			LeaveCommand.leaveClan(player, args[1]);
-		}else if (args[0].equalsIgnoreCase("invite")) {
+		} else if (args[0].equalsIgnoreCase("invite")) {
 
 //			InviteCommand.invitePlayer(player, args[1], args[2]);
 
-		}else if (args[0].equalsIgnoreCase("kick")) {
+		} else if (args[0].equalsIgnoreCase("kick")) {
 
 //			KickCommand.kickPlayer(player, args[1], args[2]);
 
-		}else if (args[0].equalsIgnoreCase("list")) {
+		} else if (args[0].equalsIgnoreCase("list")) {
 
 			ListCommand.listClans(player);
-		}else if (args[0].equalsIgnoreCase("info")) {
+		} else if (args[0].equalsIgnoreCase("info")) {
 
 //			if the use is a clan then only info is needs else they need to specify a clan
 			if (args.length == 1) {
 				InfoCommand.infoClan(player);
-			}else {
+			} else {
 				InfoCommand.infoClan(player, args[1]);
 
 			}
 
 
-		}
+		} else if (args[0].equalsIgnoreCase("visibility")) {
 
+			VisibilityCommand.setVisibility(player, args[1], args[2]);
+
+		} else if (args[0].equalsIgnoreCase("disband")) {
+
+//			//	Make the player click a message when the player clicks the message then disband the clan
+//			UtilsMessage.clickableMessage(player, "&cAre you sure you want to disband your clan? &aClick here" +
+//							" to disband your clan",
+//					"/clan disband " + args[1]);
+
+//			only disband the clan if the player clicks the message
+
+
+			DisbandCommand.disbandClan(player, args[1]);
+
+		}
 
 		return false;
 	}
@@ -73,6 +88,7 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 	public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
 		List<String> tabComplete = new ArrayList<>();
+
 
 		if (strings.length == 1) {
 			// Add all available commands that match the typed text
@@ -103,6 +119,9 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 					}
 					break;
 
+				case "visibility":
+					tabComplete.add("<public|private>");
+					break;
 
 				case "kick":
 				case "setadmin":

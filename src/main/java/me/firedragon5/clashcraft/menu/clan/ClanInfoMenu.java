@@ -24,11 +24,12 @@ public class ClanInfoMenu extends Menu implements Listener {
 
 	public void setupMenu(String clanName) {
 
-		slotNumbers();
+//		slotNumbers();
 
 		List<String> loreClanInfo = new ArrayList<>();
 //		Clan name
-		loreClanInfo.add("&7Clan: &a" + clanName);
+		loreClanInfo.add("&7Clan name: &a" + clanName);
+		loreClanInfo.add("&b---------------------------------");
 //		Tag of the clan
 		loreClanInfo.add("&7Tag: &a" + ClanFolderManager.getFileManager().getClanTag(clanName));
 //		Show the leader, when the clan was created
@@ -37,6 +38,9 @@ public class ClanInfoMenu extends Menu implements Listener {
 		loreClanInfo.add("&7Members: &a" + ClanFolderManager.getFileManager().getClanMembers(clanName).size());
 //		Time when clan was create
 		loreClanInfo.add("&7Created: &a" + ClanFolderManager.getFileManager().getClanCreated(clanName));
+		loreClanInfo.add("&b---------------------------------");
+//		Show clan visibility
+		loreClanInfo.add("&7Visibility: &a" + ClanFolderManager.getFileManager().getClanVisible(clanName));
 
 
 		setItem(4, Material.CHEST, "&a&lClan Info", loreClanInfo);
@@ -46,7 +50,7 @@ public class ClanInfoMenu extends Menu implements Listener {
 //		Show the members of the clan
 		loreClanMembers.add("&7Members: &a" + ClanFolderManager.getFileManager().getClanMembers(clanName));
 
-		setItem(10, Material.PLAYER_HEAD, "&a&lClan Members", loreClanMembers);
+		setItem(19, Material.PLAYER_HEAD, "&a&lClan Members", loreClanMembers);
 
 
 		List<String> loreClanStats = new ArrayList<>();
@@ -57,7 +61,9 @@ public class ClanInfoMenu extends Menu implements Listener {
 		loreClanStats.add("&7Balance: &a" + ClanFolderManager.getFileManager().getClanBalance(clanName));
 
 
-		setItem(16, Material.DIAMOND_SWORD, "&a&lClan Stats", loreClanStats);
+		setItem(25, Material.DIAMOND_SWORD, "&a&lClan Stats", loreClanStats);
+
+		glass(Material.BLACK_STAINED_GLASS_PANE);
 
 
 	}

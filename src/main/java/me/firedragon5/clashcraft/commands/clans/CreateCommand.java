@@ -23,18 +23,15 @@ public class CreateCommand {
 		}
 
 
-		ClanFolderManager.getFileManager().addClan(player ,clanName, clanTag);
+		ClanFolderManager.getFileManager().createClan(player, clanName, clanTag);
 
 	}
 
 
-//	has permission
+	//	has permission
 	private static boolean hasPermission(Player player) {
 		return player.hasPermission("clashcraft.clan.create");
 	}
-
-
-
 
 
 }
