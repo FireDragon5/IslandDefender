@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ClanCommands implements CommandExecutor, TabCompleter {
@@ -30,14 +31,11 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 //		Permissions for clan commands
 		if (args[0].equalsIgnoreCase("create")) {
 
-
 			CreateCommand.createClan(player, args[1], args[2]);
-
 
 		} else if (args[0].equalsIgnoreCase("join")) {
 
 			JoinCommand.joinClan(player, args[1]);
-
 
 		}else if (args[0].equalsIgnoreCase("leave")) {
 
@@ -45,10 +43,10 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 		}else if (args[0].equalsIgnoreCase("invite")) {
 
 //			InviteCommand.invitePlayer(player, args[1], args[2]);
+
 		}else if (args[0].equalsIgnoreCase("kick")) {
 
 //			KickCommand.kickPlayer(player, args[1], args[2]);
-
 
 		}else if (args[0].equalsIgnoreCase("list")) {
 
@@ -60,60 +58,48 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 	}
 
 
-	@Override
 	public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
 		List<String> tabComplete = new ArrayList<>();
 
-//		Commands all the player has: /clan info|list|help|join|leave|create(Needs permission)
-//		Commands only the leader has: /clan invite|kick|promote|demote|disband
-//		Commands only the admin has: /clan delete|setleader|setadmin|setmember
-
 		if (strings.length == 1) {
-			tabComplete.add("info");
-			tabComplete.add("list");
-			tabComplete.add("help");
-			tabComplete.add("join");
-			tabComplete.add("leave");
-			tabComplete.add("create");
-			if (commandSender.hasPermission("clashcraft.clan.create")) {
-				tabComplete.add("create");
+			// Add all available commands that match the typed text
+			for (String commandName : Arrays.asList("info", "list", "help", "join", "leave", "create", "invite", "kick",
+					"promote", "demote", "disband", "delete", "setleader", "setadmin", "setmember")) {
+				if (commandName.startsWith(strings[0].toLowerCase()) && commandSender.hasPermission("clashcraft.clan."
+						+ commandName)) {
+					tabComplete.add(commandName);
+				}
 			}
-			if (commandSender.hasPermission("clashcraft.clan.join")) {
-				tabComplete.add("join");
+		} else if (strings.length == 2) {
+			String commandName = strings[0].toLowerCase();
+			switch (commandName) {
+				case "create":
+				case "join":
+				case "invite":
+				case "delete":
+				case "info":
+				case "disband":
+					tabComplete.add("<clanname>");
+					break;
+
+				case "kick":
+				case "setadmin":
+				case "setmember":
+				case "setleader":
+				case "demote":
+				case "promote":
+					tabComplete.add("<playername>");
+					break;
+
+
 			}
-			if (commandSender.hasPermission("clashcraft.clan.leave")) {
-				tabComplete.add("leave");
-			}
-			if (commandSender.hasPermission("clashcraft.clan.invite")) {
-				tabComplete.add("invite");
-			}
-			if (commandSender.hasPermission("clashcraft.clan.kick")) {
-				tabComplete.add("kick");
-			}
-			if (commandSender.hasPermission("clashcraft.clan.promote")) {
-				tabComplete.add("promote");
-			}
-			if (commandSender.hasPermission("clashcraft.clan.demote")) {
-				tabComplete.add("demote");
-			}
-			if (commandSender.hasPermission("clashcraft.clan.disband")) {
-				tabComplete.add("disband");
-			}
-			if (commandSender.hasPermission("clashcraft.clan.delete")) {
-				tabComplete.add("delete");
-			}
-			if (commandSender.hasPermission("clashcraft.clan.setleader")) {
-				tabComplete.add("setleader");
-			}
-			if (commandSender.hasPermission("clashcraft.clan.setadmin")) {
-				tabComplete.add("setadmin");
-			}
-			if (commandSender.hasPermission("clashcraft.clan.setmember")) {
-				tabComplete.add("setmember");
-			}
-			return tabComplete;
+		} else if (strings.length == 3 && strings[0].equalsIgnoreCase("create")) {
+			// Add suggestions specific to the "create" command with 3 arguments
+			tabComplete.add("<clantag>");
 		}
+
 		return tabComplete;
 	}
+
 }

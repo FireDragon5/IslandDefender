@@ -208,10 +208,12 @@ public void addClan(Player player, String clanName, String clanTag) {
 	}
 
 
-//	Get a list of the clans on the server and their names
+//	Get a list of the clans on the server and their names'
+//	Remove the [] from the list
 	public List<String> getClanList() {
-		clanFolder = new File("plugins/ClashCraft/clans");
 		List<String> clanList = new ArrayList<>();
+
+		clanFolder = new File("plugins/ClashCraft/clans");
 
 		for (File file : clanFolder.listFiles()) {
 			if (file.isFile()) {
@@ -221,7 +223,6 @@ public void addClan(Player player, String clanName, String clanTag) {
 
 		return clanList;
 	}
-
 
 
 //-------------- Clan Config -----------------//
