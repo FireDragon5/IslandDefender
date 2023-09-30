@@ -1,12 +1,10 @@
 package me.firedragon5.clashcraft.filemanager.player;
 
-import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.Objects;
 import java.util.UUID;
 
 public class PlayerFileManager {
@@ -92,13 +90,13 @@ public class PlayerFileManager {
 
 		File playerFile = new File("plugins/ClashCraft/players/" + playerUUID + ".yml");
 
-
 		if (playerFile.exists()) {
 			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 
 			return playerConfig.getString("clan-name");
 		}
 
+//		Return null if the player file does not exist
 		return null;
 
 	}
@@ -107,7 +105,6 @@ public class PlayerFileManager {
 	public static String getPlayerRank(Player playerName) {
 
 		UUID playerUUID = playerName.getUniqueId();
-
 
 		File playerFile = new File("plugins/ClashCraft/players/" + playerUUID + ".yml");
 
@@ -123,22 +120,25 @@ public class PlayerFileManager {
 //	Set player clan name
 	public static void setPlayerClanName(Player playerName, String clanName) {
 
-
 		UUID playerUUID = playerName.getUniqueId();
-
 
 		File playerFile = new File("plugins/ClashCraft/players/" + playerUUID + ".yml");
 
 		if (playerFile.exists()) {
 			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 
-//			If the player is in a clan, then return
-			if (!Objects.equals(playerConfig.getString("clan-name"), "none")) {
-				UtilsMessage.errorMessage(playerName, "You are already in a clan!");
-				return;
+			playerConfig.set("clan-name", clanName);
+
+
+			try {
+				playerConfig.save(playerFile);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
-			playerConfig.set("clan-name", clanName);
+		}else {
+			addPlayer(playerName);
+			setPlayerClanName(playerName, clanName);
 		}
 	}
 
