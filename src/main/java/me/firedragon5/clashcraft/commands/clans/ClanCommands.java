@@ -1,5 +1,6 @@
 package me.firedragon5.clashcraft.commands.clans;
 
+import me.firedragon5.clashcraft.filemanager.clans.ClanFolderManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -51,6 +52,17 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 		}else if (args[0].equalsIgnoreCase("list")) {
 
 			ListCommand.listClans(player);
+		}else if (args[0].equalsIgnoreCase("info")) {
+
+//			if the use is a clan then only info is needs else they need to specify a clan
+			if (args.length == 1) {
+				InfoCommand.infoClan(player);
+			}else {
+				InfoCommand.infoClan(player, args[1]);
+
+			}
+
+
 		}
 
 
@@ -78,10 +90,19 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 				case "join":
 				case "invite":
 				case "delete":
-				case "info":
 				case "disband":
 					tabComplete.add("<clanname>");
 					break;
+
+				case "info":
+//					/clan info <clanName>(List of all the clans)
+					for (String clanName : ClanFolderManager.getFileManager().getClanList()) {
+						if (clanName.startsWith(strings[1].toLowerCase())) {
+							tabComplete.add(clanName);
+						}
+					}
+					break;
+
 
 				case "kick":
 				case "setadmin":

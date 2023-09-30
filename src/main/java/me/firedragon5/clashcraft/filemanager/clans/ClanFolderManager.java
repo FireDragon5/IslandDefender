@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,13 +20,10 @@ public class ClanFolderManager {
 //	plugins/ClashCraft/clans/<clanname>.yml
 //	plugins/ClashCraft/clans.yml
 
-	File clanFolder;
-
-	File clanFile;
-
-	FileConfiguration clanConfig;
-
 	static ClanFolderManager fileManager = new ClanFolderManager();
+	File clanFolder;
+	File clanFile;
+	FileConfiguration clanConfig;
 
 	public static ClanFolderManager getFileManager() {
 		return fileManager;
@@ -53,7 +51,7 @@ public class ClanFolderManager {
 	}
 
 
-//	Save
+	//	Save
 	public void saveClanConfig() {
 		try {
 			clanConfig.save(clanFile);
@@ -62,69 +60,75 @@ public class ClanFolderManager {
 		}
 	}
 
-//	Reload
+	//	Reload
 	public void reloadClanConfig() {
 		clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 	}
 
 
-//	Add a new clan to the folder,
+	//	Add a new clan to the folder,
 //	For example: /clan/<clanname> folder
-public void addClan(Player player, String clanName, String clanTag) {
-	File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
-	YamlConfiguration clanConfig;
+	public void addClan(Player player, String clanName, String clanTag) {
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		YamlConfiguration clanConfig;
 
 
 //	Check max clans
-	if (!canCreateClan()) {
-		UtilsMessage.errorMessage(player, "The server has reached max's clans!");
-		return;
-	}
-
-//	Check if the clan name or tag is blacklisted
-	if (isBlacklisted(clanName, clanTag)) {
-		UtilsMessage.errorMessage(player, "The clan name or tag is blacklisted!");
-		return;
-	}
-
-
-
-	try {
-		if (!clanFile.exists()) {
-			clanFile.createNewFile();
-		}else {
-			UtilsMessage.errorMessage(player, "Clan already exists!");
+		if (!canCreateClan()) {
+			UtilsMessage.errorMessage(player, "The server has reached max's clans!");
 			return;
 		}
 
-		clanConfig = YamlConfiguration.loadConfiguration(clanFile);
-
-		// Set default values
-		clanConfig.addDefault("clan-name", clanName);
-		clanConfig.addDefault("clan-tag", clanTag);
-		clanConfig.addDefault("clan-leader", player.getName());
-		clanConfig.addDefault("clan-members", "none");
-		clanConfig.addDefault("clan-allies", "none");
-		clanConfig.addDefault("clan-power", "none");
-		clanConfig.addDefault("clan-balance", "none");
+//	Check if the clan name or tag is blacklisted
+		if (isBlacklisted(clanName, clanTag)) {
+			UtilsMessage.errorMessage(player, "The clan name or tag is blacklisted!");
+			return;
+		}
 
 
-		clanConfig.options().copyDefaults(true);
-		clanConfig.save(clanFile);
+		try {
+			if (!clanFile.exists()) {
+				clanFile.createNewFile();
+			} else {
+				UtilsMessage.errorMessage(player, "Clan already exists!");
+				return;
+			}
+
+			clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+
+//		Get the created time of the clan
+//		2023-9-30
+
+			String date = LocalDate.now().toString();
+
+
+			// Set default values
+			clanConfig.addDefault("clan-name", clanName);
+			clanConfig.addDefault("clan-tag", clanTag);
+			clanConfig.addDefault("clan-leader", player.getName());
+			clanConfig.addDefault("clan-created", date);
+			clanConfig.addDefault("clan-members", "none");
+			clanConfig.addDefault("clan-allies", "none");
+			clanConfig.addDefault("clan-power", "none");
+			clanConfig.addDefault("clan-balance", "none");
+
+
+			clanConfig.options().copyDefaults(true);
+			clanConfig.save(clanFile);
 
 //		Send message that clan was created
-		UtilsMessage.correctMessage(player, "Clan created! &a/clan info " + clanName
-				+ " &7to view info about your clan!");
+			UtilsMessage.correctMessage(player, "Clan created! &a/clan info " + clanName
+					+ " &7to view info about your clan!");
 
-		PlayerFileManager.setPlayerClanName(player, clanName);
+			PlayerFileManager.setPlayerClanName(player, clanName);
 
 
-	} catch (Exception e) {
-		e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-}
 
-//	Remove a clan from the folder
+	//	Remove a clan from the folder
 	public void removeClan(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
@@ -132,18 +136,18 @@ public void addClan(Player player, String clanName, String clanTag) {
 		}
 	}
 
-//	Check if a clan exists
+	//	Check if a clan exists
 	public boolean clanExists(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		return clanFile.exists();
 	}
 
-//	Get the clan file
+	//	Get the clan file
 	public File getClanFile(String clanName) {
 		return new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 	}
 
-//	Join clan
+	//	Join clan
 	public void joinClan(String clanName, Player playerName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
@@ -163,7 +167,7 @@ public void addClan(Player player, String clanName, String clanTag) {
 
 	}
 
-//	Leave clan
+	//	Leave clan
 	public void leaveClan(Player playerName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + playerName.getName() + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
@@ -184,7 +188,7 @@ public void addClan(Player player, String clanName, String clanTag) {
 	}
 
 
-//	Check if the clan amount is not equal to the max clans
+	//	Check if the clan amount is not equal to the max clans
 	public boolean canCreateClan() {
 		int clanCount = 0;
 
@@ -199,7 +203,7 @@ public void addClan(Player player, String clanName, String clanTag) {
 		return clanCount != getMaxClans();
 	}
 
-//	Check blacklist names and tag
+	//	Check blacklist names and tag
 	public boolean isBlacklisted(String clanName, String clanTag) {
 		List<String> blacklistedClanNames = getBlacklistedClanNames();
 		List<String> blacklistedClanTags = getBlacklistedClanTags();
@@ -208,7 +212,7 @@ public void addClan(Player player, String clanName, String clanTag) {
 	}
 
 
-//	Get a list of the clans on the server and their names'
+	//	Get a list of the clans on the server and their names'
 //	Remove the [] from the list
 	public List<String> getClanList() {
 		List<String> clanList = new ArrayList<>();
@@ -229,7 +233,7 @@ public void addClan(Player player, String clanName, String clanTag) {
 //	This is the config for the clans.yml file
 
 
-//	Load the clans.yml file with the following default values
+	//	Load the clans.yml file with the following default values
 	public void loadClanConfig() {
 
 //		List of black list names and tags
@@ -248,7 +252,7 @@ public void addClan(Player player, String clanName, String clanTag) {
 		saveClanConfig();
 	}
 
-//	Check if the yml file has all the correct values
+	//	Check if the yml file has all the correct values
 	public void checkClanConfig() {
 
 		//		List of black list names and tags
@@ -282,7 +286,7 @@ public void addClan(Player player, String clanName, String clanTag) {
 	}
 
 
-//	Max clans
+	//	Max clans
 	public int getMaxClans() {
 		return clanConfig.getInt("max-clans");
 	}
@@ -291,7 +295,7 @@ public void addClan(Player player, String clanName, String clanTag) {
 		clanConfig.set("max-clans", maxClans);
 	}
 
-//	Max members
+	//	Max members
 	public int getMaxMembers() {
 		return clanConfig.getInt("max-members");
 	}
@@ -300,7 +304,7 @@ public void addClan(Player player, String clanName, String clanTag) {
 		clanConfig.set("max-members", maxMembers);
 	}
 
-//	Rank to create a clan
+	//	Rank to create a clan
 	public String getRankToCreate() {
 		return clanConfig.getString("rank-to-create");
 	}
@@ -335,46 +339,45 @@ public void addClan(Player player, String clanName, String clanTag) {
 //--------------------------------------------//
 
 
-
 //---------- Methods to get details about the clan  ---------------//
 
 
-//	Clan name
+	//	Clan name
 	public String getClanName(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getString("clan-name");
 	}
 
-//	Clan tag
+	//	Clan tag
 	public String getClanTag(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getString("clan-tag");
 	}
 
-//	Clan leader
+	//	Clan leader
 	public String getClanLeader(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getString("clan-leader");
 	}
 
-//	Clan members
+	//	Clan members
 	public List<String> getClanMembers(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getStringList("clan-members");
 	}
 
-//	Clan allies
+	//	Clan allies
 	public List<String> getClanAllies(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getStringList("clan-allies");
 	}
 
-//	Clan enemies
+	//	Clan enemies
 	public List<String> getClanEnemies(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
@@ -382,32 +385,32 @@ public void addClan(Player player, String clanName, String clanTag) {
 	}
 
 
-//	 Clans power
+	//	 Clans power
 	public int getClanPower(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getInt("clan-power");
 	}
 
-//	Clan balance
+	//	Clan balance
 	public int getClanBalance(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getInt("clan-balance");
 	}
 
+	public String getClanCreated(String clanName) {
 
-
+		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+			return clanConfig.getString("clan-created");
+		}
+		return null;
+	}
 
 
 //--------------------------------------------//
-
-
-
-
-
-
-
 
 
 }
