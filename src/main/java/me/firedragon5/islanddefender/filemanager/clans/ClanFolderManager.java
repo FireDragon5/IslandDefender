@@ -17,8 +17,8 @@ public class ClanFolderManager {
 
 
 //	Folder structure
-//	plugins/islanddefender/clans/<clanname>.yml
-//	plugins/islanddefender/clans.yml
+//	plugins/IslandDefender/clans/<clanname>.yml
+//	plugins/IslandDefender/clans.yml
 
 	static ClanFolderManager fileManager = new ClanFolderManager();
 	File clanFolder;
@@ -34,7 +34,7 @@ public class ClanFolderManager {
 
 		String clanName = PlayerFileManager.getPlayerClanName(player);
 
-		File playerFile = new File("plugins/islanddefender/players/" + clanName + ".yml");
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
 		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 		return playerConfig.getString("clan-name");
 	}
@@ -44,7 +44,7 @@ public class ClanFolderManager {
 
 		String clanName = PlayerFileManager.getPlayerClanName(player);
 
-		File playerFile = new File("plugins/islanddefender/players/" + clanName + ".yml");
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
 		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 		return playerConfig.getString("clan-tag");
 	}
@@ -54,7 +54,7 @@ public class ClanFolderManager {
 
 		String clanName = PlayerFileManager.getPlayerClanName(player);
 
-		File playerFile = new File("plugins/islanddefender/players/" + clanName + ".yml");
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
 		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 		return playerConfig.getString("clan-rank");
 	}
@@ -64,7 +64,7 @@ public class ClanFolderManager {
 
 		String clanName = PlayerFileManager.getPlayerClanName(player);
 
-		File playerFile = new File("plugins/islanddefender/players/" + clanName + ".yml");
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
 		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 		return playerConfig.getInt("clan-power");
 	}
@@ -74,7 +74,7 @@ public class ClanFolderManager {
 
 		String clanName = PlayerFileManager.getPlayerClanName(player);
 
-		File playerFile = new File("plugins/islanddefender/players/" + clanName + ".yml");
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
 		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 		return playerConfig.getInt("clan-balance");
 	}
@@ -85,7 +85,7 @@ public class ClanFolderManager {
 		String clanName = PlayerFileManager.getPlayerClanName(player);
 
 
-		File playerFile = new File("plugins/islanddefender/players/" + clanName + ".yml");
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
 		if (playerFile.exists()) {
 			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 			return playerConfig.getString("clan-created");
@@ -95,7 +95,7 @@ public class ClanFolderManager {
 
 	public void setup() {
 
-		clanFile = new File("plugins/islanddefender/clans.yml");
+		clanFile = new File("plugins/IslandDefender/clans.yml");
 
 		if (!clanFile.exists()) {
 			try {
@@ -135,7 +135,14 @@ public class ClanFolderManager {
 	//	Add a new clan to the folder,
 //	For example: /clan/<clanname> folder
 	public void createClan(Player player, String clanName, String clanTag) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+
+//		If the clan folder is not created create it]
+		clanFolder = new File("plugins/IslandDefender/clans");
+		if (!clanFolder.exists()) {
+			clanFolder.mkdir();
+		}
+
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		YamlConfiguration clanConfig;
 
 
@@ -183,8 +190,9 @@ public class ClanFolderManager {
 			clanConfig.options().copyDefaults(true);
 			clanConfig.save(clanFile);
 
-//		Send clickable message that clan was created
-			UtilsMessage.clickableMessage(player, "&aClick here to view your clan info! &b&l", "/clan info " + clanName);
+//		Send  message that clan was created
+			UtilsMessage.sendMessage(player, "&fClan created! For more info " +
+					"about your clan do &b&l/clan info");
 
 			PlayerFileManager.setPlayerClanName(player, clanName);
 
@@ -199,7 +207,7 @@ public class ClanFolderManager {
 
 		String clanName = PlayerFileManager.getPlayerClanName(player);
 
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			clanFile.delete();
 		}
@@ -207,18 +215,18 @@ public class ClanFolderManager {
 
 	//	Check if a clan exists
 	public boolean clanExists(String clanName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		return clanFile.exists();
 	}
 
 	//	Get the clan file
 	public File getClanFile(String clanName) {
-		return new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		return new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 	}
 
 	//	Join clan
 	public void joinClan(String clanName, Player playerName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 
 //		Players can only join public clans
@@ -246,7 +254,7 @@ public class ClanFolderManager {
 
 	//	Leave clan
 	public void leaveClan(Player playerName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + playerName.getName() + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + playerName.getName() + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 
 		List<String> clanMembers = clanConfig.getStringList("clan-members");
@@ -268,7 +276,7 @@ public class ClanFolderManager {
 	public boolean canCreateClan() {
 		int clanCount = 0;
 
-		clanFolder = new File("plugins/islanddefender/clans");
+		clanFolder = new File("plugins/IslandDefender/clans");
 
 		for (File file : clanFolder.listFiles()) {
 			if (file.isFile()) {
@@ -294,7 +302,7 @@ public class ClanFolderManager {
 	public List<String> getClanList() {
 		List<String> clanList = new ArrayList<>();
 
-		clanFolder = new File("plugins/islanddefender/clans");
+		clanFolder = new File("plugins/IslandDefender/clans");
 
 		for (File file : clanFolder.listFiles()) {
 			if (file.isFile()) {
@@ -408,35 +416,35 @@ public class ClanFolderManager {
 
 	//	Clan name
 	public String getClanName(String clanName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getString("clan-name");
 	}
 
 	//	Clan tag
 	public String getClanTag(String clanName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getString("clan-tag");
 	}
 
 	//	Clan leader
 	public String getClanLeader(String clanName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getString("clan-leader");
 	}
 
 	//	Clan members
 	public List<String> getClanMembers(String clanName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getStringList("clan-members");
 	}
 
 	//	Clan allies
 	public List<String> getClanAllies(String clanName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getStringList("clan-allies");
 	}
@@ -446,28 +454,28 @@ public class ClanFolderManager {
 
 	//	Clan enemies
 	public List<String> getClanEnemies(String clanName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getStringList("clan-enemies");
 	}
 
 	//	 Clans power
 	public int getClanPower(String clanName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getInt("clan-power");
 	}
 
 	//	Clan balance
 	public int getClanBalance(String clanName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getInt("clan-balance");
 	}
 
 	public String getClanCreated(String clanName) {
 
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 			return clanConfig.getString("clan-created");
@@ -478,7 +486,7 @@ public class ClanFolderManager {
 	//	Clan visible
 	public String getClanVisible(String clanName) {
 
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 			return clanConfig.getString("clan-visible");
@@ -492,7 +500,7 @@ public class ClanFolderManager {
 		String clanName = PlayerFileManager.getPlayerClanName(player);
 
 
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 			clanConfig.set("clan-visible", visible);
@@ -507,7 +515,7 @@ public class ClanFolderManager {
 
 	//	Clan power
 	public void setClanPowerAdmin(String clanName, int power) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 			clanConfig.set("clan-power", power);
@@ -516,7 +524,7 @@ public class ClanFolderManager {
 
 	//	Clan balance
 	public void setClanBalanceAdmin(String clanName, int balance) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 			clanConfig.set("clan-balance", balance);
@@ -525,7 +533,7 @@ public class ClanFolderManager {
 
 	//	Clan allies
 	public void setClanAlliesAdmin(String clanName, List<String> allies) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 			clanConfig.set("clan-allies", allies);
@@ -534,7 +542,7 @@ public class ClanFolderManager {
 
 	//	Clan enemies
 	public void setClanEnemiesAdmin(String clanName, List<String> enemies) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 			clanConfig.set("clan-enemies", enemies);
@@ -544,7 +552,7 @@ public class ClanFolderManager {
 	//	Clan created
 	public void setClanCreatedAdmin(String clanName, String date) {
 
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 			clanConfig.set("clan-created", date);
@@ -554,7 +562,7 @@ public class ClanFolderManager {
 	//	Clan visible
 	public void setClanVisibleAdmin(String clanName, String visible) {
 
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 
@@ -564,7 +572,7 @@ public class ClanFolderManager {
 
 	//	Delete clan
 	public void deleteClanAdmin(String clanName) {
-		File clanFile = new File("plugins/islanddefender/clans/" + clanName + ".yml");
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		if (clanFile.exists()) {
 			clanFile.delete();
 		}

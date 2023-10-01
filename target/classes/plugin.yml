@@ -7,3 +7,11 @@ commands:
   clan:
     aliases: [ clan, c ]
     description: Clan commands
+
+  staffchat:
+    aliases: [ staffchat, sc ]
+    description: Staff chat commands
+
+  staff:
+    aliases: [ staff, s ]
+    description: Staff commands
