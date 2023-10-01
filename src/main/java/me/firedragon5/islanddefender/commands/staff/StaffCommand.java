@@ -25,12 +25,12 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 
 		if (args[0].equalsIgnoreCase("list")) {
 			if (player.hasPermission("islanddefender.staff")) {
-				UtilsMessage.sendMessage(player, "&aStaff Chat Members:");
+				UtilsMessage.sendMessage(player, "&bStaff Chat Members:");
 
 //					Show all the players online with this permission
 				for (Player onlinePlayer : player.getServer().getOnlinePlayers()) {
 					if (onlinePlayer.hasPermission("islanddefender.staffchat")) {
-						UtilsMessage.sendMessage(player, "&7- &a" + onlinePlayer.getName());
+						UtilsMessage.sendMessage(player, "&a- &7" + onlinePlayer.getName());
 					}
 				}
 			} else {
@@ -40,10 +40,10 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 		}
 
 		if (args[0].equalsIgnoreCase("help")) {
-			UtilsMessage.sendMessage(player, "&bStaff Chat &fCommands");
-			UtilsMessage.sendMessage(player, "&b/sc <message> - &fSend a message to the staff chat");
-			UtilsMessage.sendMessage(player, "&b/s list - &fList all the staff chat members");
-			UtilsMessage.sendMessage(player, "&b/s help - &fShow this message");
+			UtilsMessage.sendMessage(player, "&bStaff Chat &7Commands");
+			UtilsMessage.sendMessage(player, "&b/sc <message> &7- Send a message to the staff chat");
+			UtilsMessage.sendMessage(player, "&b/s list &7- List all the staff chat members");
+			UtilsMessage.sendMessage(player, "&b/s help &7- Show this message");
 		}
 
 
