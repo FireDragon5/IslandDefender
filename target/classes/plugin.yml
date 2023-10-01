@@ -1,9 +1,9 @@
-name: ClashCraft
+name: IslandDefender
 version: '1.0'
-main: me.firedragon5.clashcraft.ClashCraft
+main: me.firedragon5.islanddefender.IslandDefender
 api-version: '1.20'
 
 commands:
   clan:
-    aliases: [clan, c]
+    aliases: [ clan, c ]
     description: Clan commands
