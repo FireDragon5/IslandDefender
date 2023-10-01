@@ -1,0 +1,14 @@
+me\firedragon5\clashcraft\commands\clans\JoinCommand.class
+me\firedragon5\clashcraft\commands\clans\ClanCommands.class
+me\firedragon5\clashcraft\commands\clans\ListCommand.class
+me\firedragon5\clashcraft\commands\clans\InviteCommand.class
+me\firedragon5\clashcraft\commands\clans\CreateCommand.class
+me\firedragon5\clashcraft\commands\clans\LeaveCommand.class
+me\firedragon5\clashcraft\ClashCraft.class
+me\firedragon5\clashcraft\menu\clan\ClanInfoMenu.class
+me\firedragon5\clashcraft\events\JoinEvent.class
+me\firedragon5\clashcraft\commands\clans\InfoCommand.class
+me\firedragon5\clashcraft\Utils.class
+me\firedragon5\clashcraft\commands\clans\KickCommand.class
+me\firedragon5\clashcraft\filemanager\clans\ClanFolderManager.class
+me\firedragon5\clashcraft\filemanager\player\PlayerFileManager.class
