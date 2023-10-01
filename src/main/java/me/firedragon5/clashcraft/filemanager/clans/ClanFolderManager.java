@@ -29,6 +29,70 @@ public class ClanFolderManager {
 		return fileManager;
 	}
 
+	//	Clan name
+	public static String getPlayerClanName(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File playerFile = new File("plugins/ClashCraft/players/" + clanName + ".yml");
+		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+		return playerConfig.getString("clan-name");
+	}
+
+	//	Clan tag
+	public static String getPlayerClanTag(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File playerFile = new File("plugins/ClashCraft/players/" + clanName + ".yml");
+		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+		return playerConfig.getString("clan-tag");
+	}
+
+	//	Clan rank
+	public static String getPlayerClanRank(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File playerFile = new File("plugins/ClashCraft/players/" + clanName + ".yml");
+		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+		return playerConfig.getString("clan-rank");
+	}
+
+	//	Clan power
+	public static int getPlayerClanPower(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File playerFile = new File("plugins/ClashCraft/players/" + clanName + ".yml");
+		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+		return playerConfig.getInt("clan-power");
+	}
+
+	//	Clan balance
+	public static int getPlayerClanBalance(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File playerFile = new File("plugins/ClashCraft/players/" + clanName + ".yml");
+		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+		return playerConfig.getInt("clan-balance");
+	}
+
+	//	Clan created
+	public static String getPlayerClanCreated(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+
+		File playerFile = new File("plugins/ClashCraft/players/" + clanName + ".yml");
+		if (playerFile.exists()) {
+			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+			return playerConfig.getString("clan-created");
+		}
+		return null;
+	}
+
 	public void setup() {
 
 		clanFile = new File("plugins/ClashCraft/clans.yml");
@@ -46,10 +110,13 @@ public class ClanFolderManager {
 
 	}
 
+
+//-------------- Clan Config -----------------//
+//	This is the config for the clans.yml file
+
 	public FileConfiguration getClanConfig() {
 		return clanConfig;
 	}
-
 
 	//	Save
 	public void saveClanConfig() {
@@ -64,7 +131,6 @@ public class ClanFolderManager {
 	public void reloadClanConfig() {
 		clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 	}
-
 
 	//	Add a new clan to the folder,
 //	For example: /clan/<clanname> folder
@@ -176,6 +242,8 @@ public class ClanFolderManager {
 
 	}
 
+// List of blacklisted clan names
+
 	//	Leave clan
 	public void leaveClan(Player playerName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + playerName.getName() + ".yml");
@@ -196,7 +264,6 @@ public class ClanFolderManager {
 
 	}
 
-
 	//	Check if the clan amount is not equal to the max clans
 	public boolean canCreateClan() {
 		int clanCount = 0;
@@ -212,6 +279,8 @@ public class ClanFolderManager {
 		return clanCount != getMaxClans();
 	}
 
+// List of blacklisted clan tags
+
 	//	Check blacklist names and tag
 	public boolean isBlacklisted(String clanName, String clanTag) {
 		List<String> blacklistedClanNames = getBlacklistedClanNames();
@@ -219,7 +288,6 @@ public class ClanFolderManager {
 
 		return blacklistedClanNames.contains(clanName) || blacklistedClanTags.contains(clanTag);
 	}
-
 
 	//	Get a list of the clans on the server and their names'
 //	Remove the [] from the list
@@ -237,10 +305,10 @@ public class ClanFolderManager {
 		return clanList;
 	}
 
+//--------------------------------------------//
 
-//-------------- Clan Config -----------------//
-//	This is the config for the clans.yml file
 
+//---------- Methods to get details about the clan  ---------------//
 
 	//	Load the clans.yml file with the following default values
 	public void loadClanConfig() {
@@ -294,7 +362,6 @@ public class ClanFolderManager {
 		saveClanConfig();
 	}
 
-
 	//	Max clans
 	public int getMaxClans() {
 		return clanConfig.getInt("max-clans");
@@ -322,8 +389,6 @@ public class ClanFolderManager {
 		clanConfig.set("rank-to-create", rankToCreate);
 	}
 
-// List of blacklisted clan names
-
 	public List<String> getBlacklistedClanNames() {
 
 		return clanConfig.getStringList("blacklisted-clan-names");
@@ -333,8 +398,6 @@ public class ClanFolderManager {
 		clanConfig.set("blacklisted-clan-names", blacklistedClanNames);
 	}
 
-// List of blacklisted clan tags
-
 	public List<String> getBlacklistedClanTags() {
 		return clanConfig.getStringList("blacklisted-clan-tags");
 	}
@@ -342,12 +405,6 @@ public class ClanFolderManager {
 	public void setBlacklistedClanTags(List<String> blacklistedClanTags) {
 		clanConfig.set("blacklisted-clan-tags", blacklistedClanTags);
 	}
-
-//--------------------------------------------//
-
-
-//---------- Methods to get details about the clan  ---------------//
-
 
 	//	Clan name
 	public String getClanName(String clanName) {
@@ -384,13 +441,15 @@ public class ClanFolderManager {
 		return clanConfig.getStringList("clan-allies");
 	}
 
+
+//	----------Player--------
+
 	//	Clan enemies
 	public List<String> getClanEnemies(String clanName) {
 		File clanFile = new File("plugins/ClashCraft/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getStringList("clan-enemies");
 	}
-
 
 	//	 Clans power
 	public int getClanPower(String clanName) {
