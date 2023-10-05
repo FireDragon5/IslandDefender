@@ -7,13 +7,16 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\staff\StaffChatCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\InviteCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\LeaveCommand.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\mines\MineCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\VisibilityCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\events\JoinEvent.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\mines\MineFileManager.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\ListCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\JoinCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\Utils.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\DeleteCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\IslandDefender.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\mines\MineMenu.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\events\ChatEvent.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\clans\ClanFolderManager.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\player\PlayerFileManager.java

@@ -29,69 +29,25 @@ public class ClanFolderManager {
 		return fileManager;
 	}
 
-	//	Clan name
-	public static String getPlayerClanName(Player player) {
 
-		String clanName = PlayerFileManager.getPlayerClanName(player);
-
-		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
-		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-		return playerConfig.getString("clan-name");
+	public FileConfiguration getClanConfig() {
+		return clanConfig;
 	}
 
-	//	Clan tag
-	public static String getPlayerClanTag(Player player) {
-
-		String clanName = PlayerFileManager.getPlayerClanName(player);
-
-		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
-		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-		return playerConfig.getString("clan-tag");
-	}
-
-	//	Clan rank
-	public static String getPlayerClanRank(Player player) {
-
-		String clanName = PlayerFileManager.getPlayerClanName(player);
-
-		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
-		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-		return playerConfig.getString("clan-rank");
-	}
-
-	//	Clan power
-	public static int getPlayerClanPower(Player player) {
-
-		String clanName = PlayerFileManager.getPlayerClanName(player);
-
-		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
-		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-		return playerConfig.getInt("clan-power");
-	}
-
-	//	Clan balance
-	public static int getPlayerClanBalance(Player player) {
-
-		String clanName = PlayerFileManager.getPlayerClanName(player);
-
-		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
-		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-		return playerConfig.getInt("clan-balance");
-	}
-
-	//	Clan created
-	public static String getPlayerClanCreated(Player player) {
-
-		String clanName = PlayerFileManager.getPlayerClanName(player);
-
-
-		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
-		if (playerFile.exists()) {
-			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-			return playerConfig.getString("clan-created");
+	//	Save
+	public void saveClanConfig() {
+		try {
+			clanConfig.save(clanFile);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return null;
 	}
+
+	//	Reload
+	public void reloadClanConfig() {
+		clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+	}
+
 
 	public void setup() {
 
@@ -111,26 +67,62 @@ public class ClanFolderManager {
 	}
 
 
+	//	Load the clans.yml file with the following default values
+	public void loadClanConfig() {
+
+//		List of black list names and tags
+
+		clanConfig.addDefault("max-clans", 5);
+		clanConfig.addDefault("max-members", 10);
+		clanConfig.addDefault("rank-to-create", "default");
+//		List of black list names and tags
+		clanConfig.addDefault("blacklisted-clan-names", "clan");
+		clanConfig.addDefault("blacklisted-clan-names", "clans");
+		clanConfig.addDefault("blacklisted-clan-tags", "clan");
+		clanConfig.addDefault("blacklisted-clan-tags", "clans");
+		clanConfig.addDefault("clan-cost", 1000);
+
+
+		clanConfig.options().copyDefaults(true);
+		saveClanConfig();
+	}
+
+	//	Check if the yml file has all the correct values
+	public void checkClanConfig() {
+
+		//		List of black list names and tags
+		List<String> blacklistedClanNames = Arrays.asList("clan", "clans");
+
+		if (clanConfig.getString("max-clans") == null) {
+			clanConfig.set("max-clans", 5);
+		}
+
+		if (clanConfig.getString("max-members") == null) {
+			clanConfig.set("max-members", 10);
+		}
+
+		if (clanConfig.getString("rank-to-create") == null) {
+			clanConfig.set("rank-to-create", "default");
+		}
+
+		if (clanConfig.getStringList("blacklisted-clan-names").isEmpty()) {
+			clanConfig.set("blacklisted-clan-names", blacklistedClanNames);
+		}
+
+		if (clanConfig.getStringList("blacklisted-clan-tags").isEmpty()) {
+			clanConfig.set("blacklisted-clan-tags", blacklistedClanNames);
+		}
+
+		if (clanConfig.getString("clan-cost") == null) {
+			clanConfig.set("clan-cost", 1000);
+		}
+
+		saveClanConfig();
+	}
+
+
 //-------------- Clan Config -----------------//
 //	This is the config for the clans.yml file
-
-	public FileConfiguration getClanConfig() {
-		return clanConfig;
-	}
-
-	//	Save
-	public void saveClanConfig() {
-		try {
-			clanConfig.save(clanFile);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	//	Reload
-	public void reloadClanConfig() {
-		clanConfig = YamlConfiguration.loadConfiguration(clanFile);
-	}
 
 	//	Add a new clan to the folder,
 //	For example: /clan/<clanname> folder
@@ -318,58 +310,6 @@ public class ClanFolderManager {
 
 //---------- Methods to get details about the clan  ---------------//
 
-	//	Load the clans.yml file with the following default values
-	public void loadClanConfig() {
-
-//		List of black list names and tags
-		List<String> blacklistedClanNames = Arrays.asList("clan", "clans");
-
-		clanConfig.addDefault("max-clans", 5);
-		clanConfig.addDefault("max-members", 10);
-		clanConfig.addDefault("rank-to-create", "default");
-
-		clanConfig.addDefault("blacklisted-clan-names", blacklistedClanNames);
-		clanConfig.addDefault("blacklisted-clan-tags", blacklistedClanNames);
-		clanConfig.addDefault("clan-cost", 1000);
-
-
-		clanConfig.options().copyDefaults(true);
-		saveClanConfig();
-	}
-
-	//	Check if the yml file has all the correct values
-	public void checkClanConfig() {
-
-		//		List of black list names and tags
-		List<String> blacklistedClanNames = Arrays.asList("clan", "clans");
-
-		if (clanConfig.getString("max-clans") == null) {
-			clanConfig.set("max-clans", 5);
-		}
-
-		if (clanConfig.getString("max-members") == null) {
-			clanConfig.set("max-members", 10);
-		}
-
-		if (clanConfig.getString("rank-to-create") == null) {
-			clanConfig.set("rank-to-create", "default");
-		}
-
-		if (clanConfig.getStringList("blacklisted-clan-names").isEmpty()) {
-			clanConfig.set("blacklisted-clan-names", blacklistedClanNames);
-		}
-
-		if (clanConfig.getStringList("blacklisted-clan-tags").isEmpty()) {
-			clanConfig.set("blacklisted-clan-tags", blacklistedClanNames);
-		}
-
-		if (clanConfig.getString("clan-cost") == null) {
-			clanConfig.set("clan-cost", 1000);
-		}
-
-		saveClanConfig();
-	}
-
 	//	Max clans
 	public int getMaxClans() {
 		return clanConfig.getInt("max-clans");
@@ -451,6 +391,72 @@ public class ClanFolderManager {
 
 
 //	----------Player--------
+
+
+	//	Clan name
+	public static String getPlayerClanName(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
+		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+		return playerConfig.getString("clan-name");
+	}
+
+	//	Clan tag
+	public static String getPlayerClanTag(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
+		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+		return playerConfig.getString("clan-tag");
+	}
+
+	//	Clan rank
+	public static String getPlayerClanRank(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
+		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+		return playerConfig.getString("clan-rank");
+	}
+
+	//	Clan power
+	public static int getPlayerClanPower(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
+		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+		return playerConfig.getInt("clan-power");
+	}
+
+	//	Clan balance
+	public static int getPlayerClanBalance(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
+		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+		return playerConfig.getInt("clan-balance");
+	}
+
+	//	Clan created
+	public static String getPlayerClanCreated(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+
+		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
+		if (playerFile.exists()) {
+			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+			return playerConfig.getString("clan-created");
+		}
+		return null;
+	}
+
 
 	//	Clan enemies
 	public List<String> getClanEnemies(String clanName) {
