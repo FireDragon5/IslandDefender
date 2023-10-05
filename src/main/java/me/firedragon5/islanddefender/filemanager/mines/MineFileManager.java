@@ -174,8 +174,8 @@ public class MineFileManager {
 		String location = player.getLocation().getBlockX() + ", " + player.getLocation().getBlockY() + ", " + player.getLocation().getBlockZ();
 
 		mineConfig.set("mines." + name + ".name", name);
-		mineConfig.set("mines." + name + ".display", "none");
-		mineConfig.set("mines." + name + ".blocks", "none");
+		mineConfig.set("mines." + name + ".display", "STONE");
+		mineConfig.set("mines." + name + ".blocks", "STONE");
 		mineConfig.set("mines." + name + ".spawn", location);
 		mineConfig.set("mines." + name + ".rank", "none");
 		mineConfig.set("mines." + name + ".cost", "none");
