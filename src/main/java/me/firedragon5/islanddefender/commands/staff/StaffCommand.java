@@ -1,5 +1,6 @@
 package me.firedragon5.islanddefender.commands.staff;
 
+import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -44,6 +45,20 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 			UtilsMessage.sendMessage(player, "&b/sc <message> &7- Send a message to the staff chat");
 			UtilsMessage.sendMessage(player, "&b/s list &7- List all the staff chat members");
 			UtilsMessage.sendMessage(player, "&b/s help &7- Show this message");
+
+			return true;
+		}
+
+//		reload
+		if (args[0].equalsIgnoreCase("reload")) {
+			if (player.hasPermission("islanddefender.staff")) {
+				UtilsMessage.sendMessage(player, "&aReloading the config...");
+				ConfigManger.getFileManager().reloadConfig();
+				UtilsMessage.sendMessage(player, "&aReloaded the config!");
+			} else {
+				UtilsMessage.noPermissionMessage(player, "islanddefender.staff");
+			}
+			return true;
 		}
 
 
@@ -69,6 +84,7 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 				if (player.hasPermission("islanddefender.staffchat")) {
 					tabComplete.add("help");
 					tabComplete.add("list");
+					tabComplete.add("reload");
 				}
 
 			}

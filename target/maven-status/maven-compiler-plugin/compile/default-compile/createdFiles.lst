@@ -3,6 +3,7 @@ me\firedragon5\islanddefender\commands\clans\LeaveCommand.class
 me\firedragon5\islanddefender\Utils.class
 me\firedragon5\islanddefender\events\ChatEvent.class
 me\firedragon5\islanddefender\menu\clan\ClanInfoMenu.class
+me\firedragon5\islanddefender\menu\mines\MinePurchaseMenu.class
 me\firedragon5\islanddefender\commands\clans\CreateCommand.class
 me\firedragon5\islanddefender\commands\staff\StaffCommand.class
 me\firedragon5\islanddefender\events\JoinEvent.class
@@ -14,6 +15,7 @@ me\firedragon5\islanddefender\commands\clans\InviteCommand.class
 me\firedragon5\islanddefender\commands\clans\ListCommand.class
 me\firedragon5\islanddefender\filemanager\mines\MineFileManager.class
 me\firedragon5\islanddefender\commands\staff\StaffChatCommand.class
+me\firedragon5\islanddefender\filemanager\config\ConfigManger.class
 me\firedragon5\islanddefender\commands\mines\MineCommand.class
 me\firedragon5\islanddefender\commands\clans\VisibilityCommand.class
 me\firedragon5\islanddefender\IslandDefender.class

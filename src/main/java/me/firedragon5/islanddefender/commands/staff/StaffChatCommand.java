@@ -1,6 +1,7 @@
 package me.firedragon5.islanddefender.commands.staff;
 
 import me.firedragon5.islanddefender.Utils;
+import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,6 +16,9 @@ public class StaffChatCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+
+		ConfigManger configManager = ConfigManger.getFileManager();
 
 //		/sc <message>
 		if (sender instanceof Player player) {
@@ -32,8 +36,9 @@ public class StaffChatCommand implements CommandExecutor {
 				for (String arg : args) {
 					message.append(arg).append(" ");
 				}
-				UtilsMessage.sendMessage(player, "&a&lStaff Chat &8&l< "
-						+ player.getName() + " &8&l> &7" + message);
+				UtilsMessage.sendMessage(player, configManager.getStaffChatFormat()
+						.replace("%player%", player.getName())
+						.replace("%message%", message.toString()));
 			}
 
 		} else {

@@ -9,6 +9,7 @@ import me.firedragon5.islanddefender.events.ChatEvent;
 import me.firedragon5.islanddefender.events.JoinEvent;
 import me.firedragon5.islanddefender.events.LeaveEvent;
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
+import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.menu.clan.ClanInfoMenu;
 import me.firedragon5.islanddefender.menu.mines.MineMenu;
@@ -20,6 +21,8 @@ public final class IslandDefender extends JavaPlugin {
 
 	ClanFolderManager clanManager;
 	MineFileManager mineManager;
+
+	ConfigManger configManager;
 
 	@Override
 	public void onEnable() {
@@ -34,9 +37,13 @@ public final class IslandDefender extends JavaPlugin {
 //		MineManager
 		mineManager = MineFileManager.getFileManager();
 		mineManager.setup();
-//		mineManager.checkMineConfig();
-
 		mineManager.loadMineConfig();
+
+//		ConfigManager
+		configManager = ConfigManger.getFileManager();
+		configManager.setup();
+		configManager.loadConfigFile();
+		configManager.checkConfig();
 
 
 //        register Events
