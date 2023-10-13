@@ -1,6 +1,7 @@
 package me.firedragon5.islanddefender.commands.clans;
 
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,27 +21,31 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
 
-		Player player = (Player) sender;
+		if (!(sender instanceof Player player)) {
+			UtilsMessage.sendMessage(sender, "&cOnly players can use this command");
+			return true;
+		}
 
 
 //	 /clan create|join|leave|invite|kick|promote|demote|disband|info|list|help
 		if (args.length == 0) {
-			player.sendMessage("&c/clans create|join|leave|invite|kick|promote|demote|disband|info|list|help");
+			UtilsMessage.sendMessage(player, "&c/clans create|join|leave|invite|kick|promote|demote|disband|info|list|help");
 			return true;
 		}
+
 
 //		Permissions for clan commands
 		if (args[0].equalsIgnoreCase("create")) {
 
-			me.firedragon5.islanddefender.commands.clans.CreateCommand.createClan(player, args[1], args[2]);
+			CreateCommand.createClan(player, args[1], args[2]);
 
 		} else if (args[0].equalsIgnoreCase("join")) {
 
-			me.firedragon5.islanddefender.commands.clans.JoinCommand.joinClan(player, args[1]);
+			JoinCommand.joinClan(player, args[1]);
 
 		} else if (args[0].equalsIgnoreCase("leave")) {
 
-			me.firedragon5.islanddefender.commands.clans.LeaveCommand.leaveClan(player, args[1]);
+			LeaveCommand.leaveClan(player, args[1]);
 		} else if (args[0].equalsIgnoreCase("invite")) {
 
 //			InviteCommand.invitePlayer(player, args[1], args[2]);
@@ -51,21 +56,21 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 
 		} else if (args[0].equalsIgnoreCase("list")) {
 
-			me.firedragon5.islanddefender.commands.clans.ListCommand.listClans(player);
+			ListCommand.listClans(player);
 		} else if (args[0].equalsIgnoreCase("info")) {
 
 //			if the use is a clan then only info is needs else they need to specify a clan
 			if (args.length == 1) {
-				me.firedragon5.islanddefender.commands.clans.InfoCommand.infoClan(player);
+				InfoCommand.infoClan(player);
 			} else {
-				me.firedragon5.islanddefender.commands.clans.InfoCommand.infoClan(player, args[1]);
+				InfoCommand.infoClan(player, args[1]);
 
 			}
 
 
 		} else if (args[0].equalsIgnoreCase("visibility")) {
 
-			me.firedragon5.islanddefender.commands.clans.VisibilityCommand.setVisibility(player, args[1], args[2]);
+			VisibilityCommand.setVisibility(player, args[1], args[2]);
 
 		} else if (args[0].equalsIgnoreCase("disband")) {
 
@@ -77,14 +82,14 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 //			only disband the clan if the player clicks the message
 
 
-			me.firedragon5.islanddefender.commands.clans.DisbandCommand.disbandClan(player, args[1]);
+			DisbandCommand.disbandClan(player, args[1]);
 
 		}
 
 		return false;
 	}
 
-
+	//	clan
 	public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
 		List<String> tabComplete = new ArrayList<>();

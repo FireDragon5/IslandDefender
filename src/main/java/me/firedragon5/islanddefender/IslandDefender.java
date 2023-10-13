@@ -12,6 +12,7 @@ import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.menu.clan.ClanInfoMenu;
 import me.firedragon5.islanddefender.menu.mines.MineMenu;
+import me.firedragon5.islanddefender.menu.mines.MinePurchaseMenu;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -35,7 +36,7 @@ public final class IslandDefender extends JavaPlugin {
 		mineManager.setup();
 //		mineManager.checkMineConfig();
 
-//		mineManager.loadMineConfig();
+		mineManager.loadMineConfig();
 
 
 //        register Events
@@ -45,6 +46,7 @@ public final class IslandDefender extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new ChatEvent(), this);
 		getServer().getPluginManager().registerEvents(new LeaveEvent(), this);
 		getServer().getPluginManager().registerEvents(new MineMenu(), this);
+		getServer().getPluginManager().registerEvents(new MinePurchaseMenu(), this);
 
 
 //        register Commands
@@ -52,7 +54,6 @@ public final class IslandDefender extends JavaPlugin {
 		getCommand("staffchat").setExecutor(new StaffChatCommand());
 		getCommand("staff").setExecutor(new StaffCommand());
 		getCommand("mine").setExecutor(new MineCommand());
-
 	}
 
 	@Override

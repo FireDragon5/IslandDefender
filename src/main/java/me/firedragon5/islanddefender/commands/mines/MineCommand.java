@@ -35,6 +35,7 @@ public class MineCommand implements CommandExecutor, TabCompleter {
 
 
 			}
+			return true;
 		}
 
 

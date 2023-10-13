@@ -15,3 +15,7 @@ commands:
   staff:
     aliases: [ staff, s ]
     description: Staff commands
+
+  mine:
+    aliases: [ mines, m ]
+    description: Mines commands
