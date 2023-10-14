@@ -183,7 +183,7 @@ public class ClanFolderManager {
 			clanConfig.save(clanFile);
 
 //		Send  message that clan was created
-			UtilsMessage.sendMessage(player, "&fClan created! For more info " +
+			UtilsMessage.sendMessage(player, "&7Clan created! For more info " +
 					"about your clan do &b&l/clan info");
 
 			PlayerFileManager.setPlayerClanName(player, clanName);
@@ -408,9 +408,16 @@ public class ClanFolderManager {
 
 		String clanName = PlayerFileManager.getPlayerClanName(player);
 
-		File playerFile = new File("plugins/IslandDefender/players/" + clanName + ".yml");
-		FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-		return playerConfig.getString("clan-tag");
+//		Go to the clan file and get the clan tag
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
+
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+			return clanConfig.getString("clan-tag");
+		}
+
+
+		return "none";
 	}
 
 	//	Clan rank

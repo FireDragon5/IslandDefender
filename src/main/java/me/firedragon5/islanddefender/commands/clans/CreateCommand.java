@@ -10,6 +10,7 @@ import java.util.Objects;
 public class CreateCommand {
 
 	public static void createClan(Player player, String clanName, String clanTag) {
+		
 
 		if (!hasPermission(player)) {
 			UtilsMessage.errorMessage(player, "&cYou do not have permission to use this command!");

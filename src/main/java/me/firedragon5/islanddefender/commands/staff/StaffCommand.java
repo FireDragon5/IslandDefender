@@ -35,7 +35,8 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 					}
 				}
 			} else {
-				UtilsMessage.noPermissionMessage(player, "islanddefender.staffchat.list");
+				UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
+
 			}
 			return true;
 		}

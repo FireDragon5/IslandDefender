@@ -9,7 +9,8 @@ public class ListCommand {
 	public static void listClans(Player player) {
 
 		if (!hasPermission(player)) {
-			UtilsMessage.noPermissionMessage(player, "islanddefender.clan.list");
+			UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
+
 			return;
 		}
 

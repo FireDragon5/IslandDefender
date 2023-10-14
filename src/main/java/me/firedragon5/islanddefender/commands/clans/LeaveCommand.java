@@ -14,7 +14,8 @@ public class LeaveCommand {
 	public static void leaveClan(Player player, String clanName) {
 
 		if (!hasPermission(player)) {
-			UtilsMessage.noPermissionMessage(player, "islanddefender.clan.leave");
+			UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
+
 			return;
 		}
 

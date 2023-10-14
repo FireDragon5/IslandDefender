@@ -3,19 +3,62 @@ version: '${project.version}'
 main: me.firedragon5.islanddefender.IslandDefender
 api-version: '1.20'
 
+
+depend:
+  - LuckPerms
+  - Vault
+
 commands:
   clan:
     aliases: [ clan, c ]
     description: Clan commands
+    permission: islanddefender.clan
+
 
   staffchat:
     aliases: [ staffchat, sc ]
     description: Staff chat commands
+    permission: islanddefender.staffchat
 
   staff:
     aliases: [ staff, s ]
     description: Staff commands
+    permission: islanddefender.staff
 
   mine:
     aliases: [ mines, m ]
     description: Mines commands
+    permission: islanddefender.mines
+
+  islanddefender:
+    aliases: [ id, islanddefender ]
+    description: IslandDefender commands
+    permission: islanddefender.admin
+    default: op
+
+
+permissions:
+  islanddefender.mines:
+    description: Allows access to the mines commands
+    default: true
+
+  islanddefender.mines.admin:
+    description: Allows access to the mines admin commands
+    default: op
+
+  islanddefender.staff:
+    description: Allows access to the staff commands
+    default: op
+
+  islanddefender.staffchat:
+    description: Allows access to the staff chat commands
+    default: op
+
+  islanddefender.clan:
+    description: Allows access to the clan commands
+    default: true
+
+  islanddefender.admin:
+    description: Allows access to the admin commands
+    default: op
+

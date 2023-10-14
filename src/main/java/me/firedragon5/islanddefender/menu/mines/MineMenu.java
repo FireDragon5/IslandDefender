@@ -2,7 +2,6 @@ package me.firedragon5.islanddefender.menu.mines;
 
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
-import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.menu.Menu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Location;
@@ -35,24 +34,39 @@ public class MineMenu extends Menu implements Listener {
 		List<String> mineLore = new ArrayList<>();
 
 //		When the user don't have own the mine don't show its display block show bedrock
+		int i = 0;
 
 		for (String mine : mineManager.getMineList()) {
+
 //			rank
-			mineLore.add("&7Rank: &a" + mineManager.getRank(mine));
+
+			String rank = mineManager.getRank(mine);
+			if (rank.equalsIgnoreCase("default")) {
+				rank = "None";
+			}
+
+			mineLore.add("&7Rank Needed: &a" + rank);
 //			cost
-			mineLore.add("&7Cost: &a" + mineManager.getCost(mine));
+			mineLore.add("&7Mine cost: &a" + mineManager.getCost(mine));
 
 			// Check if the player has permission for this mine
 			Player player = getPlayer();
 			boolean hasPermission = player.hasPermission("islanddefender.mine." + mineManager.getRank(mine));
+
+//			if the permission is equal to none this is the first mine so everyone has access to it
+			if (mineManager.getPermission(mine).equalsIgnoreCase("none")) {
+				hasPermission = true;
+			}
 
 			// Determine the material for the display block
 			Material material = hasPermission
 					? Material.getMaterial(Objects.requireNonNull(mineManager.getDisplayBlock(mine)))
 					: Material.BEDROCK;
 
-			setItem(0, material, "&a&l" + mine, mineLore);
+			setItem(i, material, "&a&l" + mine, mineLore);
 
+			i++;
+			mineLore.clear();
 
 		}
 
@@ -117,14 +131,16 @@ public class MineMenu extends Menu implements Listener {
 		} else {
 			UtilsMessage.errorMessage(player, "You do not have access to this mine");
 
-//			Open the purchase menu if the user is the correct rank but does not have permission
-			if (Objects.equals(PlayerFileManager.getPlayerRank(player), mineManager.getRank(mine))) {
-				MinePurchaseMenu minePurchaseMenu = new MinePurchaseMenu(player, "&bPurchase Mine", 9);
-				minePurchaseMenu.setupMenu();
-				minePurchaseMenu.openMenu();
-			}
-
 			player.closeInventory();
+
+
+//			Open the purchase menu if the user is the correct rank but does not have permission
+
+			MinePurchaseMenu minePurchaseMenu = new MinePurchaseMenu(player, "&bPurchase Mine", 9);
+			minePurchaseMenu.setupMenu(mine);
+			minePurchaseMenu.openMenu();
+
+
 		}
 	}
 

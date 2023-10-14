@@ -37,6 +37,13 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 //		Permissions for clan commands
 		if (args[0].equalsIgnoreCase("create")) {
 
+//			if all the arguments are not there, then send the player a message
+			if (args.length != 3) {
+				UtilsMessage.sendMessage(player, "&c/clan create <clanName> <clanTag>");
+				return true;
+			}
+
+
 			CreateCommand.createClan(player, args[1], args[2]);
 
 		} else if (args[0].equalsIgnoreCase("join")) {

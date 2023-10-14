@@ -2,6 +2,7 @@ package me.firedragon5.islanddefender.commands.mines;
 
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.menu.mines.MineMenu;
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,14 +28,9 @@ public class MineCommand implements CommandExecutor, TabCompleter {
 //      All players:
 //		/mine (this will open the gui)
 		if (args.length == 0) {
-			if (player.hasPermission("islanddefender.mine")) {
-
-				MineMenu mineMenu = new MineMenu(player, "&bMines", 54);
-				mineMenu.setupMenu();
-				mineMenu.openMenu();
-
-
-			}
+			MineMenu mineMenu = new MineMenu(player, "&bMines", 54);
+			mineMenu.setupMenu();
+			mineMenu.openMenu();
 			return true;
 		}
 
@@ -42,20 +38,24 @@ public class MineCommand implements CommandExecutor, TabCompleter {
 		//		Admins:
 //		/mine create <name>
 //		/mine delete <name>
-		if (args[0].equalsIgnoreCase("create")) {
-			if (player.hasPermission("islanddefender.mine.admin")) {
+//		/mine reload
+		if (player.hasPermission("islanddefender.mine.admin")) {
 
+			if (args[0].equalsIgnoreCase("create")) {
 				MineFileManager mineManager = MineFileManager.getFileManager();
 				mineManager.createMine(player, args[1]);
-
-			}
-		} else if (args[0].equalsIgnoreCase("delete")) {
-			if (player.hasPermission("islanddefender.mine.admin")) {
-
+			} else if (args[0].equalsIgnoreCase("delete")) {
 				MineFileManager mineManager = MineFileManager.getFileManager();
 				mineManager.deleteMine(args[1]);
+			} else if (args[0].equalsIgnoreCase("reload")) {
 
+				UtilsMessage.sendMessage(player, "&aReloading the mines config!");
+				MineFileManager mineManager = MineFileManager.getFileManager();
+				mineManager.reloadMineConfig();
 			}
+
+		} else {
+			UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
 		}
 
 
@@ -78,6 +78,7 @@ public class MineCommand implements CommandExecutor, TabCompleter {
 				if (strings.length == 1) {
 					tabComplete.add("create");
 					tabComplete.add("delete");
+					tabComplete.add("reload");
 				} else if (strings.length == 2) {
 					tabComplete.add("<name>");
 				}

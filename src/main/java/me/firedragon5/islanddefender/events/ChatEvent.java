@@ -1,34 +1,51 @@
 package me.firedragon5.islanddefender.events;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
-import net.kyori.adventure.text.Component;
+import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Objects;
 
 public class ChatEvent implements Listener {
 
 	@EventHandler
-	public static void onChat(AsyncChatEvent event) {
+	public static void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
-		Component message = event.message();
+		String message = event.getMessage();
+
+		ConfigManger configManager = ConfigManger.getFileManager();
+
 
 		// Get the player clan tag
 		String clanTag = ClanFolderManager.getPlayerClanTag(player);
 
-		// If the player is not in a clan, show the chat as normal
-		Component formattedMessage;
-		if (Objects.equals(clanTag, "none")) {
-			formattedMessage = message;
+		// Format the message: [Tag] PlayerName: Message if the player is in a clan
+		String formattedMessage;
+		if (!Objects.equals(clanTag, "none")) {
+
+			// Get the chat format from the config
+			String chatFormat = configManager.getConfig().getString("chatFormat");
+
+			// Replace the placeholders
+			assert chatFormat != null;
+			chatFormat = chatFormat.replace("%clan%", clanTag);
+			chatFormat = chatFormat.replace("%player%", player.getName());
+			chatFormat = chatFormat.replace("%message%", message);
+
+			// Format the message
+			formattedMessage = chatFormat;
+
 		} else {
-			// Format the message: [Tag] PlayerName: Message
-			formattedMessage = Component.text("[" + clanTag + "] " + player.getName() + ": ").append(message);
+			formattedMessage = message;
 		}
 
-		// Set the message to the formatted message
-		event.message(formattedMessage);
+		// Send the message to all players
+		event.setFormat(UtilsMessage.onChat(formattedMessage));
+
 	}
+
 }

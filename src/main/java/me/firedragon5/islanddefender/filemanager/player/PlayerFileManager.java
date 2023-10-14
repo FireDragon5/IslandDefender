@@ -39,7 +39,7 @@ public class PlayerFileManager {
 //				clan name
 				playerConfig.set("clan-name", "none");
 //				rank
-				playerConfig.set("rank", "none");
+				playerConfig.set("rank", "default");
 
 				playerConfig.save(playerFile);
 				playerConfig.options().copyDefaults(true);
@@ -66,10 +66,10 @@ public class PlayerFileManager {
 			if (playerConfig.getString("clan-name") == null) {
 				playerConfig.set("clan-name", "none");
 			}
-
 			if (playerConfig.getString("rank") == null) {
 				playerConfig.set("rank", "none");
 			}
+
 
 			try {
 				playerConfig.save(playerFile);
@@ -98,6 +98,7 @@ public class PlayerFileManager {
 		return null;
 
 	}
+
 
 	//	Get player rank
 	public static String getPlayerRank(Player playerName) {

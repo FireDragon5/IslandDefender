@@ -15,7 +15,8 @@ public class InfoCommand {
 	public static void infoClan(Player player, String clanName) {
 
 		if (!hasPermission(player)) {
-			UtilsMessage.noPermissionMessage(player, "islanddefender.clan.info");
+			UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
+
 			return;
 		}
 

@@ -67,6 +67,8 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+
+
     </repositories>
 
     <dependencies>
@@ -78,10 +80,24 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.FireDragon5</groupId>
             <artifactId>FireApi</artifactId>
             <version>v1.3.3</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.luckperms</groupId>
+            <artifactId>api</artifactId>
+            <version>5.4</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

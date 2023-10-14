@@ -54,6 +54,8 @@ public class ConfigManger {
 	//	Config check
 	public void loadConfigFile() {
 		config.addDefault("staffChatFormat", "&8[&4Staff&8] &7%player%&8: &7%message%");
+//		chat format
+		config.addDefault("chatFormat", "&7[&b%clan%&7] &f%player%&7: &f%message%");
 		config.options().copyDefaults(true);
 		saveConfig();
 
@@ -65,12 +67,21 @@ public class ConfigManger {
 			config.addDefault("staffChatFormat", "&8[&4Staff&8] &7%player%&8: &7%message%");
 			saveConfig();
 		}
+		if (!config.contains("chatFormat")) {
+			config.addDefault("chatFormat", "&7[&b%clan%&7] &f%player%&7: &f%message%");
+			saveConfig();
+		}
 	}
 
 
 	//	Get the staff chat format
 	public String getStaffChatFormat() {
 		return config.getString("staffChatFormat");
+	}
+
+	//	Get the chat format
+	public String getChatFormat() {
+		return config.getString("chatFormat");
 	}
 
 

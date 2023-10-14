@@ -15,7 +15,8 @@ public class JoinCommand {
 	public static void joinClan(Player player, String clanName) {
 
 		if (!hasPermission(player)) {
-			UtilsMessage.noPermissionMessage(player, "islanddefender.clan.join");
+			UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
+
 			return;
 		}
 

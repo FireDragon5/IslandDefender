@@ -69,7 +69,7 @@ public class MineFileManager {
 
 	public void loadMineConfig() {
 		// Add default values for the entire section
-		mineConfig.addDefault("mines.test", createDefaultMineConfig());
+//		mineConfig.addDefault("mines.test", createDefaultMineConfig());
 
 		mineConfig.options().copyDefaults(true);
 		saveMineConfig();
@@ -86,6 +86,7 @@ public class MineFileManager {
 		mineSection.set("cost", 0);
 		mineSection.set("reset-time", 0);
 		mineSection.set("display", "STONE");
+		mineSection.set("permission-command", "lp group default permission set islanddefender.mine.test true");
 
 		return mineSection;
 	}
@@ -113,6 +114,10 @@ public class MineFileManager {
 			mineConfig.addDefault("mines.test.reset-time", "0");
 //		Display block for the gui
 			mineConfig.addDefault("mines.test.display", "STONE");
+
+//		Permission
+			mineConfig.addDefault("mines.test.permission", "islanddefender.mine.test");
+
 
 			mineConfig.options().copyDefaults(true);
 			saveMineConfig();
@@ -162,6 +167,11 @@ public class MineFileManager {
 		return mineConfig.getString("mines." + mine + ".permission");
 	}
 
+	//	Get Permission command
+	public String getPermissionCommand(String mine) {
+		return mineConfig.getString("mines." + mine + ".permission-command");
+	}
+
 
 	//	For loop to get all the mines and return their names and display block
 	public String getMines() {
@@ -177,12 +187,10 @@ public class MineFileManager {
 		return mines.toString();
 	}
 
+	//	Get all the mines
 	public String[] getMineList() {
-
 		return mineConfig.getConfigurationSection("mines.").getKeys(false).toArray(new String[0]);
-
 	}
-
 
 //	------------Config----------------
 
@@ -202,6 +210,10 @@ public class MineFileManager {
 		mineConfig.set("mines." + name + ".rank", "none");
 		mineConfig.set("mines." + name + ".cost", "none");
 		mineConfig.set("mines." + name + ".reset-time", "none");
+//		Permission
+		mineConfig.set("mines." + name + ".permission", "islanddefender.mine." + name);
+//		Permission command that needs to be run
+		mineConfig.set("mines." + name + ".permission-command", "lp group default permission set islanddefender.mine." + name + " true");
 
 		mineConfig.options().copyDefaults(true);
 		saveMineConfig();
