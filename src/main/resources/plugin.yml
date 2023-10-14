@@ -36,6 +36,12 @@ commands:
     permission: islanddefender.admin
     default: op
 
+  rank:
+    aliases: [ rank, r ]
+    description: Rank commands
+    permission: islanddefender.rank
+    default: true
+
 
 permissions:
   islanddefender.mines:
