@@ -27,7 +27,7 @@ public class InfoCommand {
 		}
 
 //		open the menu
-		ClanInfoMenu menu = new ClanInfoMenu(player, "&a&lClan Info", 54);
+		ClanInfoMenu menu = new ClanInfoMenu(player, "&7Clan Info", 54);
 		menu.setupMenu(clanName);
 		menu.openMenu();
 

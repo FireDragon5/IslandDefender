@@ -1,12 +1,10 @@
 package me.firedragon5.islanddefender.menu.mines;
 
-import me.firedragon5.islanddefender.IslandDefender;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
+import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.menu.Menu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,8 +29,6 @@ public class MinePurchaseMenu extends Menu implements Listener {
 	public void setupMenu(String mine) {
 
 		setMine(mine);
-
-		System.out.println(mine);
 
 
 //		Confirm button
@@ -62,7 +58,7 @@ public class MinePurchaseMenu extends Menu implements Listener {
 	public void onInventoryClick(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked();
 
-		if (event.getView().getTitle().equalsIgnoreCase(UtilsMessage.onChat("&bPurchase Mine"))) {
+		if (event.getView().getTitle().equalsIgnoreCase(UtilsMessage.onChat("&7Purchase Mine"))) {
 			event.setCancelled(true);
 
 			if (event.getCurrentItem() == null || event.getCurrentItem().getItemMeta() == null) {
@@ -79,23 +75,20 @@ public class MinePurchaseMenu extends Menu implements Listener {
 
 
 //			Check if the user has the correct amount of money
-				if (IslandDefender.getEconomy().getBalance(player) < mineManager.getCost(mine)) {
-					player.sendMessage(UtilsMessage.onChat("&cYou do not have enough money to purchase this mine!"));
+				if (PlayerFileManager.getPlayerCoins(player) < mineManager.getCost(mine)) {
+					player.sendMessage(UtilsMessage.onChat("&cYou do not have enough coins to purchase this mine!"));
 					player.closeInventory();
 					return;
 				} else {
 
 //			If the users pass everything, then take the money and give them the rank
-					IslandDefender.getEconomy().withdrawPlayer(player, mineManager.getCost(mine));
-//			Run the permission command
-					ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+					PlayerFileManager.removePlayerCoins(player, mineManager.getCost(mine));
+					player.sendMessage(UtilsMessage.onChat("&7You have purchased the mine &a" + mine + "&7!"));
+					player.closeInventory();
 
-					String command = mineManager.getPermissionCommand(mine);
+//					Set the new mine
+					PlayerFileManager.setPlayerMine(player, mine);
 
-					System.out.println(command);
-
-					command = command.replace("%player%", player.getName());
-					player.getServer().dispatchCommand(console, command);
 				}
 			}
 

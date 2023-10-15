@@ -82,7 +82,7 @@ public class ClanInfoMenu extends Menu implements Listener {
 		if (event.getCurrentItem() == null) return;
 		if (event.getClickedInventory().getHolder() == null) return;
 //		Check the name of the inventory
-		if (!event.getView().getTitle().equalsIgnoreCase(Utils.chat("&a&lClan Info"))) return;
+		if (!event.getView().getTitle().equalsIgnoreCase(Utils.chat("&7Clan Info"))) return;
 		event.setCancelled(true);
 
 

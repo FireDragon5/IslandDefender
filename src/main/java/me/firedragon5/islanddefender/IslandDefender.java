@@ -18,9 +18,7 @@ import me.firedragon5.islanddefender.menu.clan.ClanInfoMenu;
 import me.firedragon5.islanddefender.menu.mines.MineMenu;
 import me.firedragon5.islanddefender.menu.mines.MinePurchaseMenu;
 import me.firedragon5.islanddefender.menu.ranks.RankMenu;
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.permissions.Permission;
-import org.bukkit.plugin.RegisteredServiceProvider;
+import me.firedragon5.islanddefender.menu.ranks.RankPurchaseMenu;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -30,9 +28,6 @@ public final class IslandDefender extends JavaPlugin {
 	MineFileManager mineManager;
 	ConfigManger configManager;
 	RankFileManager rankFileManager;
-
-	private static Economy econ = null;
-	private static final Permission perms = null;
 
 
 	@Override
@@ -71,6 +66,7 @@ public final class IslandDefender extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new MineMenu(), this);
 		getServer().getPluginManager().registerEvents(new MinePurchaseMenu(), this);
 		getServer().getPluginManager().registerEvents(new RankMenu(), this);
+		getServer().getPluginManager().registerEvents(new RankPurchaseMenu(), this);
 
 
 //        register Commands
@@ -82,31 +78,6 @@ public final class IslandDefender extends JavaPlugin {
 		getCommand("rank").setExecutor(new RankCommand());
 
 
-		if (!setupEconomy()) {
-			getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
-			getServer().getPluginManager().disablePlugin(this);
-		}
-	}
-
-
-	private boolean setupEconomy() {
-		if (getServer().getPluginManager().getPlugin("Vault") == null) {
-			return false;
-		}
-		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-		if (rsp == null) {
-			return false;
-		}
-		econ = rsp.getProvider();
-		return true;
-	}
-
-	public static Economy getEconomy() {
-		return econ;
-	}
-
-	public static Permission getPermissions() {
-		return perms;
 	}
 
 

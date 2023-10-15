@@ -44,19 +44,6 @@ public class RankFileManager {
 	}
 
 	//	load
-
-//	1:
-//	  name: "&7Default"
-//	  prefix: "&7"
-//	  permission: "islanddefender.default"
-//	  cost: 0
-//	  displayBlock: "GREEN_WOOL"
-//	  rank-perks:
-//	    - "fly"
-//	    - "speed 10"
-//	  next-rank: "2"
-
-
 	public void loadRankConfig() {
 
 		checkConfig();
@@ -66,16 +53,26 @@ public class RankFileManager {
 	}
 
 	public void checkConfig() {
-		if (!rankConfig.contains("1")) {
-			rankConfig.addDefault("1.name", "&7Default");
-			rankConfig.addDefault("1.prefix", "&7");
-			rankConfig.addDefault("1.permission", "islanddefender.default");
-			rankConfig.addDefault("1.cost", 0);
-			rankConfig.addDefault("1.displayBlock", "GREEN_WOOL");
-			rankConfig.addDefault("1.rank-perks", List.of("fly", "speed 10"));
-			rankConfig.addDefault("1.next-rank", "2");
-			saveRankConfig();
+
+//		The luckperm run command
+//		/lp user %player% parent set %rank%
+		rankConfig.addDefault("luckperm-run-command", "lp user %player% parent set %rank%");
+		rankConfig.addDefault("Menu-size", 54);
+
+
+		if (!rankConfig.contains("Default")) {
+			rankConfig.addDefault("Default.name", "&7Default");
+			rankConfig.addDefault("Default.prefix", "&7");
+			rankConfig.addDefault("Default.permission", "islanddefender.rank.default");
+			rankConfig.addDefault("Default.cost", 0);
+			rankConfig.addDefault("Default.displayBlock", "GREEN_WOOL");
+			rankConfig.addDefault("Default.rank-perks", List.of("fly", "speed 10"));
+			rankConfig.addDefault("Default.slot", 9);
+			rankConfig.addDefault("Default.color", "&a");
+			rankConfig.addDefault("Default.next-rank", "Max");
 		}
+
+		saveRankConfig();
 	}
 
 
@@ -95,6 +92,11 @@ public class RankFileManager {
 		return rankConfig.getString(rank + ".name");
 	}
 
+	//	Menu size
+	public int getMenuSize() {
+		return rankConfig.getInt("Menu-size");
+	}
+
 	//	Prefix
 	public String getPrefix(String rank) {
 		return rankConfig.getString(rank + ".prefix");
@@ -105,6 +107,11 @@ public class RankFileManager {
 		return rankConfig.getString(rank + ".permission");
 	}
 
+	//	Luckperm Permission command
+	public String getLuckpermRunCommand() {
+		return rankConfig.getString("luckperm-run-command");
+	}
+
 	//	Cost
 	public int getCost(String rank) {
 		return rankConfig.getInt(rank + ".cost");
@@ -112,12 +119,22 @@ public class RankFileManager {
 
 	//	Block
 	public Material getDisplayBlock(String rank) {
-		return Material.getMaterial(Objects.requireNonNull(rankConfig.getString(rank + ".displayBlock")));
+		return Material.valueOf(Objects.requireNonNull(rankConfig.getString(rank + ".displayBlock")));
 	}
 
 	//	Next rank
 	public String getNextRank(String rank) {
 		return rankConfig.getString(rank + ".next-rank");
+	}
+
+	//	Slot
+	public int getSlot(String rank) {
+		return rankConfig.getInt(rank + ".slot");
+	}
+
+	//	Color
+	public String getColor(String rank) {
+		return rankConfig.getString(rank + ".color");
 	}
 
 	//	Rank perks
@@ -131,7 +148,7 @@ public class RankFileManager {
 //	  name: "&7Default"
 
 	public String[] getRanks() {
-		return rankConfig.getKeys(false).toArray(new String[0]);
+		return rankConfig.getConfigurationSection("").getKeys(false).toArray(new String[0]);
 	}
 
 

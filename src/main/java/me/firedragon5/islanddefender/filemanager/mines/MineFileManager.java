@@ -1,13 +1,11 @@
 package me.firedragon5.islanddefender.filemanager.mines;
 
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.Arrays;
 
 public class MineFileManager {
 
@@ -50,7 +48,7 @@ public class MineFileManager {
 
 	//	load
 //	This is the format for the mines.yml file
-//	mines:
+
 //	  test:
 //	    name: test
 //	    blocks:
@@ -58,8 +56,6 @@ public class MineFileManager {
 //	    - GRASS_BLOCK
 //	    - DIRT
 //	    - COBBLESTONE
-
-//	    permissions: none
 //	    spawn: 0, 0, 0
 //	    rank: default
 //	    cost: 0
@@ -68,60 +64,35 @@ public class MineFileManager {
 
 
 	public void loadMineConfig() {
-		// Add default values for the entire section
-//		mineConfig.addDefault("mines.test", createDefaultMineConfig());
+
+		checkMineConfig();
+
 
 		mineConfig.options().copyDefaults(true);
 		saveMineConfig();
 	}
 
-	private ConfigurationSection createDefaultMineConfig() {
-		ConfigurationSection mineSection = mineConfig.createSection("test");
-
-		mineSection.set("name", "test");
-		mineSection.set("blocks", Arrays.asList("STONE", "GRASS_BLOCK", "DIRT", "COBBLESTONE", "OAK_PLANKS"));
-		mineSection.set("spawn", "0, 0, 0");
-		mineSection.set("rank", "default");
-		mineSection.set("permission", "none");
-		mineSection.set("cost", 0);
-		mineSection.set("reset-time", 0);
-		mineSection.set("display", "STONE");
-		mineSection.set("permission-command", "lp group default permission set islanddefender.mine.test true");
-
-		return mineSection;
-	}
 
 	//	Check if the yml file has all the correct values
 	public void checkMineConfig() {
 
-		if (mineConfig.getString("mines.") == null) {
-			mineConfig.addDefault("mines.", "test");
-			mineConfig.addDefault("mines.test.name", "test");
-//		List of blocks
-			mineConfig.addDefault("mines.test.blocks", "STONE");
-			mineConfig.addDefault("mines.test.blocks", "GRASS_BLOCK");
-			mineConfig.addDefault("mines.test.blocks", "DIRT");
-			mineConfig.addDefault("mines.test.blocks", "COBBLESTONE");
-			mineConfig.addDefault("mines.test.blocks", "OAK_PLANKS");
+		mineConfig.addDefault("Menu-size", 54);
 
-//		Spawn location
-			mineConfig.addDefault("mines.test.spawn", "0, 0, 0");
-//		Rank needed to access
-			mineConfig.addDefault("mines.test.rank", "default");
-//		Cost
-			mineConfig.addDefault("mines.test.cost", "0");
-//		Reset time
-			mineConfig.addDefault("mines.test.reset-time", "0");
-//		Display block for the gui
-			mineConfig.addDefault("mines.test.display", "STONE");
-
-//		Permission
-			mineConfig.addDefault("mines.test.permission", "islanddefender.mine.test");
-
-
+		if (!mineConfig.contains("Default")) {
+			mineConfig.addDefault("Default.name", "Default");
+			mineConfig.addDefault("Default.display", "STONE");
+			mineConfig.addDefault("Default.blocks", "STONE");
+			mineConfig.addDefault("Default.spawn", "0, 0, 0");
+			mineConfig.addDefault("Default.rank", "default");
+			mineConfig.addDefault("Default.cost", 0);
+			mineConfig.addDefault("Default.reset-time", 0);
+			mineConfig.addDefault("Default.next-mine", "max");
+			mineConfig.addDefault("Default.slot", 0);
 			mineConfig.options().copyDefaults(true);
-			saveMineConfig();
+
 		}
+
+		saveMineConfig();
 
 	}
 
@@ -162,14 +133,19 @@ public class MineFileManager {
 		return mineConfig.getString("mines." + mine + ".name");
 	}
 
-	//	Get Permission
-	public String getPermission(String mine) {
-		return mineConfig.getString("mines." + mine + ".permission");
+	//	Get Next mine
+	public String getNextMine(String mine) {
+		return mineConfig.getString("mines." + mine + ".next-mine");
 	}
 
-	//	Get Permission command
-	public String getPermissionCommand(String mine) {
-		return mineConfig.getString("mines." + mine + ".permission-command");
+	//	Get Slot
+	public int getSlot(String mine) {
+		return mineConfig.getInt("mines." + mine + ".slot");
+	}
+
+	//	Get Menu size
+	public int getMenuSize() {
+		return mineConfig.getInt("Menu-size");
 	}
 
 
@@ -210,11 +186,7 @@ public class MineFileManager {
 		mineConfig.set("mines." + name + ".rank", "none");
 		mineConfig.set("mines." + name + ".cost", "none");
 		mineConfig.set("mines." + name + ".reset-time", "none");
-//		Permission
-		mineConfig.set("mines." + name + ".permission", "islanddefender.mine." + name);
-//		Permission command that needs to be run
-		mineConfig.set("mines." + name + ".permission-command", "lp group default permission set islanddefender.mine." + name + " true");
-
+		mineConfig.set("mines." + name + ".next-mine", "Max");
 		mineConfig.options().copyDefaults(true);
 		saveMineConfig();
 	}

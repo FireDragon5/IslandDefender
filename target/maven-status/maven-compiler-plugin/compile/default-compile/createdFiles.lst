@@ -10,6 +10,7 @@ me\firedragon5\islanddefender\commands\staff\StaffCommand.class
 me\firedragon5\islanddefender\events\JoinEvent.class
 me\firedragon5\islanddefender\commands\clans\JoinCommand.class
 me\firedragon5\islanddefender\filemanager\clans\ClanFolderManager.class
+me\firedragon5\islanddefender\menu\ranks\RankPurchaseMenu.class
 me\firedragon5\islanddefender\menu\mines\MineMenu.class
 me\firedragon5\islanddefender\commands\clans\InfoCommand.class
 me\firedragon5\islanddefender\commands\clans\InviteCommand.class

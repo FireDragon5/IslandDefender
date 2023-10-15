@@ -2,6 +2,7 @@ package me.firedragon5.islanddefender.events;
 
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
+import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +24,8 @@ public class ChatEvent implements Listener {
 		// Get the player clan tag
 		String clanTag = ClanFolderManager.getPlayerClanTag(player);
 
+		String rank = PlayerFileManager.getPlayerRank(player);
+
 		// Format the message: [Tag] PlayerName: Message if the player is in a clan
 		String formattedMessage;
 		if (!Objects.equals(clanTag, "none")) {
@@ -35,6 +38,9 @@ public class ChatEvent implements Listener {
 			chatFormat = chatFormat.replace("%clan%", clanTag);
 			chatFormat = chatFormat.replace("%player%", player.getName());
 			chatFormat = chatFormat.replace("%message%", message);
+			if (rank != null) {
+				chatFormat = chatFormat.replace("%rank%", rank);
+			}
 
 			// Format the message
 			formattedMessage = chatFormat;

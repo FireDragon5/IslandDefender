@@ -2,6 +2,7 @@ package me.firedragon5.islanddefender.menu.mines;
 
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
+import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.menu.Menu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Location;
@@ -31,12 +32,12 @@ public class MineMenu extends Menu implements Listener {
 //		Add all the mines to the menu that is in the config
 		MineFileManager mineManager = MineFileManager.getFileManager();
 
+
 		List<String> mineLore = new ArrayList<>();
 
-//		When the user don't have own the mine don't show its display block show bedrock
-		int i = 0;
-
 		for (String mine : mineManager.getMineList()) {
+
+			Player player = getPlayer();
 
 //			rank
 
@@ -49,23 +50,19 @@ public class MineMenu extends Menu implements Listener {
 //			cost
 			mineLore.add("&7Mine cost: &a" + mineManager.getCost(mine));
 
-			// Check if the player has permission for this mine
-			Player player = getPlayer();
-			boolean hasPermission = player.hasPermission("islanddefender.mine." + mineManager.getRank(mine));
-
-//			if the permission is equal to none this is the first mine so everyone has access to it
-			if (mineManager.getPermission(mine).equalsIgnoreCase("none")) {
-				hasPermission = true;
+//			Show current mine if the player has one
+			String playerMine = PlayerFileManager.getPlayerMine(player);
+			if (playerMine != null && playerMine.equalsIgnoreCase(mine)) {
+				mineLore.add("&7Current Mine");
 			}
 
-			// Determine the material for the display block
-			Material material = hasPermission
-					? Material.getMaterial(Objects.requireNonNull(mineManager.getDisplayBlock(mine)))
-					: Material.BEDROCK;
 
-			setItem(i, material, "&a&l" + mine, mineLore);
+			String material = mineManager.getDisplayBlock(mine);
 
-			i++;
+			int slot = mineManager.getSlot(mine);
+
+			setItem(slot, Material.valueOf(material), "&a&l" + mine, mineLore);
+
 			mineLore.clear();
 
 		}
@@ -81,68 +78,49 @@ public class MineMenu extends Menu implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		if (!event.getView().getTitle().equalsIgnoreCase(Utils.chat("&bMines"))) return;
+		if (!event.getView().getTitle().equalsIgnoreCase(Utils.chat("&7Mines"))) return;
 		event.setCancelled(true);
 
-
-//		When the user clicks on the mine
-//		Check if the have access to the mine if not they ask them to buy it or rank up
-//		If the have access (permission) tp them to the mine
+		Player player = (Player) event.getWhoClicked();
+		MineFileManager mineManager = MineFileManager.getFileManager();
 
 		if (event.getCurrentItem() == null) return;
 
-		Player player = (Player) event.getWhoClicked();
+		String mineDisplayName = Utils.stripColor(Objects.requireNonNull(event.getCurrentItem().getItemMeta()).getDisplayName());
 
+		String playerMine = PlayerFileManager.getPlayerMine(player);
+		String playerRank = PlayerFileManager.getPlayerRank(player);
 
-		MineFileManager mineManager = MineFileManager.getFileManager();
-
-
-		String mine = Utils.stripColor(Objects.requireNonNull(event.getCurrentItem().getItemMeta()).getDisplayName());
-
-//		if the permission is equal to none this is the first mine so everyone has access to it
-		if (mineManager.getPermission(mine).equalsIgnoreCase("none")) {
-			UtilsMessage.sendMessage(player, "&7Teleporting to &a&l" + mine + "!");
-
-			//			Teleport the player to the mine
-			String[] spawn = mineManager.getSpawn(mine).split(",");
-			Location location = new Location(player.getWorld(),
-					Double.parseDouble(spawn[0]),
-					Double.parseDouble(spawn[1]),
-					Double.parseDouble(spawn[2]));
-			player.teleport(location);
-
-			player.closeInventory();
-			return;
-		}
-
-
-//		Check if the user is the correct rank and have permission
-		if (player.hasPermission("islanddefender.mine." + mineManager.getRank(mine))) {
-			UtilsMessage.sendMessage(player, "&7Teleporting to &a&l" + mine + "!");
-			player.closeInventory();
-
-//			Teleport the player to the mine
-			String[] spawn = mineManager.getSpawn(mine).split(",");
-			Location location = new Location(player.getWorld(),
-					Double.parseDouble(spawn[0]),
-					Double.parseDouble(spawn[1]),
-					Double.parseDouble(spawn[2]));
-			player.teleport(location);
+		// Check if the clicked mine is the player's current mine
+		if (playerMine != null && playerMine.equalsIgnoreCase(mineDisplayName)) {
+			teleportPlayerToMine(player, mineManager, mineDisplayName);
 		} else {
-			UtilsMessage.errorMessage(player, "You do not have access to this mine");
-
-			player.closeInventory();
-
-
-//			Open the purchase menu if the user is the correct rank but does not have permission
-
-			MinePurchaseMenu minePurchaseMenu = new MinePurchaseMenu(player, "&bPurchase Mine", 9);
-			minePurchaseMenu.setupMenu(mine);
-			minePurchaseMenu.openMenu();
-
-
+			String mineRank = mineManager.getRank(mineDisplayName);
+			if (playerRank != null && playerRank.equalsIgnoreCase(mineRank)) {
+				teleportPlayerToMine(player, mineManager, mineDisplayName);
+			} else {
+				// If the player doesn't have access, open the purchase menu
+				openMinePurchaseMenu(player, mineDisplayName);
+			}
 		}
 	}
 
+	private void teleportPlayerToMine(Player player, MineFileManager mineManager, String mineDisplayName) {
+		UtilsMessage.sendMessage(player, "&7Teleporting to &a&l" + mineDisplayName + "!");
+		player.closeInventory();
 
+		String location = mineManager.getSpawn(mineDisplayName);
+		String[] spawn = location.split(",");
+		Location location1 = new Location(player.getWorld(),
+				Double.parseDouble(spawn[0]),
+				Double.parseDouble(spawn[1]),
+				Double.parseDouble(spawn[2]));
+		player.teleport(location1);
+	}
+
+	private void openMinePurchaseMenu(Player player, String mineDisplayName) {
+		MinePurchaseMenu minePurchaseMenu = new MinePurchaseMenu(player, "&7Purchase Mine", 9);
+		minePurchaseMenu.setupMenu(mineDisplayName);
+		minePurchaseMenu.openMenu();
+	}
 }

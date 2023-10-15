@@ -25,10 +25,13 @@ public class MineCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 
+
+		int menuSize = MineFileManager.getFileManager().getMenuSize();
+		
 //      All players:
 //		/mine (this will open the gui)
 		if (args.length == 0) {
-			MineMenu mineMenu = new MineMenu(player, "&bMines", 54);
+			MineMenu mineMenu = new MineMenu(player, "&7Mines", menuSize);
 			mineMenu.setupMenu();
 			mineMenu.openMenu();
 			return true;

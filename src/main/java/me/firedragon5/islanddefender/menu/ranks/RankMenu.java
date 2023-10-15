@@ -1,6 +1,7 @@
 package me.firedragon5.islanddefender.menu.ranks;
 
 import me.firedragon5.islanddefender.Utils;
+import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
 import me.firedraong5.firesapi.menu.Menu;
 import org.bukkit.Material;
@@ -11,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class RankMenu extends Menu implements Listener {
 
@@ -30,30 +32,44 @@ public class RankMenu extends Menu implements Listener {
 
 		RankFileManager rankFileManager = RankFileManager.getFileManager();
 
-		List<String> rankLore = new ArrayList<>();
+		Player player = getPlayer();
 
-		int i = 0;
+		String playerRank = PlayerFileManager.getPlayerRank(player);
+
 
 		for (String rank : rankFileManager.getRanks()) {
 
+			List<String> rankLore = new ArrayList<>();
+
+
 			String rankName = rankFileManager.getName(rank);
 			String rankPrefix = rankFileManager.getPrefix(rank);
+			int rankSlot = rankFileManager.getSlot(rank);
+			String rankColor = rankFileManager.getColor(rank);
+
 			List<String> rankPerks = rankFileManager.getRankPerks(rank);
 			int rankCost = rankFileManager.getCost(rank);
 			Material rankDisplayBlock = rankFileManager.getDisplayBlock(rank);
-
-			rankLore.add("&7Rank Name: &a" + rankName);
-			rankLore.add("&7Rank Prefix: &a" + rankPrefix);
-			rankLore.add("&7Rank Perks: &a" + rankPerks);
-			rankLore.add("&7Rank Cost: &a" + rankCost);
+			rankLore.add("");
+			rankLore.add("&7Prefix: " + rankPrefix);
+			rankLore.add("");
+			rankLore.add("&7Perks: ");
+			for (String perk : rankPerks) {
+				rankLore.add(String.format("&7- %s%s", rankColor, perk));
+			}
+			rankLore.add("");
+			rankLore.add(String.format("&7Cost: %s%s", rankColor, rankCost));
 
 			if (rankDisplayBlock == null) {
 				rankDisplayBlock = Material.BEDROCK;
 			}
+			rankLore.add("");
+//			Add a glow to to the players current rank
+			if (playerRank.equalsIgnoreCase(rank)) {
+				rankLore.add(String.format("%s&lCurrent Rank", rankColor));
+			}
 
-			setItem(i, rankDisplayBlock, rankName, rankLore);
-
-			i++;
+			setItem(rankSlot, rankDisplayBlock, rankName, rankLore);
 
 
 		}
@@ -71,8 +87,49 @@ public class RankMenu extends Menu implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		if (!event.getView().getTitle().equalsIgnoreCase(Utils.chat("&bRanks"))) return;
+		if (!event.getView().getTitle().equalsIgnoreCase(Utils.chat("&7Ranks"))) return;
 		event.setCancelled(true);
+
+		Player player = (Player) event.getWhoClicked();
+
+		// Get the list of the ranks
+		String playerRank = PlayerFileManager.getPlayerRank(player);
+		RankFileManager rankFileManager = RankFileManager.getFileManager();
+		String[] ranks = rankFileManager.getRanks();
+
+		// Get the clicked slot
+		int clickedSlot = event.getRawSlot();
+
+		// Ensure the clicked slot is within the range of available ranks
+		if (clickedSlot >= 0 && clickedSlot < ranks.length) {
+			// Get the rank corresponding to the clicked slot
+			String clickedRank = ranks[clickedSlot];
+			
+
+			// Check if the player doesn't already own the clicked rank
+			if (!playerRank.equalsIgnoreCase(clickedRank) && !isHigherRank(playerRank, clickedRank)) {
+				// The player doesn't own the rank, so you can open the "rankbuy" menu here.
+
+				RankPurchaseMenu rankPurchaseMenu = new RankPurchaseMenu(player, "&7Purchase Rank", 9);
+				rankPurchaseMenu.setupMenu();
+				rankPurchaseMenu.openMenu();
+
+			}
+		}
+
+	}
+
+
+	// Create a method to check if one rank is higher than another
+	private boolean isHigherRank(String rank, String otherRank) {
+		// Implement your logic here to determine if one rank is higher than another.
+		// For example, you can compare their positions in a list of ranks.
+		// Return true if rank is higher, false otherwise.
+
+		RankFileManager rankFileManager = RankFileManager.getFileManager();
+		int rankSlot = rankFileManager.getSlot(rank);
+		int otherRankSlot = rankFileManager.getSlot(otherRank);
+		return rankSlot > otherRankSlot;
 
 
 	}
