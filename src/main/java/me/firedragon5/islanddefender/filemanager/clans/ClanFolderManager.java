@@ -70,19 +70,7 @@ public class ClanFolderManager {
 	//	Load the clans.yml file with the following default values
 	public void loadClanConfig() {
 
-//		List of black list names and tags
-
-		clanConfig.addDefault("max-clans", 5);
-		clanConfig.addDefault("max-members", 10);
-		clanConfig.addDefault("rank-to-create", "default");
-//		List of black list names and tags
-		clanConfig.addDefault("blacklisted-clan-names", "clan");
-		clanConfig.addDefault("blacklisted-clan-names", "clans");
-		clanConfig.addDefault("blacklisted-clan-tags", "clan");
-		clanConfig.addDefault("blacklisted-clan-tags", "clans");
-		clanConfig.addDefault("clan-cost", 1000);
-
-
+		checkClanConfig();
 		clanConfig.options().copyDefaults(true);
 		saveClanConfig();
 	}
@@ -116,8 +104,7 @@ public class ClanFolderManager {
 		if (clanConfig.getString("clan-cost") == null) {
 			clanConfig.set("clan-cost", 1000);
 		}
-
-		saveClanConfig();
+		
 	}
 
 

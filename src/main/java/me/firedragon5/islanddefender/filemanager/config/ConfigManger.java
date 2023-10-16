@@ -53,9 +53,9 @@ public class ConfigManger {
 
 	//	Config check
 	public void loadConfigFile() {
-		config.addDefault("staffChatFormat", "&8[&4Staff&8] &7%player%&8: &7%message%");
-//		chat format
-		config.addDefault("chatFormat", "&7[&b%clan%&7] &f%player%&7: &f%message%");
+
+		checkConfig();
+
 		config.options().copyDefaults(true);
 		saveConfig();
 
@@ -65,12 +65,16 @@ public class ConfigManger {
 	public void checkConfig() {
 		if (!config.contains("staffChatFormat")) {
 			config.addDefault("staffChatFormat", "&8[&4Staff&8] &7%player%&8: &7%message%");
-			saveConfig();
 		}
 		if (!config.contains("chatFormat")) {
-			config.addDefault("chatFormat", "&7[&b%clan%&7] &f%player%&7: &f%message%");
-			saveConfig();
+			config.addDefault("chatFormat", "&7[&b%rank%&7] &7[&b%clan%&7] &f%player%&7: &f%message%");
 		}
+
+		if (!config.contains("chatFormatNoClan")) {
+			config.addDefault("chatFormatNoClan", "&7[&b%rank%&7] &f%player%&7: &f%message%");
+		}
+
+
 	}
 
 
@@ -82,6 +86,11 @@ public class ConfigManger {
 	//	Get the chat format
 	public String getChatFormat() {
 		return config.getString("chatFormat");
+	}
+
+	//	Get the chat format
+	public String getChatFormatNoClan() {
+		return config.getString("chatFormatNoClan");
 	}
 
 

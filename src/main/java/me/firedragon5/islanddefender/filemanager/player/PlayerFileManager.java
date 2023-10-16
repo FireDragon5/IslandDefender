@@ -39,7 +39,7 @@ public class PlayerFileManager {
 //				clan name
 				playerConfig.set("clan-name", "none");
 //				rank
-				playerConfig.set("rank", "default");
+				playerConfig.set("rank", "Default");
 //				coins
 				playerConfig.set("coins", 0);
 //				crystals

@@ -100,47 +100,47 @@ public class MineFileManager {
 
 	//	Get Display block
 	public String getDisplayBlock(String mine) {
-		return mineConfig.getString("mines." + mine + ".display");
+		return mineConfig.getString(mine + ".display");
 	}
 
 	//	Get Reset time
 	public int getResetTime(String mine) {
-		return mineConfig.getInt("mines." + mine + ".reset-time");
+		return mineConfig.getInt(mine + ".reset-time");
 	}
 
 	//	Get Cost
 	public int getCost(String mine) {
-		return mineConfig.getInt("mines." + mine + ".cost");
+		return mineConfig.getInt(mine + ".cost");
 	}
 
 	//	Get Rank
 	public String getRank(String mine) {
-		return mineConfig.getString("mines." + mine + ".rank");
+		return mineConfig.getString(mine + ".rank");
 	}
 
 	//	Get Spawn
 	public String getSpawn(String mine) {
-		return mineConfig.getString("mines." + mine + ".spawn");
+		return mineConfig.getString(mine + ".spawn");
 	}
 
 	//	Get Blocks
 	public @Nullable String getBlocks(String mine) {
-		return mineConfig.getString("mines." + mine + ".blocks");
+		return mineConfig.getString(mine + ".blocks");
 	}
 
 	//	Get Name
 	public String getName(String mine) {
-		return mineConfig.getString("mines." + mine + ".name");
+		return mineConfig.getString(mine + ".name");
 	}
 
 	//	Get Next mine
 	public String getNextMine(String mine) {
-		return mineConfig.getString("mines." + mine + ".next-mine");
+		return mineConfig.getString(mine + ".next-mine");
 	}
 
 	//	Get Slot
 	public int getSlot(String mine) {
-		return mineConfig.getInt("mines." + mine + ".slot");
+		return mineConfig.getInt(mine + ".slot");
 	}
 
 	//	Get Menu size
@@ -149,23 +149,11 @@ public class MineFileManager {
 	}
 
 
-	//	For loop to get all the mines and return their names and display block
-	public String getMines() {
-
-		StringBuilder mines = new StringBuilder();
-
-		for (String mine : mineConfig.getConfigurationSection("mines.").getKeys(false)) {
-
-			mines.append(mine).append(" ").append(mineConfig.getString("mines." + mine + ".display")).append(" ");
-
-		}
-
-		return mines.toString();
-	}
-
 	//	Get all the mines
 	public String[] getMineList() {
-		return mineConfig.getConfigurationSection("mines.").getKeys(false).toArray(new String[0]);
+
+		return mineConfig.getKeys(false).toArray(new String[0]);
+
 	}
 
 //	------------Config----------------
@@ -179,21 +167,21 @@ public class MineFileManager {
 //		Get player location
 		String location = player.getLocation().getBlockX() + ", " + player.getLocation().getBlockY() + ", " + player.getLocation().getBlockZ();
 
-		mineConfig.set("mines." + name + ".name", name);
-		mineConfig.set("mines." + name + ".display", "STONE");
-		mineConfig.set("mines." + name + ".blocks", "STONE");
-		mineConfig.set("mines." + name + ".spawn", location);
-		mineConfig.set("mines." + name + ".rank", "none");
-		mineConfig.set("mines." + name + ".cost", "none");
-		mineConfig.set("mines." + name + ".reset-time", "none");
-		mineConfig.set("mines." + name + ".next-mine", "Max");
+		mineConfig.set(name + ".name", name);
+		mineConfig.set(name + ".display", "STONE");
+		mineConfig.set(name + ".blocks", "STONE");
+		mineConfig.set(name + ".spawn", location);
+		mineConfig.set(name + ".rank", "none");
+		mineConfig.set(name + ".cost", "none");
+		mineConfig.set(name + ".reset-time", "none");
+		mineConfig.set(name + ".next-mine", "Max");
 		mineConfig.options().copyDefaults(true);
 		saveMineConfig();
 	}
 
 	//	Delete mine
 	public void deleteMine(String name) {
-		mineConfig.set("mines." + name, null);
+		mineConfig.set(name, null);
 		mineConfig.options().copyDefaults(true);
 		saveMineConfig();
 	}

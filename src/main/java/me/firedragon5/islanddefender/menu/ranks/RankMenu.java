@@ -60,9 +60,6 @@ public class RankMenu extends Menu implements Listener {
 			rankLore.add("");
 			rankLore.add(String.format("&7Cost: %s%s", rankColor, rankCost));
 
-			if (rankDisplayBlock == null) {
-				rankDisplayBlock = Material.BEDROCK;
-			}
 			rankLore.add("");
 //			Add a glow to to the players current rank
 			if (playerRank.equalsIgnoreCase(rank)) {
@@ -104,7 +101,7 @@ public class RankMenu extends Menu implements Listener {
 		if (clickedSlot >= 0 && clickedSlot < ranks.length) {
 			// Get the rank corresponding to the clicked slot
 			String clickedRank = ranks[clickedSlot];
-			
+
 
 			// Check if the player doesn't already own the clicked rank
 			if (!playerRank.equalsIgnoreCase(clickedRank) && !isHigherRank(playerRank, clickedRank)) {

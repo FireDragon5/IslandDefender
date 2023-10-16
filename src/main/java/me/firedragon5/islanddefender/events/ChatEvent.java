@@ -31,7 +31,7 @@ public class ChatEvent implements Listener {
 		if (!Objects.equals(clanTag, "none")) {
 
 			// Get the chat format from the config
-			String chatFormat = configManager.getConfig().getString("chatFormat");
+			String chatFormat = configManager.getChatFormat();
 
 			// Replace the placeholders
 			assert chatFormat != null;
@@ -46,7 +46,20 @@ public class ChatEvent implements Listener {
 			formattedMessage = chatFormat;
 
 		} else {
-			formattedMessage = message;
+//			if no clan tag found then format the message like this:
+//			rank name: Message
+			String chatFormat = configManager.getChatFormatNoClan();
+
+			// Replace the placeholders
+			assert chatFormat != null;
+			chatFormat = chatFormat.replace("%player%", player.getName());
+			chatFormat = chatFormat.replace("%message%", message);
+			if (rank != null) {
+				chatFormat = chatFormat.replace("%rank%", rank);
+			}
+
+			// Format the message
+			formattedMessage = chatFormat;
 		}
 
 		// Send the message to all players

@@ -6,7 +6,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.List;
-import java.util.Objects;
 
 public class RankFileManager {
 
@@ -119,7 +118,7 @@ public class RankFileManager {
 
 	//	Block
 	public Material getDisplayBlock(String rank) {
-		return Material.valueOf(Objects.requireNonNull(rankConfig.getString(rank + ".displayBlock")));
+		return Material.valueOf(rankConfig.getString(rank + ".displayBlock"));
 	}
 
 	//	Next rank
