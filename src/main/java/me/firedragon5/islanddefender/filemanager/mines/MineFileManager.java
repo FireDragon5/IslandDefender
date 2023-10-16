@@ -1,11 +1,14 @@
 package me.firedragon5.islanddefender.filemanager.mines;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.List;
+import java.util.Objects;
 
 public class MineFileManager {
 
@@ -49,18 +52,17 @@ public class MineFileManager {
 	//	load
 //	This is the format for the mines.yml file
 
-//	  test:
-//	    name: test
-//	    blocks:
-//	    - STONE
-//	    - GRASS_BLOCK
-//	    - DIRT
-//	    - COBBLESTONE
-//	    spawn: 0, 0, 0
-//	    rank: default
-//	    cost: 0
-//	    reset-time: 0
-//	    display: STONE
+//Default:
+//  name: Default
+//  display: STONE
+//  blocks: STONE
+//  spawn: 0, 0, 0
+//  rank: Default
+//  cost: 0
+//  reset-time: 0
+//	mineColor: '&a'
+//  next-mine: max
+//  slot: 0
 
 
 	public void loadMineConfig() {
@@ -81,12 +83,13 @@ public class MineFileManager {
 		if (!mineConfig.contains("Default")) {
 			mineConfig.addDefault("Default.name", "Default");
 			mineConfig.addDefault("Default.display", "STONE");
-			mineConfig.addDefault("Default.blocks", "STONE");
+			mineConfig.addDefault("Default.blocks", List.of("STONE", "COAL"));
 			mineConfig.addDefault("Default.spawn", "0, 0, 0");
-			mineConfig.addDefault("Default.rank", "default");
+			mineConfig.addDefault("Default.rank", "Default");
 			mineConfig.addDefault("Default.cost", 0);
 			mineConfig.addDefault("Default.reset-time", 0);
 			mineConfig.addDefault("Default.next-mine", "max");
+			mineConfig.addDefault("Default.mineColor", "&a");
 			mineConfig.addDefault("Default.slot", 0);
 			mineConfig.options().copyDefaults(true);
 
@@ -99,8 +102,15 @@ public class MineFileManager {
 //	------------Config----------------
 
 	//	Get Display block
-	public String getDisplayBlock(String mine) {
-		return mineConfig.getString(mine + ".display");
+	public Material getDisplayBlock(String mine) {
+		String materialName = mineConfig.getString(mine + ".display");
+		if (materialName == null) {
+			return Material.STONE;  // You can use any default material you prefer.
+		}
+
+		Material material = Material.matchMaterial(materialName);
+		// Handle invalid material names gracefully.
+		return Objects.requireNonNullElse(material, Material.STONE);
 	}
 
 	//	Get Reset time
@@ -156,6 +166,13 @@ public class MineFileManager {
 
 	}
 
+	public String getColor(String mine) {
+
+		return mineConfig.getString(mine + ".mineColor");
+
+
+	}
+
 //	------------Config----------------
 
 
@@ -174,6 +191,7 @@ public class MineFileManager {
 		mineConfig.set(name + ".rank", "none");
 		mineConfig.set(name + ".cost", "none");
 		mineConfig.set(name + ".reset-time", "none");
+		mineConfig.set(name + ".mineColor", "&a");
 		mineConfig.set(name + ".next-mine", "Max");
 		mineConfig.options().copyDefaults(true);
 		saveMineConfig();
@@ -185,6 +203,7 @@ public class MineFileManager {
 		mineConfig.options().copyDefaults(true);
 		saveMineConfig();
 	}
+
 
 //	--------Admin ------------
 

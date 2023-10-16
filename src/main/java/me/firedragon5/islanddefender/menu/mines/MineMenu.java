@@ -32,39 +32,42 @@ public class MineMenu extends Menu implements Listener {
 //		Add all the mines to the menu that is in the config
 		MineFileManager mineManager = MineFileManager.getFileManager();
 
-
 		List<String> mineLore = new ArrayList<>();
 
 		for (String mine : mineManager.getMineList()) {
 
 			Player player = getPlayer();
+			String mineColor = mineManager.getColor(mine);
 
 //			rank
-
 			String rank = mineManager.getRank(mine);
-			if (rank.equalsIgnoreCase("default")) {
-				rank = "None";
-			}
+
+			mineLore.add("");
 
 			mineLore.add("&7Rank Needed: &a" + rank);
+
+			mineLore.add("");
+
 //			cost
-			mineLore.add("&7Mine cost: &a" + mineManager.getCost(mine));
+			mineLore.add(String.format("&7Cost: %s$%s", mineColor, mineManager.getCost(mine)));
+
+			mineLore.add("");
 
 //			Show current mine if the player has one
 			String playerMine = PlayerFileManager.getPlayerMine(player);
 			if (playerMine != null && playerMine.equalsIgnoreCase(mine)) {
-				mineLore.add("&7Current Mine");
+				mineLore.add(String.format("%sCurrent Mine", mineColor));
 			}
 
+			mineLore.add("");
 
-			String material = mineManager.getDisplayBlock(mine);
+			Material material = mineManager.getDisplayBlock(mine);
 
 			int slot = mineManager.getSlot(mine);
 
-			setItem(slot, Material.valueOf(material), "&a&l" + mine, mineLore);
+			setItem(slot, material, String.format("%s%s", mineColor, mine), mineLore);
 
 			mineLore.clear();
-
 		}
 
 		glass(Material.BLACK_STAINED_GLASS_PANE);

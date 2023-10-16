@@ -39,6 +39,8 @@ public class RankMenu extends Menu implements Listener {
 
 		for (String rank : rankFileManager.getRanks()) {
 
+			if (rank.equalsIgnoreCase("luckperm-run-command") || rank.equalsIgnoreCase("Menu-size")) continue;
+
 			List<String> rankLore = new ArrayList<>();
 
 
@@ -62,12 +64,14 @@ public class RankMenu extends Menu implements Listener {
 
 			rankLore.add("");
 //			Add a glow to to the players current rank
+			assert playerRank != null;
 			if (playerRank.equalsIgnoreCase(rank)) {
 				rankLore.add(String.format("%s&lCurrent Rank", rankColor));
 			}
 
 			setItem(rankSlot, rankDisplayBlock, rankName, rankLore);
 
+			rankLore.clear();
 
 		}
 

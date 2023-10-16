@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 public class RankFileManager {
 
@@ -61,7 +62,7 @@ public class RankFileManager {
 
 		if (!rankConfig.contains("Default")) {
 			rankConfig.addDefault("Default.name", "&7Default");
-			rankConfig.addDefault("Default.prefix", "&7");
+			rankConfig.addDefault("Default.prefix", "&8&l[&7Default&8&l]");
 			rankConfig.addDefault("Default.permission", "islanddefender.rank.default");
 			rankConfig.addDefault("Default.cost", 0);
 			rankConfig.addDefault("Default.displayBlock", "GREEN_WOOL");
@@ -118,7 +119,15 @@ public class RankFileManager {
 
 	//	Block
 	public Material getDisplayBlock(String rank) {
-		return Material.valueOf(rankConfig.getString(rank + ".displayBlock"));
+		String materialName = rankConfig.getString(rank + ".displayBlock");
+		if (materialName == null) {
+			return Material.STONE;  // You can use any default material you prefer.
+		}
+
+		Material material = Material.matchMaterial(materialName);
+		// Handle invalid material names gracefully.
+		return Objects.requireNonNullElse(material, Material.STONE);
+
 	}
 
 	//	Next rank
