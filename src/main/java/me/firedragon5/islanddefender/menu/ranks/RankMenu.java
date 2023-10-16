@@ -4,6 +4,7 @@ import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
 import me.firedraong5.firesapi.menu.Menu;
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,10 +40,7 @@ public class RankMenu extends Menu implements Listener {
 
 		for (String rank : rankFileManager.getRanks()) {
 
-			if (rank.equalsIgnoreCase("luckperm-run-command") || rank.equalsIgnoreCase("Menu-size")) continue;
-
 			List<String> rankLore = new ArrayList<>();
-
 
 			String rankName = rankFileManager.getName(rank);
 			String rankPrefix = rankFileManager.getPrefix(rank);
@@ -69,15 +67,66 @@ public class RankMenu extends Menu implements Listener {
 				rankLore.add(String.format("%s&lCurrent Rank", rankColor));
 			}
 
-			setItem(rankSlot, rankDisplayBlock, rankName, rankLore);
+//			if default rank slot is  = 0 and Member rank slot is = 0 then pick the next open slot
+			if (rankSlot == 0) {
+				rankSlot = getNextOpenSlot();
+			}
 
-			rankLore.clear();
+//			if the slot is more then the menu size send message to user
+			if (rankSlot > rankFileManager.getMenuSize()) {
+
+				UtilsMessage.errorMessage(player, "The rank " + rank + " has a slot of " + rankSlot +
+						" which is more then the menu size of " + rankFileManager.getMenuSize() +
+						" please change the slot in the config.");
+
+//				update the the menu size to the next row
+				rankFileManager.setMenuSize(rankFileManager.getMenuSize() + 9);
+				rankFileManager.saveRankConfig();
+
+//				Send a error message and tell the player that the menu size has been updated
+				UtilsMessage.sendMessage(player, "&c&lError: &7The menu size has been updated to &a" + rankFileManager.getMenuSize());
+
+
+			}
+			try {
+				setItem(rankSlot, rankDisplayBlock, rankName, rankLore);
+			} catch (ArrayIndexOutOfBoundsException e) {
+				
+				player.closeInventory();
+
+				UtilsMessage.errorMessage(player, "The rank " + rank + " has a slot of " + rankSlot +
+						" which is more then the menu size of " + rankFileManager.getMenuSize() +
+						" please change the slot in the config.");
+
+//				update the the menu size to the next row
+				rankFileManager.setMenuSize(rankFileManager.getMenuSize() + 9);
+				rankFileManager.saveRankConfig();
+
+//				Send a error message and tell the player that the menu size has been updated
+				UtilsMessage.sendMessage(player, "&c&lError: &7The menu size has been updated to &a" + rankFileManager.getMenuSize());
+				UtilsMessage.sendMessage(player, "&c&lPlease rerun the command!");
+
+			} finally {
+				rankLore.clear();
+			}
+
 
 		}
 
 
 		glass(Material.BLACK_STAINED_GLASS_PANE);
 
+	}
+
+	private int getNextOpenSlot() {
+		int nextOpenSlot = 0;
+		for (int i = 0; i < RankFileManager.getFileManager().getMenuSize(); i++) {
+			if (getItem(i) == null) {
+				nextOpenSlot = i;
+				break;
+			}
+		}
+		return nextOpenSlot;
 	}
 
 	@Override
@@ -104,22 +153,20 @@ public class RankMenu extends Menu implements Listener {
 		// Ensure the clicked slot is within the range of available ranks
 		if (clickedSlot >= 0 && clickedSlot < ranks.length) {
 			// Get the rank corresponding to the clicked slot
+
 			String clickedRank = ranks[clickedSlot];
-
-
 			// Check if the player doesn't already own the clicked rank
-			if (!playerRank.equalsIgnoreCase(clickedRank) && !isHigherRank(playerRank, clickedRank)) {
-				// The player doesn't own the rank, so you can open the "rankbuy" menu here.
-
-				RankPurchaseMenu rankPurchaseMenu = new RankPurchaseMenu(player, "&7Purchase Rank", 9);
-				rankPurchaseMenu.setupMenu();
-				rankPurchaseMenu.openMenu();
-
+			if (!playerRank.equalsIgnoreCase(clickedRank)) {
+				// Check if the clicked rank is not a higher rank
+				if (!isHigherRank(playerRank, clickedRank)) {
+					// The player doesn't own the rank and it's not a higher rank, so you can open the "rankbuy" menu here.
+					RankPurchaseMenu rankPurchaseMenu = new RankPurchaseMenu(player, "&7Purchase Rank", 9);
+					rankPurchaseMenu.setupMenu();
+					rankPurchaseMenu.openMenu();
+				}
 			}
 		}
-
 	}
-
 
 	// Create a method to check if one rank is higher than another
 	private boolean isHigherRank(String rank, String otherRank) {

@@ -150,14 +150,18 @@ public class RankFileManager {
 		return rankConfig.getStringList(rank + ".rank-perks");
 	}
 
-
-//	Get all the ranks
-//	'1':
-//	  name: "&7Default"
-
+	//	get all the ranks
 	public String[] getRanks() {
-		return rankConfig.getConfigurationSection("").getKeys(false).toArray(new String[0]);
+		// Get all the keys in the configuration section and filter out "luckperm-run-command" and "Menu-size"
+		return rankConfig.getKeys(false).stream()
+				.filter(key -> !key.equals("luckperm-run-command") && !key.equals("Menu-size"))
+				.toArray(String[]::new);
 	}
 
+	public void setMenuSize(int i) {
 
+		rankConfig.set("Menu-size", i);
+		saveRankConfig();
+
+	}
 }
