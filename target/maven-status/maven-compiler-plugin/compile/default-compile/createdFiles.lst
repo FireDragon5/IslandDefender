@@ -28,7 +28,6 @@ me\firedragon5\islanddefender\commands\mines\MineCommand.class
 me\firedragon5\islanddefender\commands\clans\VisibilityCommand.class
 me\firedragon5\islanddefender\generator\IslandGenerator.class
 me\firedragon5\islanddefender\IslandDefender.class
-me\firedragon5\islanddefender\commands\staff\StaffCommands.class
 me\firedragon5\islanddefender\generator\HubGenerator.class
 me\firedragon5\islanddefender\commands\clans\DeleteCommand.class
 me\firedragon5\islanddefender\commands\clans\ClanCommands.class

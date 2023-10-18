@@ -18,13 +18,15 @@ public class RankCommand extends FireCommand {
 				"Rank commands",
 				"islanddefender.ranks");
 
-		checkConsole();
 	}
 
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
+
 		Player player = (Player) sender;
+
+		checkConsole();
 
 		int rankMenuSize = RankFileManager.getFileManager().getMenuSize();
 
