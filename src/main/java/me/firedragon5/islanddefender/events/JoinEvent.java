@@ -15,15 +15,17 @@ public class JoinEvent implements Listener {
 
 		Player player = event.getPlayer();
 
-		
-//		When the player joins the server add them to the folder
+
+//		When the player joins the server add them to the folderS
 		PlayerFileManager.addPlayer(player);
 
 //		Check if the player has all the correct stuff in their yml file
 		PlayerFileManager.checkPlayer(player);
 
+
 		event.setJoinMessage(Utils.chat("&a&l+ &a" + player.getName()));
 
 	}
+
 
 }

@@ -1,36 +1,37 @@
 package me.firedragon5.islanddefender.commands.clans;
 
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
+import me.firedraong5.firesapi.command.FireCommand;
 import me.firedraong5.firesapi.utils.UtilsMessage;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ClanCommands implements CommandExecutor, TabCompleter {
+public class ClanCommands extends FireCommand {
+
+
+	public ClanCommands() {
+		super("clan", new String[]{"clans", "c"},
+				"Clan commands",
+				"islanddefender.clan");
+
+	}
 
 
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+	public void execute(CommandSender sender, String[] args) {
 
+		checkConsole();
 
-		if (!(sender instanceof Player player)) {
-			UtilsMessage.sendMessage(sender, "&cOnly players can use this command");
-			return true;
-		}
-
+		Player player = (Player) sender;
 
 //	 /clan create|join|leave|invite|kick|promote|demote|disband|info|list|help
 		if (args.length == 0) {
 			UtilsMessage.sendMessage(player, "&c/clans create|join|leave|invite|kick|promote|demote|disband|info|list|help");
-			return true;
+			return;
 		}
 
 
@@ -40,9 +41,8 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 //			if all the arguments are not there, then send the player a message
 			if (args.length != 3) {
 				UtilsMessage.sendMessage(player, "&c/clan create <clanName> <clanTag>");
-				return true;
+				return;
 			}
-
 
 			CreateCommand.createClan(player, args[1], args[2]);
 
@@ -93,12 +93,10 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 
 		}
 
-		return false;
 	}
 
-	//	clan
-	public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-
+	@Override
+	public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
 		List<String> tabComplete = new ArrayList<>();
 
 
@@ -153,5 +151,4 @@ public class ClanCommands implements CommandExecutor, TabCompleter {
 
 		return tabComplete;
 	}
-
 }

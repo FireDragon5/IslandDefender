@@ -2,21 +2,28 @@ package me.firedragon5.islanddefender.commands.staff;
 
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
+import me.firedraong5.firesapi.command.FireCommand;
 import me.firedraong5.firesapi.utils.UtilsMessage;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
-public class StaffChatCommand implements CommandExecutor {
+public class StaffChatCommand extends FireCommand {
 
+	public StaffChatCommand() {
+		super("staffchat", new String[]{"sc"},
+				"Staff chat commands",
+				"islanddefender.staff");
+
+
+	}
 
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+	public void execute(CommandSender sender, String[] args) {
 
+		checkConsole();
 
 		ConfigManger configManager = ConfigManger.getFileManager();
 
@@ -25,12 +32,11 @@ public class StaffChatCommand implements CommandExecutor {
 
 			if (!player.hasPermission("islanddefender.staff")) {
 				UtilsMessage.errorMessage(player, "&cYou are not a staff member!");
-				return true;
+				return;
 			}
 
 			if (args.length == 0) {
 				UtilsMessage.errorMessage(player, "&a&lStaff Chat Commands");
-				return true;
 			} else {
 				StringBuilder message = new StringBuilder();
 				for (String arg : args) {
@@ -45,7 +51,10 @@ public class StaffChatCommand implements CommandExecutor {
 			sender.sendMessage(Objects.requireNonNull(Utils.chat("&cYou must be a player to run this command!")));
 		}
 
-		return false;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
+		return null;
 	}
 }
-

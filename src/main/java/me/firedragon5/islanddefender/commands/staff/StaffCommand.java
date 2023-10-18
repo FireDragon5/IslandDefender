@@ -1,30 +1,47 @@
 package me.firedragon5.islanddefender.commands.staff;
 
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
+import me.firedraong5.firesapi.command.FireCommand;
 import me.firedraong5.firesapi.utils.UtilsMessage;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffCommand implements CommandExecutor, TabCompleter {
+public class StaffCommand extends FireCommand {
+
+
+	public StaffCommand() {
+		super("staff",
+				new String[]{"s"},
+				"IslandDefender Staff Commands",
+				"islanddefender.staff");
+
+
+	}
+
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+	public void execute(CommandSender sender, String[] args) {
+
+		Player player = (Player) sender;
+		checkConsole();
 
 
-//		If the sender is not a player, return
-		if (!(sender instanceof Player player)) {
-			sender.sendMessage("You must be a player to use this command!");
-			return true;
+		if (args.length == 0) {
+			UtilsMessage.sendMessage(player, "&bStaff Chat &7Commands");
+			UtilsMessage.sendMessage(player, "&b/sc <message> &7- Send a message to the staff chat");
+			UtilsMessage.sendMessage(player, "&b/s list &7- List all the staff chat members");
+			UtilsMessage.sendMessage(player, "&b/s help &7- Show this message");
+			UtilsMessage.sendMessage(player, "&b/s reload &7- Reload the config");
+
+			return;
+
 		}
 
+
 		if (args[0].equalsIgnoreCase("list")) {
+
 			if (player.hasPermission("islanddefender.staff")) {
 				UtilsMessage.sendMessage(player, "&bStaff Chat Members:");
 
@@ -38,17 +55,9 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 				UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
 
 			}
-			return true;
+
 		}
 
-		if (args[0].equalsIgnoreCase("help")) {
-			UtilsMessage.sendMessage(player, "&bStaff Chat &7Commands");
-			UtilsMessage.sendMessage(player, "&b/sc <message> &7- Send a message to the staff chat");
-			UtilsMessage.sendMessage(player, "&b/s list &7- List all the staff chat members");
-			UtilsMessage.sendMessage(player, "&b/s help &7- Show this message");
-
-			return true;
-		}
 
 //		reload
 		if (args[0].equalsIgnoreCase("reload")) {
@@ -59,17 +68,13 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 			} else {
 				UtilsMessage.noPermissionMessage(player, "islanddefender.staff");
 			}
-			return true;
 		}
 
 
-		return false;
 	}
 
-
 	@Override
-	public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-
+	public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
 		List<String> tabComplete = new ArrayList<>();
 
 //		Dont show the commands if the player is not a staff member
@@ -83,7 +88,6 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 			if (strings.length == 1) {
 
 				if (player.hasPermission("islanddefender.staffchat")) {
-					tabComplete.add("help");
 					tabComplete.add("list");
 					tabComplete.add("reload");
 				}
@@ -94,6 +98,4 @@ public class StaffCommand implements CommandExecutor, TabCompleter {
 		return tabComplete;
 
 	}
-
-
 }

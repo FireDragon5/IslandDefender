@@ -2,42 +2,38 @@ package me.firedragon5.islanddefender.commands.mines;
 
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.menu.mines.MineMenu;
+import me.firedraong5.firesapi.command.FireCommand;
 import me.firedraong5.firesapi.utils.UtilsMessage;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MineCommand implements CommandExecutor, TabCompleter {
+public class MineCommand extends FireCommand {
 
+	public MineCommand() {
+		super("mine", new String[]{"tiers", "tier", "mines"},
+				"Open the mines menu", "islanddefender.mine");
+	}
 
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+	public void execute(CommandSender sender, String[] args) {
 
-		if (!(sender instanceof Player player)) {
-			sender.sendMessage("You must be a player to use this command!");
-			return true;
-		}
-
+		Player player = (Player) sender;
+		checkConsole();
 
 		int menuSize = MineFileManager.getFileManager().getMenuSize();
-		
+
 //      All players:
 //		/mine (this will open the gui)
 		if (args.length == 0) {
 			MineMenu mineMenu = new MineMenu(player, "&7Mines", menuSize);
 			mineMenu.setupMenu();
 			mineMenu.openMenu();
-			return true;
+			return;
 		}
-
-
+		
 		//		Admins:
 //		/mine create <name>
 //		/mine delete <name>
@@ -61,12 +57,10 @@ public class MineCommand implements CommandExecutor, TabCompleter {
 			UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
 		}
 
-
-		return false;
 	}
 
 	@Override
-	public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+	public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
 
 		List<String> tabComplete = new ArrayList<>();
 

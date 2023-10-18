@@ -2,6 +2,8 @@ package me.firedragon5.islanddefender;
 
 
 import me.firedragon5.islanddefender.commands.clans.ClanCommands;
+import me.firedragon5.islanddefender.commands.hub.HubCommand;
+import me.firedragon5.islanddefender.commands.island.IslandCommand;
 import me.firedragon5.islanddefender.commands.islanddefender.IslandDefenderCommands;
 import me.firedragon5.islanddefender.commands.mines.MineCommand;
 import me.firedragon5.islanddefender.commands.ranks.RankCommand;
@@ -68,15 +70,37 @@ public final class IslandDefender extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new RankMenu(), this);
 		getServer().getPluginManager().registerEvents(new RankPurchaseMenu(), this);
 
-
 //        register Commands
-		getCommand("clan").setExecutor(new ClanCommands());
-		getCommand("staffchat").setExecutor(new StaffChatCommand());
-		getCommand("staff").setExecutor(new StaffCommand());
-		getCommand("mine").setExecutor(new MineCommand());
-		getCommand("islanddefender").setExecutor(new IslandDefenderCommands());
-		getCommand("rank").setExecutor(new RankCommand());
+		new StaffCommand();
+		new StaffChatCommand();
+		new RankCommand();
+		new ClanCommands();
+		new MineCommand();
+		new IslandDefenderCommands();
+		new IslandCommand();
+		new HubCommand();
 
+
+//		Create a world called hub, make it a void world
+//		if (Bukkit.getWorld("hub") == null) {
+//			WorldCreator hubCreator = new WorldCreator("hub");
+//			hubCreator.generator(new HubGenerator());
+//			hubCreator.type(WorldType.FLAT);
+//			hubCreator.createWorld();
+//
+//		}
+
+////		Create a world with the name islandWorld. It must be a superflat world
+//		if (Bukkit.getWorld("islandWorld") == null) {
+//			WorldCreator islandCreator = new WorldCreator("islandWorld");
+//			islandCreator.generator(new CustomIslandGenerator());
+////			Stop mobs from spawning
+//			islandCreator.generateStructures(false);
+//
+//			islandCreator.type(WorldType.FLAT);
+//			islandCreator.createWorld();
+//
+//		}
 
 	}
 
@@ -86,6 +110,10 @@ public final class IslandDefender extends JavaPlugin {
 		// Plugin shutdown logic
 
 		clanManager.saveClanConfig();
+		mineManager.saveMineConfig();
+		configManager.saveConfig();
+		rankFileManager.saveRankConfig();
+
 
 	}
 }

@@ -7,41 +7,6 @@ api-version: '1.20'
 depend:
   - LuckPerms
 
-commands:
-  clan:
-    aliases: [ clan, c ]
-    description: Clan commands
-    permission: islanddefender.clan
-
-
-  staffchat:
-    aliases: [ staffchat, sc ]
-    description: Staff chat commands
-    permission: islanddefender.staffchat
-
-  staff:
-    aliases: [ staff, s ]
-    description: Staff commands
-    permission: islanddefender.staff
-
-  mine:
-    aliases: [ mines, m ]
-    description: Mines commands
-    permission: islanddefender.mines
-
-  islanddefender:
-    aliases: [ id, islanddefender ]
-    description: IslandDefender commands
-    permission: islanddefender.admin
-    default: op
-
-  rank:
-    aliases: [ ranks, r ]
-    description: Rank commands
-    permission: islanddefender.rank
-    default: true
-
-
 permissions:
   islanddefender.mines:
     description: Allows access to the mines commands
