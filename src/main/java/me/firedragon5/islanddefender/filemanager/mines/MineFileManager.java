@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,6 +64,9 @@ public class MineFileManager {
 //	mineColor: '&a'
 //  next-mine: max
 //  slot: 0
+//  pit-locations:
+//    top-block: 0, 0 ,0
+//    bottom-block: 0, 0, 0
 
 
 	public void loadMineConfig() {
@@ -84,6 +88,8 @@ public class MineFileManager {
 			mineConfig.addDefault("Default.name", "Default");
 			mineConfig.addDefault("Default.display", "STONE");
 			mineConfig.addDefault("Default.blocks", List.of("STONE", "COAL"));
+			mineConfig.addDefault("Default.blocks.STONE.percentage", 90);
+			mineConfig.addDefault("Default.blocks.COAL.percentage", 10);
 			mineConfig.addDefault("Default.spawn", "0, 0, 0");
 			mineConfig.addDefault("Default.rank", "Default");
 			mineConfig.addDefault("Default.cost", 0);
@@ -91,6 +97,9 @@ public class MineFileManager {
 			mineConfig.addDefault("Default.next-mine", "max");
 			mineConfig.addDefault("Default.mineColor", "&a");
 			mineConfig.addDefault("Default.slot", 0);
+			mineConfig.addDefault("Default.pit-locations.top-block", "0, 0, 0");
+			mineConfig.addDefault("Default.pit-locations.bottom-block", "0, 0, 0");
+
 			mineConfig.options().copyDefaults(true);
 
 		}
@@ -148,6 +157,21 @@ public class MineFileManager {
 		return mineConfig.getString(mine + ".next-mine");
 	}
 
+	//	Get all the blocks in the mine
+	public Material getBlockList(String mine) {
+		return Material.matchMaterial(Objects.requireNonNull(mineConfig.getString(mine + ".blocks")));
+	}
+
+	//	Get all the blocks in the mine as a list
+	public String[] getBlockListAsList(String mine) {
+		return mineConfig.getString(mine + ".blocks").split(", ");
+	}
+
+	//	Get the percentage of the blocks
+	public int getPercentage(String mine) {
+		return mineConfig.getInt(mine + ".blocks." + Arrays.toString(getBlockListAsList(mine)) + ".percentage");
+	}
+
 	//	Get Slot
 	public int getSlot(String mine) {
 		return mineConfig.getInt(mine + ".slot");
@@ -156,6 +180,46 @@ public class MineFileManager {
 	//	Get Menu size
 	public int getMenuSize() {
 		return mineConfig.getInt("Menu-size");
+	}
+
+	//	Get Pit locations bottom block
+	public String getPitLocationsBottomBlock(String mine) {
+		return mineConfig.getString(mine + ".pit-locations.bottom-block");
+	}
+
+	//	Get Pit locations top block
+	public String getPitLocationsTopBlock(String mine) {
+		return mineConfig.getString(mine + ".pit-locations.top-block");
+	}
+
+
+	//	get the x y z of the pit locations
+	public int getPitLocationsX(String mine, String location) {
+		String[] split = mineConfig.getString(mine + ".pit-locations." + location).split(", ");
+		return Integer.parseInt(split[0]);
+	}
+
+	public int getPitLocationsY(String mine, String location) {
+		String[] split = mineConfig.getString(mine + ".pit-locations." + location).split(", ");
+		return Integer.parseInt(split[1]);
+	}
+
+	public int getPitLocationsZ(String mine, String location) {
+		String[] split = mineConfig.getString(mine + ".pit-locations." + location).split(", ");
+		return Integer.parseInt(split[2]);
+	}
+
+
+	//	Set pit locations top block
+	public void setPitLocationsTopBlock(String mine, String location) {
+		mineConfig.set(mine + ".pit-locations.top-block", location);
+		saveMineConfig();
+	}
+
+	//	set pit locations bottom block
+	public void setPitLocationsBottomBlock(String mine, String location) {
+		mineConfig.set(mine + ".pit-locations.bottom-block", location);
+		saveMineConfig();
 	}
 
 
@@ -193,6 +257,9 @@ public class MineFileManager {
 		mineConfig.set(name + ".reset-time", "none");
 		mineConfig.set(name + ".mineColor", "&a");
 		mineConfig.set(name + ".next-mine", "Max");
+		mineConfig.set(name + ".slot", 0);
+		mineConfig.set(name + ".pit-locations.top-block", "0, 0, 0");
+		mineConfig.set(name + ".pit-locations.bottom-block", "0, 0, 0");
 		mineConfig.options().copyDefaults(true);
 		saveMineConfig();
 	}
