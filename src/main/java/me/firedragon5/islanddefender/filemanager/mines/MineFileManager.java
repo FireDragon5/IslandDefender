@@ -1,13 +1,14 @@
 package me.firedragon5.islanddefender.filemanager.mines;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -87,7 +88,7 @@ public class MineFileManager {
 		if (!mineConfig.contains("Default")) {
 			mineConfig.addDefault("Default.name", "Default");
 			mineConfig.addDefault("Default.display", "STONE");
-			mineConfig.addDefault("Default.blocks", List.of("STONE", "COAL"));
+			mineConfig.addDefault("Default.blocks-in-pit", List.of("STONE", "COAL"));
 			mineConfig.addDefault("Default.blocks.STONE.percentage", 90);
 			mineConfig.addDefault("Default.blocks.COAL.percentage", 10);
 			mineConfig.addDefault("Default.spawn", "0, 0, 0");
@@ -144,7 +145,7 @@ public class MineFileManager {
 
 	//	Get Blocks
 	public @Nullable String getBlocks(String mine) {
-		return mineConfig.getString(mine + ".blocks");
+		return mineConfig.getString(mine + ".blocks-in-pit");
 	}
 
 	//	Get Name
@@ -158,18 +159,39 @@ public class MineFileManager {
 	}
 
 	//	Get all the blocks in the mine
-	public Material getBlockList(String mine) {
-		return Material.matchMaterial(Objects.requireNonNull(mineConfig.getString(mine + ".blocks")));
+	public List<Material> getBlockList(String mine) {
+		List<String> materialNames = mineConfig.getStringList(mine + ".blocks-in-pit");
+		List<Material> validMaterials = new ArrayList<>();
+
+		for (String materialName : materialNames) {
+			Material material = Material.matchMaterial(materialName);
+			System.out.println(materialName);
+			if (material != null) {
+				System.out.println(material);
+				validMaterials.add(material);
+			}
+		}
+
+		// If no valid materials are found, return a list with a default material (e.g., Material.STONE).
+		if (validMaterials.isEmpty()) {
+			validMaterials.add(Material.STONE);
+		}
+
+		return validMaterials;
 	}
 
-	//	Get all the blocks in the mine as a list
-	public String[] getBlockListAsList(String mine) {
-		return mineConfig.getString(mine + ".blocks").split(", ");
+	// Get the list of block names from the config for a specific mine
+	public List<String> getBlockListAsList(String mine) {
+		ConfigurationSection blocksSection = mineConfig.getConfigurationSection(mine + ".blocks");
+		if (blocksSection == null) {
+			return new ArrayList<>(); // Return an empty list or handle the absence of the section as needed.
+		}
+		return new ArrayList<>(blocksSection.getKeys(false));
 	}
 
-	//	Get the percentage of the blocks
-	public int getPercentage(String mine) {
-		return mineConfig.getInt(mine + ".blocks." + Arrays.toString(getBlockListAsList(mine)) + ".percentage");
+	// Get the percentage of a specific block in a mine
+	public int getPercentage(String mine, String blockName) {
+		return mineConfig.getInt(mine + ".blocks." + blockName + ".percentage");
 	}
 
 	//	Get Slot

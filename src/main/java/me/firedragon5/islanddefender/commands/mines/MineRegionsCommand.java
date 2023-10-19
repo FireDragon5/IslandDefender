@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MineRegionsCommand extends FireCommand {
@@ -52,7 +53,6 @@ public class MineRegionsCommand extends FireCommand {
 			else if (args[0].equalsIgnoreCase("fill")) {
 				MineFileManager mineManager = MineFileManager.getFileManager();
 
-
 				Cuboid cuboid = new Cuboid(
 						new Location(player.getWorld(),
 								mineManager.getPitLocationsX(args[1], "top-block"),
@@ -64,24 +64,34 @@ public class MineRegionsCommand extends FireCommand {
 								mineManager.getPitLocationsZ(args[1], "bottom-block"))
 				);
 
-				Material blocks = mineManager.getBlockList(args[1]);
-				int percentage = mineManager.getPercentage(args[1]);
+				List<String> blockList = mineManager.getBlockListAsList(args[1]);
 
+				int totalBlocks = cuboid.getBlocks().size();
 
-//				Fill the mine with the blocks but some blocks needs to more than others
-//				For example, stone needs to be 90% of the blocks and iron ore needs to be 10% of the blocks
-//				We can do this by getting the percentage of the blocks and then multiplying it by the amount of blocks
-//				We can get the percentage by doing 100 / the amount of blocks
-
-
-				for (Block block : cuboid.getBlocks()) {
-					if (Math.random() * 100 < percentage) {
-						block.setType(blocks);
-					} else {
-						block.setType(Material.STONE);
+				// Create a list to store the materials based on their percentages
+				List<Material> materials = new ArrayList<>();
+				for (String blockName : blockList) {
+					int percentage = mineManager.getPercentage(args[1], blockName);
+					Material material = Material.matchMaterial(blockName);
+					if (material != null) {
+						int numBlocks = totalBlocks * percentage / 100;
+						for (int i = 0; i < numBlocks; i++) {
+							materials.add(material);
+						}
 					}
 				}
 
+				Collections.shuffle(materials); // Shuffle the list of materials
+
+				// Iterate through the shuffled list and set the block types
+				for (int i = 0; i < totalBlocks; i++) {
+					Block block = cuboid.getBlocks().get(i);
+					int materialIndex = i % materials.size(); // Wrap around with modulus
+					Material material = materials.get(materialIndex);
+					block.setType(material);
+				}
+
+				UtilsMessage.sendMessage(player, "&aFilled the mine with the blocks!");
 			}
 
 
