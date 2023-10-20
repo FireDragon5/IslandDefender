@@ -2,6 +2,7 @@ package me.firedragon5.islanddefender;
 
 
 import me.firedragon5.islanddefender.commands.clans.ClanCommands;
+import me.firedragon5.islanddefender.commands.friends.FriendCommand;
 import me.firedragon5.islanddefender.commands.hub.HubCommand;
 import me.firedragon5.islanddefender.commands.island.IslandCommand;
 import me.firedragon5.islanddefender.commands.islanddefender.IslandDefenderCommands;
@@ -81,6 +82,7 @@ public final class IslandDefender extends JavaPlugin {
 		new IslandCommand();
 		new HubCommand();
 		new MineRegionsCommand();
+		new FriendCommand();
 
 
 //		Create a world called hub, make it a void world

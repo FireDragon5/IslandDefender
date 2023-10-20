@@ -49,6 +49,13 @@ public class PlayerFileManager {
 //				mine
 				playerConfig.set("mine", "Default");
 
+//				Friends
+				playerConfig.set("friends", new String[]{});
+
+//				Friends ignore
+				playerConfig.set("friends-ignore", new String[]{});
+
+
 				playerConfig.save(playerFile);
 				playerConfig.options().copyDefaults(true);
 				playerConfig.save(playerFile);
@@ -96,6 +103,16 @@ public class PlayerFileManager {
 //			mine
 			if (playerConfig.getString("mine") == null) {
 				playerConfig.set("mine", "Default");
+			}
+
+//			Friends
+			if (playerConfig.getStringList("friends") == null) {
+				playerConfig.set("friends", new String[]{});
+			}
+
+//			Friends ignore
+			if (playerConfig.getStringList("friends-ignore") == null) {
+				playerConfig.set("friends-ignore", new String[]{});
 			}
 
 
@@ -164,6 +181,179 @@ public class PlayerFileManager {
 
 	}
 
+	//	Get player friends
+	public static String[] getPlayerFriends(Player playerName) {
+
+		UUID playerUUID = playerName.getUniqueId();
+
+		File playerFile = new File("plugins/islanddefender/players/" + playerUUID + ".yml");
+
+		if (playerFile.exists()) {
+			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+			return playerConfig.getStringList("friends").toArray(new String[0]);
+		}
+
+		return null;
+	}
+
+
+	//	Add player friends
+	public static void addPlayerFriends(Player playerName, Player friendName) {
+
+		UUID playerUUID = playerName.getUniqueId();
+
+		UUID friendUUID = friendName.getUniqueId();
+
+		File playerFile = new File("plugins/islanddefender/players/" + playerUUID + ".yml");
+
+		File friendFile = new File("plugins/islanddefender/players/" + friendUUID + ".yml");
+
+		if (playerFile.exists() && friendFile.exists()) {
+			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+			String[] friends = playerConfig.getStringList("friends").toArray(new String[0]);
+
+			String[] newFriends = new String[friends.length + 1];
+
+			System.arraycopy(friends, 0, newFriends, 0, friends.length);
+
+			newFriends[newFriends.length - 1] = String.valueOf(friendUUID);
+
+			playerConfig.set("friends", newFriends);
+
+			try {
+				playerConfig.save(playerFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	//	Remove player friends
+	public static void removePlayerFriends(Player playerName, Player friendName) {
+
+		UUID playerUUID = playerName.getUniqueId();
+
+		UUID friendUUID = friendName.getUniqueId();
+
+		File playerFile = new File("plugins/islanddefender/players/" + playerUUID + ".yml");
+
+		File friendFile = new File("plugins/islanddefender/players/" + friendUUID + ".yml");
+
+		if (playerFile.exists() && friendFile.exists()) {
+			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+			String[] friends = playerConfig.getStringList("friends").toArray(new String[0]);
+
+			String[] newFriends = new String[friends.length - 1];
+
+			int index = 0;
+
+			for (String friend : friends) {
+				if (!friend.equals(String.valueOf(friendUUID))) {
+					newFriends[index] = friend;
+					index++;
+				}
+			}
+
+			playerConfig.set("friends", newFriends);
+
+			try {
+				playerConfig.save(playerFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	//	Add player friends ignore
+	public static void addPlayerFriendsIgnore(Player playerName, Player friendName) {
+
+		UUID playerUUID = playerName.getUniqueId();
+
+		UUID friendUUID = friendName.getUniqueId();
+
+		File playerFile = new File("plugins/islanddefender/players/" + playerUUID + ".yml");
+
+		File friendFile = new File("plugins/islanddefender/players/" + friendUUID + ".yml");
+
+		if (playerFile.exists() && friendFile.exists()) {
+			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+			String[] friends = playerConfig.getStringList("friends-ignore").toArray(new String[0]);
+
+			String[] newFriends = new String[friends.length + 1];
+
+			System.arraycopy(friends, 0, newFriends, 0, friends.length);
+
+			newFriends[newFriends.length - 1] = String.valueOf(friendUUID);
+
+			playerConfig.set("friends-ignore", newFriends);
+
+			try {
+				playerConfig.save(playerFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	//	Remove player friends ignore
+	public static void removePlayerFriendsIgnore(Player playerName, Player friendName) {
+
+		UUID playerUUID = playerName.getUniqueId();
+
+		UUID friendUUID = friendName.getUniqueId();
+
+		File playerFile = new File("plugins/islanddefender/players/" + playerUUID + ".yml");
+
+		File friendFile = new File("plugins/islanddefender/players/" + friendUUID + ".yml");
+
+		if (playerFile.exists() && friendFile.exists()) {
+			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+			String[] friends = playerConfig.getStringList("friends-ignore").toArray(new String[0]);
+
+			String[] newFriends = new String[friends.length - 1];
+
+			int index = 0;
+
+			for (String friend : friends) {
+				if (!friend.equals(String.valueOf(friendUUID))) {
+					newFriends[index] = friend;
+					index++;
+				}
+			}
+
+			playerConfig.set("friends-ignore", newFriends);
+
+			try {
+				playerConfig.save(playerFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+
+	}
+
+	//	Get player friends ignore
+	public static String[] getPlayerFriendsIgnore(Player playerName) {
+
+		UUID playerUUID = playerName.getUniqueId();
+
+		File playerFile = new File("plugins/islanddefender/players/" + playerUUID + ".yml");
+
+		if (playerFile.exists()) {
+			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+			return playerConfig.getStringList("friends-ignore").toArray(new String[0]);
+		}
+
+		return null;
+	}
 
 	//	Get player rank
 	public static String getPlayerRank(Player playerName) {
@@ -383,4 +573,40 @@ public class PlayerFileManager {
 	}
 
 
+	public static boolean isFriend(Player player, Player targetPlayer) {
+
+		String[] friends = getPlayerFriends(player);
+
+		UUID friendUUID = targetPlayer.getUniqueId();
+
+
+		if (friends != null) {
+			for (String friend : friends) {
+				if (friend.equals(String.valueOf(friendUUID))) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+
+	}
+
+	public static boolean isIgnoring(Player targetPlayer, Player player) {
+
+		String[] friendsIgnore = getPlayerFriendsIgnore(targetPlayer);
+
+		UUID friendUUID = targetPlayer.getUniqueId();
+
+		if (friendsIgnore != null) {
+			for (String friend : friendsIgnore) {
+				if (friend.equals(String.valueOf(friendUUID))) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+
+	}
 }
