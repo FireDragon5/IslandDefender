@@ -1,5 +1,6 @@
 package me.firedragon5.islanddefender.filemanager.mines;
 
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -246,10 +247,10 @@ public class MineFileManager {
 
 
 	//	Get all the mines
-	public String[] getMineList() {
-
-		return mineConfig.getKeys(false).toArray(new String[0]);
-
+	public List<String> getMineList() {
+		return List.of(mineConfig.getKeys(false).stream()
+				.filter(key -> !key.equals("Menu-size"))
+				.toArray(String[]::new));
 	}
 
 	public String getColor(String mine) {
@@ -266,6 +267,15 @@ public class MineFileManager {
 
 	//	Create mine
 	public void createMine(Player player, String name) {
+
+		if (mineConfig.contains(name)) {
+			UtilsMessage.sendMessage(player, "&cA mine with that name already exists!");
+			return;
+		} else if (name.equalsIgnoreCase("<name>")) {
+			UtilsMessage.sendMessage(player, "&cYou must specify a name!");
+			return;
+		}
+
 
 //		Get player location
 		String location = player.getLocation().getBlockX() + ", " + player.getLocation().getBlockY() + ", " + player.getLocation().getBlockZ();

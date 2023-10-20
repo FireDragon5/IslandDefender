@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -114,15 +115,37 @@ public class MineRegionsCommand extends FireCommand {
 //		/mine delete <name>
 //		/mine fill <name>
 
+//		Make it display like this
+//		mine1
+//		mine2
+
+		MineFileManager mineManager = MineFileManager.getFileManager();
+		List<String> mineList = mineManager.getMineList();
+
+
 		if (commandSender instanceof Player player) {
-			if (player.hasPermission("islanddefender.mine.admin")) {
-				if (strings.length == 1) {
-					tabComplete.add("create");
-					tabComplete.add("delete");
-					tabComplete.add("reload");
-					tabComplete.add("fill");
-				} else if (strings.length == 2) {
-					tabComplete.add("<name>");
+			if (strings.length == 1) {
+
+				for (String commandName : Arrays.asList("create", "delete", "reload", "fill")) {
+					if (commandName.startsWith(strings[0].toLowerCase()) && player.hasPermission("islanddefender.mine.admin")) {
+						tabComplete.add(commandName);
+					}
+				}
+			} else if (strings.length == 2) {
+				String commandName = strings[0].toLowerCase();
+				switch (commandName) {
+					case "delete":
+					case "fill":
+						tabComplete.add(mineList.toString().replace("[", "").replace("]", ""));
+						break;
+
+					case "create":
+						tabComplete.add("<name>");
+						break;
+
+					case "reload":
+						break;
+
 				}
 			}
 		}
@@ -131,4 +154,6 @@ public class MineRegionsCommand extends FireCommand {
 		return tabComplete;
 
 	}
+
+
 }
