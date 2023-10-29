@@ -86,10 +86,6 @@ public class ClanInfoMenu extends Menu implements Listener {
 		event.setCancelled(true);
 
 
-		Player player = (Player) event.getWhoClicked();
-		ClanInfoMenu menu = (ClanInfoMenu) event.getClickedInventory().getHolder();
-
-
 	}
 
 

@@ -1,5 +1,6 @@
 package me.firedragon5.islanddefender.filemanager.player;
 
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -211,6 +212,7 @@ public class PlayerFileManager {
 
 		File friendFile = new File("plugins/islanddefender/players/" + friendUUID + ".yml");
 
+
 		if (playerFile.exists() && friendFile.exists()) {
 			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 
@@ -229,6 +231,11 @@ public class PlayerFileManager {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
+			UtilsMessage.sendMessage(playerName, "&aYou have added &e" + friendName.getName() + " &ato your friends list!");
+
+		} else {
+			UtilsMessage.errorMessage(playerName, "The player does not exist!");
 		}
 
 	}

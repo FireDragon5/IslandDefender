@@ -24,14 +24,16 @@ public class AddFriendCommand {
 //		Check if the player is ignoring you
 		if (PlayerFileManager.isIgnoring(targetPlayer, player)) {
 			UtilsMessage.errorMessage(player, "&cCan't add this player as a friend!");
+			return;
 		}
+
 
 //		Send the player a friend request
 		PlayerFileManager.addPlayerFriends(player, targetPlayer);
 
 //		Send the player a message
 		UtilsMessage.sendMessage(player, "&aYou have sent a friend request to &e" + targetPlayer.getName());
-		
+
 //		Send the target player a message
 		UtilsMessage.sendMessage(targetPlayer, "&aYou have received a friend request from &e" + player.getName());
 		UtilsMessage.sendMessage(targetPlayer, "&aType &e/friend accept " + player.getName() + " &ato accept the friend request");

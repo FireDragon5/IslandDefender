@@ -1,5 +1,6 @@
 package me.firedragon5.islanddefender.menu.friends;
 
+import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.menu.Menu;
 import org.bukkit.Bukkit;
@@ -50,13 +51,16 @@ public class FriendsMenu extends Menu implements Listener {
 	}
 
 	@EventHandler
-	public void onInventoryClick(InventoryClickEvent event) {
-		if (event.getInventory().getHolder() != this) return;
-		event.setCancelled(true);
-		if (event.getCurrentItem() == null) return;
-		if (event.getCurrentItem().getItemMeta() == null) return;
-		Player player = (Player) event.getWhoClicked();
-	}
+	public void onClick(InventoryClickEvent event) {
 
+		if (event.getClickedInventory() == null) return;
+		if (event.getCurrentItem() == null) return;
+		if (event.getClickedInventory().getHolder() == null) return;
+//		Check the name of the inventory
+		if (!event.getView().getTitle().equalsIgnoreCase(Utils.chat("&7Friends"))) return;
+		event.setCancelled(true);
+
+
+	}
 
 }

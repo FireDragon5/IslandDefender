@@ -36,18 +36,21 @@ public class FriendCommand extends FireCommand {
 
 //		/friends  (opens the friends menu)
 		if (args.length == 0) {
-			FriendsMenu friendsMenu = new FriendsMenu(player, "Friends", 54);
+			FriendsMenu friendsMenu = new FriendsMenu(player, "&7Friends", 54);
 			friendsMenu.setupMenu();
 			friendsMenu.openMenu();
 
 			return;
 		}
 
+		Player targetPlayer = Bukkit.getPlayer(args[1]);
+
+
 //		/fiends add <name>
 		if (args[0].equalsIgnoreCase("add")) {
 
+
 			//		target player
-			Player targetPlayer = Bukkit.getPlayer(args[1]);
 
 //			Add it to the hashmap
 			IslandDefender.pendingFriendRequests.put(player, targetPlayer);
@@ -59,10 +62,28 @@ public class FriendCommand extends FireCommand {
 			AddFriendCommand.addFriend(player, targetPlayer);
 		}
 
-//		/friends accept (this will accept the friend request)
+//		/friends accept <name> (this will accept the friend request)
 		if (args[0].equalsIgnoreCase("accept")) {
 
-			PlayerFileManager.addPlayerFriends(player, IslandDefender.pendingFriendRequests.get(player));
+//			Index 1 out of bounds for length 1
+			if (args.length < 2) {
+				UtilsMessage.errorMessage(player, "Please specify a player!");
+				return;
+			}
+
+//			Check if the player is in the hashmap
+			if (!IslandDefender.pendingFriendRequests.containsKey(player)) {
+				UtilsMessage.errorMessage(player, "You do not have any pending friend requests!");
+				return;
+			}
+
+			if (targetPlayer == null) {
+				UtilsMessage.errorMessage(player, "That player is not online or does not exist!");
+				return;
+			}
+
+			PlayerFileManager.addPlayerFriends(player, targetPlayer);
+
 
 			UtilsMessage.sendMessage(player, "&aYou have accepted the friend request from "
 					+ IslandDefender.pendingFriendRequests.get(player).getName());
@@ -72,6 +93,8 @@ public class FriendCommand extends FireCommand {
 		}
 
 //		/friends remove <name>
+
+
 //		/friends ignore <name> (this will stop the player from sending you friend requests)
 //		/friends ignore list (this will list all the players you are ignoring)
 //		/friends ignore remove <name> (this will remove the player from your ignore list)
