@@ -6,6 +6,7 @@ me\firedragon5\islanddefender\Utils.class
 me\firedragon5\islanddefender\events\ChatEvent.class
 me\firedragon5\islanddefender\menu\clan\ClanInfoMenu.class
 me\firedragon5\islanddefender\menu\mines\MinePurchaseMenu.class
+me\firedragon5\islanddefender\commands\friends\FriendCommand.class
 me\firedragon5\islanddefender\commands\clans\CreateCommand.class
 me\firedragon5\islanddefender\commands\mines\Cuboid.class
 me\firedragon5\islanddefender\commands\mines\Cuboid$CuboidDirection.class
@@ -14,6 +15,7 @@ me\firedragon5\islanddefender\commands\hub\HubCommand.class
 me\firedragon5\islanddefender\events\JoinEvent.class
 me\firedragon5\islanddefender\commands\clans\JoinCommand.class
 me\firedragon5\islanddefender\filemanager\clans\ClanFolderManager.class
+me\firedragon5\islanddefender\commands\friends\AddFriendCommand.class
 me\firedragon5\islanddefender\commands\mines\Cuboid$CuboidIterator.class
 me\firedragon5\islanddefender\menu\ranks\RankPurchaseMenu.class
 me\firedragon5\islanddefender\commands\mines\MineRegionsCommand.class
@@ -30,6 +32,7 @@ me\firedragon5\islanddefender\commands\ranks\RankCommand.class
 me\firedragon5\islanddefender\filemanager\config\ConfigManger.class
 me\firedragon5\islanddefender\filemanager\island\IslandFileManager.class
 me\firedragon5\islanddefender\commands\mines\MineCommand.class
+me\firedragon5\islanddefender\menu\friends\FriendsMenu.class
 me\firedragon5\islanddefender\commands\clans\VisibilityCommand.class
 me\firedragon5\islanddefender\generator\IslandGenerator.class
 me\firedragon5\islanddefender\IslandDefender.class

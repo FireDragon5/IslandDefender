@@ -1,6 +1,7 @@
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\KickCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\DisbandCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\events\LeaveEvent.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\friends\FriendCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\staff\StaffCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\island\IslandCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\mines\MinePurchaseMenu.java
@@ -11,6 +12,7 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\config\ConfigManger.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\ranks\RankMenu.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\events\JoinEvent.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\friends\AddFriendCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\mines\MineFileManager.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\JoinCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\Utils.java
@@ -24,6 +26,7 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\ClanCommands.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\ranks\RankPurchaseMenu.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\mines\Cuboid.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\friends\FriendsMenu.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\VisibilityCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\generator\CustomIslandGenerator.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\generator\HubGenerator.java

@@ -5,6 +5,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class PlayerFileManager {
@@ -182,19 +184,19 @@ public class PlayerFileManager {
 	}
 
 	//	Get player friends
-	public static String[] getPlayerFriends(Player playerName) {
+	//friends:
+	//- 56e7b2dc-d6af-46cf-a401-43d53f77f61e
 
+	public static List<String> getPlayerFriends(Player playerName) {
 		UUID playerUUID = playerName.getUniqueId();
-
 		File playerFile = new File("plugins/islanddefender/players/" + playerUUID + ".yml");
 
 		if (playerFile.exists()) {
 			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
-
-			return playerConfig.getStringList("friends").toArray(new String[0]);
+			return playerConfig.getStringList("friends");
 		}
 
-		return null;
+		return new ArrayList<>(); // Return an empty list if the file doesn't exist or if there are no friends.
 	}
 
 
@@ -575,18 +577,17 @@ public class PlayerFileManager {
 
 	public static boolean isFriend(Player player, Player targetPlayer) {
 
-		String[] friends = getPlayerFriends(player);
+		List<String> friends = getPlayerFriends(player);
 
 		UUID friendUUID = targetPlayer.getUniqueId();
 
 
-		if (friends != null) {
-			for (String friend : friends) {
-				if (friend.equals(String.valueOf(friendUUID))) {
-					return true;
-				}
+		for (String friend : friends) {
+			if (friend.equals(String.valueOf(friendUUID))) {
+				return true;
 			}
 		}
+
 
 		return false;
 

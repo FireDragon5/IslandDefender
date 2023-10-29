@@ -1,13 +1,17 @@
 package me.firedragon5.islanddefender.commands.friends;
 
+import me.firedragon5.islanddefender.IslandDefender;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
+import me.firedragon5.islanddefender.menu.friends.FriendsMenu;
 import me.firedraong5.firesapi.command.FireCommand;
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class FriendCommand extends FireCommand {
@@ -29,27 +33,50 @@ public class FriendCommand extends FireCommand {
 
 		Player player = (Player) commandSender;
 
-//		target player
-		Player targetPlayer = Bukkit.getPlayer(args[1]);
-
 
 //		/friends  (opens the friends menu)
 		if (args.length == 0) {
-//			FriendMenu.openFriendMenu(player);
+			FriendsMenu friendsMenu = new FriendsMenu(player, "Friends", 54);
+			friendsMenu.setupMenu();
+			friendsMenu.openMenu();
+
+			return;
 		}
 
 //		/fiends add <name>
 		if (args[0].equalsIgnoreCase("add")) {
-			assert targetPlayer != null;
+
+			//		target player
+			Player targetPlayer = Bukkit.getPlayer(args[1]);
+
+//			Add it to the hashmap
+			IslandDefender.pendingFriendRequests.put(player, targetPlayer);
+
+			if (targetPlayer == null) {
+				UtilsMessage.errorMessage(player, "That player is not online or does not exist!");
+				return;
+			}
 			AddFriendCommand.addFriend(player, targetPlayer);
 		}
 
+//		/friends accept (this will accept the friend request)
+		if (args[0].equalsIgnoreCase("accept")) {
+
+			PlayerFileManager.addPlayerFriends(player, IslandDefender.pendingFriendRequests.get(player));
+
+			UtilsMessage.sendMessage(player, "&aYou have accepted the friend request from "
+					+ IslandDefender.pendingFriendRequests.get(player).getName());
+
+//			remove the player from the hashmap
+			IslandDefender.pendingFriendRequests.remove(player);
+		}
 
 //		/friends remove <name>
 //		/friends ignore <name> (this will stop the player from sending you friend requests)
 //		/friends ignore list (this will list all the players you are ignoring)
 //		/friends ignore remove <name> (this will remove the player from your ignore list)
-//		/friends accept (this will accept the friend request)
+
+
 //		/friends deny (this will deny the friend request)
 //
 
@@ -60,6 +87,20 @@ public class FriendCommand extends FireCommand {
 	public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
 
 		List<String> tabComplete = new ArrayList<>();
+		List<String> players = new ArrayList<>();
+
+//		Get the players friends
+		List<String> friends = PlayerFileManager.getPlayerFriends((Player) commandSender);
+
+
+//		Get the list of all players online and add them to the tab complete
+		for (Player player : Bukkit.getOnlinePlayers()) {
+//			if the player is not the command sender or already a friend
+			if (!player.getName().equals(commandSender.getName())
+					&& !friends.contains(player.getUniqueId().toString()))
+				players.add(player.getName());
+		}
+
 
 		if (strings.length == 1) {
 			for (String s : new String[]{"add", "remove", "ignore", "accept", "deny"}) {
@@ -71,20 +112,48 @@ public class FriendCommand extends FireCommand {
 			String commandName = strings[0].toLowerCase();
 			switch (commandName) {
 				case "add":
-				case "remove":
+
 				case "ignore":
-					tabComplete.add("<name>");
+					for (String player : players) {
+						if (player.startsWith(strings[1].toLowerCase())) {
+							tabComplete.add(player);
+						}
+					}
+					break;
+				case "remove":
+					for (String player : friends) {
+						if (player.startsWith(strings[1].toLowerCase())) {
+
+//							converting the UUID to a player name
+
+							Player UUIDToName = Bukkit.getPlayer(UUID.fromString(player));
+
+							tabComplete.add(UUIDToName.getName());
+						}
+					}
 					break;
 			}
 		} else if (strings.length == 3) {
 			String commandName = strings[0].toLowerCase();
 			if (commandName.equals("ignore")) {
 				if (strings[1].equalsIgnoreCase("remove")) {
-					tabComplete.add("<name>");
+
+					for (String player : friends) {
+						if (player.startsWith(strings[2].toLowerCase())) {
+
+//							converting the UUID to a player name
+
+							Player UUIDToName = Bukkit.getPlayer(UUID.fromString(player));
+
+							tabComplete.add(UUIDToName.getName());
+						}
+
+
+					}
 				}
 			}
-		}
 
+		}
 		return tabComplete;
 	}
 }

@@ -23,7 +23,10 @@ import me.firedragon5.islanddefender.menu.mines.MineMenu;
 import me.firedragon5.islanddefender.menu.mines.MinePurchaseMenu;
 import me.firedragon5.islanddefender.menu.ranks.RankMenu;
 import me.firedragon5.islanddefender.menu.ranks.RankPurchaseMenu;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
 
 
 public final class IslandDefender extends JavaPlugin {
@@ -32,6 +35,9 @@ public final class IslandDefender extends JavaPlugin {
 	MineFileManager mineManager;
 	ConfigManger configManager;
 	RankFileManager rankFileManager;
+
+	//	This is a hashmap for all the pending friend requests
+	public static HashMap<Player, Player> pendingFriendRequests = new HashMap<>();
 
 
 	@Override
