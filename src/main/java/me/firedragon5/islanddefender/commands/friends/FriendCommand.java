@@ -33,7 +33,6 @@ public class FriendCommand extends FireCommand {
 
 		Player player = (Player) commandSender;
 
-
 //		/friends  (opens the friends menu)
 		if (args.length == 0) {
 			FriendsMenu friendsMenu = new FriendsMenu(player, "&7Friends", 54);
@@ -41,16 +40,16 @@ public class FriendCommand extends FireCommand {
 			friendsMenu.openMenu();
 
 			return;
-		}
+			//		/fiends add <name>
+		} else if (args[0].equalsIgnoreCase("add")) {
 
-		Player targetPlayer = Bukkit.getPlayer(args[1]);
+			// check if the player name was specified
+			if (args.length < 2) {
+				UtilsMessage.errorMessage(player, "Please specify a player!");
+				return;
+			}
+			Player targetPlayer = Bukkit.getPlayer(args[1]);
 
-
-//		/fiends add <name>
-		if (args[0].equalsIgnoreCase("add")) {
-
-
-			//		target player
 
 //			Add it to the hashmap
 			IslandDefender.pendingFriendRequests.put(player, targetPlayer);
@@ -58,7 +57,12 @@ public class FriendCommand extends FireCommand {
 			if (targetPlayer == null) {
 				UtilsMessage.errorMessage(player, "That player is not online or does not exist!");
 				return;
-			}
+			} else //			Player can't add themselves as a friend
+				if (targetPlayer.getName().equals(player.getName())) {
+					UtilsMessage.errorMessage(player, "You can't add yourself as a friend! :)");
+					return;
+				}
+
 			AddFriendCommand.addFriend(player, targetPlayer);
 		}
 
@@ -70,6 +74,9 @@ public class FriendCommand extends FireCommand {
 				UtilsMessage.errorMessage(player, "Please specify a player!");
 				return;
 			}
+
+			Player targetPlayer = Bukkit.getPlayer(args[1]);
+
 
 //			Check if the player is in the hashmap
 			if (!IslandDefender.pendingFriendRequests.containsKey(player)) {
@@ -83,10 +90,6 @@ public class FriendCommand extends FireCommand {
 			}
 
 			PlayerFileManager.addPlayerFriends(player, targetPlayer);
-
-
-			UtilsMessage.sendMessage(player, "&aYou have accepted the friend request from "
-					+ IslandDefender.pendingFriendRequests.get(player).getName());
 
 //			remove the player from the hashmap
 			IslandDefender.pendingFriendRequests.remove(player);
