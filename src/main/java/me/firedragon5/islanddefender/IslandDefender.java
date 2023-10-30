@@ -9,6 +9,8 @@ import me.firedragon5.islanddefender.commands.islanddefender.IslandDefenderComma
 import me.firedragon5.islanddefender.commands.mines.MineCommand;
 import me.firedragon5.islanddefender.commands.mines.MineRegionsCommand;
 import me.firedragon5.islanddefender.commands.ranks.RankCommand;
+import me.firedragon5.islanddefender.commands.shop.SellCommand;
+import me.firedragon5.islanddefender.commands.shop.ShopCommands;
 import me.firedragon5.islanddefender.commands.staff.StaffChatCommand;
 import me.firedragon5.islanddefender.commands.staff.StaffCommand;
 import me.firedragon5.islanddefender.events.ChatEvent;
@@ -24,6 +26,7 @@ import me.firedragon5.islanddefender.menu.mines.MineMenu;
 import me.firedragon5.islanddefender.menu.mines.MinePurchaseMenu;
 import me.firedragon5.islanddefender.menu.ranks.RankMenu;
 import me.firedragon5.islanddefender.menu.ranks.RankPurchaseMenu;
+import me.firedragon5.islanddefender.menu.shop.SellMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -79,6 +82,7 @@ public final class IslandDefender extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new RankMenu(), this);
 		getServer().getPluginManager().registerEvents(new RankPurchaseMenu(), this);
 		getServer().getPluginManager().registerEvents(new FriendsMenu(), this);
+		getServer().getPluginManager().registerEvents(new SellMenu(), this);
 
 //        register Commands
 		new StaffCommand();
@@ -91,6 +95,8 @@ public final class IslandDefender extends JavaPlugin {
 		new HubCommand();
 		new MineRegionsCommand();
 		new FriendCommand();
+		new SellCommand();
+		new ShopCommands();
 
 
 //		Create a world called hub, make it a void world
