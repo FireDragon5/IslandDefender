@@ -8,6 +8,8 @@ import me.firedragon5.islanddefender.commands.island.IslandCommand;
 import me.firedragon5.islanddefender.commands.islanddefender.IslandDefenderCommands;
 import me.firedragon5.islanddefender.commands.mines.MineCommand;
 import me.firedragon5.islanddefender.commands.mines.MineRegionsCommand;
+import me.firedragon5.islanddefender.commands.money.BalanceCommand;
+import me.firedragon5.islanddefender.commands.money.CoinCommand;
 import me.firedragon5.islanddefender.commands.ranks.RankCommand;
 import me.firedragon5.islanddefender.commands.shop.SellCommand;
 import me.firedragon5.islanddefender.commands.shop.ShopCommands;
@@ -104,6 +106,8 @@ public final class IslandDefender extends JavaPlugin {
 		new FriendCommand();
 		new SellCommand();
 		new ShopCommands();
+		new BalanceCommand();
+		new CoinCommand();
 
 
 //		Create a world called hub, make it a void world

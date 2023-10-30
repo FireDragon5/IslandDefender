@@ -101,8 +101,8 @@ public class PlayerFileManager {
 			}
 
 //			Mana
-			if (playerConfig.getString("mana") == null) {
-				playerConfig.set("mana", 0);
+			if (playerConfig.getString("dark-crystals") == null) {
+				playerConfig.set("dark-crystals", 0);
 			}
 
 //			mine
@@ -510,7 +510,7 @@ public class PlayerFileManager {
 	}
 
 	//	Get player mana
-	public static int getPlayerMana(Player playerName) {
+	public static int getPlayerDarkCrystals(Player playerName) {
 
 		UUID playerUUID = playerName.getUniqueId();
 
@@ -519,14 +519,14 @@ public class PlayerFileManager {
 		if (playerFile.exists()) {
 			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 
-			return playerConfig.getInt("mana");
+			return playerConfig.getInt("dark-crystals");
 		}
 
 		return 0;
 	}
 
 	//	Set player mana
-	public static void setPlayerMana(Player playerName, int mana) {
+	public static void setPlayerDarkCrystals(Player playerName, int darkCrystals) {
 
 		UUID playerUUID = playerName.getUniqueId();
 
@@ -535,7 +535,7 @@ public class PlayerFileManager {
 		if (playerFile.exists()) {
 			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 
-			playerConfig.set("mana", mana);
+			playerConfig.set("dark-crystals", darkCrystals);
 
 			try {
 				playerConfig.save(playerFile);
@@ -575,17 +575,17 @@ public class PlayerFileManager {
 	}
 
 	//	Remove Mana
-	public static void removePlayerMana(Player playerName, int mana) {
-		int currentMana = getPlayerMana(playerName);
-		int newMana = currentMana - mana;
-		setPlayerMana(playerName, newMana);
+	public static void removePlayerDarkCrystals(Player playerName, int darkCrystals) {
+		int currentDarkCrystals = getPlayerDarkCrystals(playerName);
+		int newDarkCrystals = currentDarkCrystals - darkCrystals;
+		setPlayerDarkCrystals(playerName, newDarkCrystals);
 	}
 
 	//	Add Mana
-	public static void addPlayerMana(Player playerName, int mana) {
-		int currentMana = getPlayerMana(playerName);
-		int newMana = currentMana + mana;
-		setPlayerMana(playerName, newMana);
+	public static void addPlayerDarkCrystals(Player playerName, int darkCrystals) {
+		int currentCrystals = getPlayerDarkCrystals(playerName);
+		int newDarkCrystal = currentCrystals + darkCrystals;
+		setPlayerDarkCrystals(playerName, newDarkCrystal);
 	}
 
 

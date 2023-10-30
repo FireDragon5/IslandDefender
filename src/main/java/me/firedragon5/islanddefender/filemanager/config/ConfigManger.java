@@ -74,7 +74,17 @@ public class ConfigManger {
 			config.addDefault("chatFormatNoClan", "&7[&b%rank%&7] &f%player%&7: &f%message%");
 		}
 
+//		Max coin pay amount
+		if (!config.contains("max-coin-pay-amount")) {
+			config.addDefault("max-coin-pay-amount", 1000000);
+		}
 
+
+	}
+
+	//	Get the max coin pay amount
+	public int getMaxCoinPayAmount() {
+		return config.getInt("max-coin-pay-amount");
 	}
 
 
