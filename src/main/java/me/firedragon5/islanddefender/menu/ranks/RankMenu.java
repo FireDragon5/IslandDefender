@@ -3,7 +3,7 @@ package me.firedragon5.islanddefender.menu.ranks;
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
-import me.firedraong5.firesapi.menu.Menu;
+import me.firedraong5.firesapi.menu.FireMenu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RankMenu extends Menu implements Listener {
+public class RankMenu extends FireMenu implements Listener {
 
 	public RankMenu() {
 
@@ -91,7 +91,7 @@ public class RankMenu extends Menu implements Listener {
 			try {
 				setItem(rankSlot, rankDisplayBlock, rankName, rankLore);
 			} catch (ArrayIndexOutOfBoundsException e) {
-				
+
 				player.closeInventory();
 
 				UtilsMessage.errorMessage(player, "The rank " + rank + " has a slot of " + rankSlot +

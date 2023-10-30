@@ -3,7 +3,7 @@ package me.firedragon5.islanddefender.menu.mines;
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
-import me.firedraong5.firesapi.menu.Menu;
+import me.firedraong5.firesapi.menu.FireMenu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MineMenu extends Menu implements Listener {
+public class MineMenu extends FireMenu implements Listener {
 
 	public MineMenu() {
 

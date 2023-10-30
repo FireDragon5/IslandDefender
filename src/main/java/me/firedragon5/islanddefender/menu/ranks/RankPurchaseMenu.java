@@ -2,7 +2,7 @@ package me.firedragon5.islanddefender.menu.ranks;
 
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
-import me.firedraong5.firesapi.menu.Menu;
+import me.firedraong5.firesapi.menu.FireMenu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -14,7 +14,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.List;
 
-public class RankPurchaseMenu extends Menu implements Listener {
+public class RankPurchaseMenu extends FireMenu implements Listener {
 
 
 	public RankPurchaseMenu(Player player, String title, int size) {

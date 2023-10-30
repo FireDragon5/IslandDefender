@@ -3,7 +3,7 @@ package me.firedragon5.islanddefender.menu.shop;
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedragon5.islanddefender.filemanager.shop.SellFileManager;
-import me.firedraong5.firesapi.menu.Menu;
+import me.firedraong5.firesapi.menu.FireMenu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellMenu extends Menu implements Listener {
+public class SellMenu extends FireMenu implements Listener {
 
 	public SellMenu() {
 
@@ -33,8 +33,6 @@ public class SellMenu extends Menu implements Listener {
 
 		List<String> lore = new ArrayList<>();
 		lore.add("&7Click to sell all your items");
-//		Show the value of all the items
-		lore.add("&7Value: &a" + 0);
 
 		Material material = sellFileManager.getSellAllItem();
 

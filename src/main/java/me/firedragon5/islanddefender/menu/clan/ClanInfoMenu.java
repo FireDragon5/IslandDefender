@@ -2,7 +2,7 @@ package me.firedragon5.islanddefender.menu.clan;
 
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
-import me.firedraong5.firesapi.menu.Menu;
+import me.firedraong5.firesapi.menu.FireMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClanInfoMenu extends Menu implements Listener {
+public class ClanInfoMenu extends FireMenu implements Listener {
 
 
 	public ClanInfoMenu() {

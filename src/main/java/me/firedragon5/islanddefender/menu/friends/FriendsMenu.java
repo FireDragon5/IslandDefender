@@ -2,7 +2,7 @@ package me.firedragon5.islanddefender.menu.friends;
 
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
-import me.firedraong5.firesapi.menu.Menu;
+import me.firedraong5.firesapi.menu.FireMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class FriendsMenu extends Menu implements Listener {
+public class FriendsMenu extends FireMenu implements Listener {
 
 	public FriendsMenu() {
 

@@ -2,7 +2,7 @@ package me.firedragon5.islanddefender.menu.mines;
 
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
-import me.firedraong5.firesapi.menu.Menu;
+import me.firedraong5.firesapi.menu.FireMenu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.List;
 
-public class MinePurchaseMenu extends Menu implements Listener {
+public class MinePurchaseMenu extends FireMenu implements Listener {
 
 
 	private String mine;
