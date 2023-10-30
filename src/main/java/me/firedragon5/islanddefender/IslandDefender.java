@@ -20,6 +20,7 @@ import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
+import me.firedragon5.islanddefender.filemanager.shop.SellFileManager;
 import me.firedragon5.islanddefender.menu.clan.ClanInfoMenu;
 import me.firedragon5.islanddefender.menu.friends.FriendsMenu;
 import me.firedragon5.islanddefender.menu.mines.MineMenu;
@@ -39,6 +40,7 @@ public final class IslandDefender extends JavaPlugin {
 	MineFileManager mineManager;
 	ConfigManger configManager;
 	RankFileManager rankFileManager;
+	SellFileManager sellFileManager;
 
 	//	This is a hashmap for all the pending friend requests
 	public static HashMap<Player, Player> pendingFriendRequests = new HashMap<>();
@@ -69,6 +71,11 @@ public final class IslandDefender extends JavaPlugin {
 		rankFileManager = RankFileManager.getFileManager();
 		rankFileManager.setup();
 		rankFileManager.loadRankConfig();
+
+//		SellManager
+		sellFileManager = SellFileManager.getInstance();
+		sellFileManager.setup();
+		sellFileManager.loadSellConfig();
 
 
 //        register Events
