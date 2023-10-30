@@ -91,11 +91,25 @@ public class FriendCommand extends FireCommand {
 
 			PlayerFileManager.addPlayerFriends(player, targetPlayer);
 
-//			remove the player from the hashmap
-			IslandDefender.pendingFriendRequests.remove(player);
 		}
 
 //		/friends remove <name>
+		if (args[0].equalsIgnoreCase("remove")) {
+
+			if (args.length < 2) {
+				UtilsMessage.errorMessage(player, "Please specify a player!");
+				return;
+			}
+
+			Player targetPlayer = Bukkit.getPlayer(args[1]);
+
+			if (targetPlayer == null) {
+				UtilsMessage.errorMessage(player, "This player is not in your friends list!");
+				return;
+			}
+
+			PlayerFileManager.removePlayerFriends(player, targetPlayer);
+		}
 
 
 //		/friends ignore <name> (this will stop the player from sending you friend requests)

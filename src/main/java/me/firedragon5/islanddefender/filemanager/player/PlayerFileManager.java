@@ -1,5 +1,6 @@
 package me.firedragon5.islanddefender.filemanager.player;
 
+import me.firedragon5.islanddefender.IslandDefender;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -7,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -203,76 +205,81 @@ public class PlayerFileManager {
 
 	//	Add player friends
 	public static void addPlayerFriends(Player playerName, Player friendName) {
-
 		UUID playerUUID = playerName.getUniqueId();
-
 		UUID friendUUID = friendName.getUniqueId();
 
 		File playerFile = new File("plugins/islanddefender/players/" + playerUUID + ".yml");
-
 		File friendFile = new File("plugins/islanddefender/players/" + friendUUID + ".yml");
-
 
 		if (playerFile.exists() && friendFile.exists()) {
 			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 
-			String[] friends = playerConfig.getStringList("friends").toArray(new String[0]);
+			// Check if the friend request exists in the pending requests
+			if (IslandDefender.pendingFriendRequests.containsKey(friendName) &&
+					IslandDefender.pendingFriendRequests.get(friendName).equals(playerName)) {
 
-			String[] newFriends = new String[friends.length + 1];
+				String[] friends = playerConfig.getStringList("friends").toArray(new String[0]);
 
-			System.arraycopy(friends, 0, newFriends, 0, friends.length);
+				// Check if the friend is not already in the friends list
+				if (!Arrays.asList(friends).contains(friendUUID.toString())) {
+					String[] newFriends = Arrays.copyOf(friends, friends.length + 1);
+					newFriends[newFriends.length - 1] = friendUUID.toString();
 
-			newFriends[newFriends.length - 1] = String.valueOf(friendUUID);
+					playerConfig.set("friends", Arrays.asList(newFriends));
 
-			playerConfig.set("friends", newFriends);
+					try {
+						playerConfig.save(playerFile);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 
-			try {
-				playerConfig.save(playerFile);
-			} catch (Exception e) {
-				e.printStackTrace();
+					UtilsMessage.sendMessage(playerName, "&aYou have added &e" + friendName.getName() +
+							" &ato your friends list!");
+
+					// Remove the friend request from the pending requests
+					IslandDefender.pendingFriendRequests.remove(friendName);
+				} else {
+					UtilsMessage.errorMessage(playerName, "You are already friends with this player.");
+				}
+			} else {
+				UtilsMessage.errorMessage(playerName, "The friend request was not accepted.");
 			}
-
-			UtilsMessage.sendMessage(playerName, "&aYou have added &e" + friendName.getName() + " &ato your friends list!");
-
 		} else {
 			UtilsMessage.errorMessage(playerName, "The player does not exist!");
 		}
-
 	}
+
 
 	//	Remove player friends
 	public static void removePlayerFriends(Player playerName, Player friendName) {
-
 		UUID playerUUID = playerName.getUniqueId();
-
 		UUID friendUUID = friendName.getUniqueId();
 
 		File playerFile = new File("plugins/islanddefender/players/" + playerUUID + ".yml");
-
 		File friendFile = new File("plugins/islanddefender/players/" + friendUUID + ".yml");
 
 		if (playerFile.exists() && friendFile.exists()) {
 			FileConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
 
-			String[] friends = playerConfig.getStringList("friends").toArray(new String[0]);
+			List<String> friends = playerConfig.getStringList("friends");
 
-			String[] newFriends = new String[friends.length - 1];
-
-			int index = 0;
-
-			for (String friend : friends) {
-				if (!friend.equals(String.valueOf(friendUUID))) {
-					newFriends[index] = friend;
-					index++;
-				}
+			if (friends.isEmpty()) {
+				UtilsMessage.errorMessage(playerName, "Your friends list is empty.");
+				return;
 			}
 
-			playerConfig.set("friends", newFriends);
+			if (friends.contains(friendUUID.toString())) {
+				friends.remove(friendUUID.toString());
+				playerConfig.set("friends", friends);
 
-			try {
-				playerConfig.save(playerFile);
-			} catch (Exception e) {
-				e.printStackTrace();
+				try {
+					playerConfig.save(playerFile);
+					UtilsMessage.sendMessage(playerName, "&aYou have removed &e" + friendName.getName() + " &afrom your friends list!");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				UtilsMessage.errorMessage(playerName, "This player is not in your friends list.");
 			}
 		}
 	}
