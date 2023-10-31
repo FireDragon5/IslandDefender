@@ -20,6 +20,7 @@ import me.firedragon5.islanddefender.events.JoinEvent;
 import me.firedragon5.islanddefender.events.LeaveEvent;
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
+import me.firedragon5.islanddefender.filemanager.kits.KitsFileManger;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
 import me.firedragon5.islanddefender.filemanager.shop.SellFileManager;
@@ -45,6 +46,9 @@ public final class IslandDefender extends JavaPlugin {
 	ConfigManger configManager;
 	RankFileManager rankFileManager;
 	SellFileManager sellFileManager;
+
+	KitsFileManger kitsFileManger;
+
 
 	//	This is a hashmap for all the pending friend requests
 	public static HashMap<Player, Player> pendingFriendRequests = new HashMap<>();
@@ -87,6 +91,10 @@ public final class IslandDefender extends JavaPlugin {
 		sellFileManager.setup();
 		sellFileManager.loadSellConfig();
 
+//		KitsManager
+		kitsFileManger = KitsFileManger.getFileManager();
+		kitsFileManger.setup();
+		kitsFileManger.load();
 
 //        register Events
 		getServer().getPluginManager().registerEvents(new JoinEvent(), this);
@@ -134,6 +142,7 @@ public final class IslandDefender extends JavaPlugin {
 		configManager.saveConfig();
 		rankFileManager.saveRankConfig();
 		sellFileManager.saveSellConfig();
+		kitsFileManger.save();
 
 //		Stop the task
 		if (task != null && !task.isCancelled()) {
