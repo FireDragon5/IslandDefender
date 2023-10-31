@@ -48,6 +48,7 @@ me\firedragon5\islanddefender\commands\shop\SellCommand.class
 me\firedragon5\islanddefender\commands\money\BalanceCommand.class
 me\firedragon5\islanddefender\filemanager\config\ConfigManger.class
 me\firedragon5\islanddefender\commands\mines\MineCommand.class
+me\firedragon5\islanddefender\task\MinesTask.class
 me\firedragon5\islanddefender\commands\clans\DeleteCommand.class
 me\firedragon5\islanddefender\filemanager\ranks\RankFileManager.class
 me\firedragon5\islanddefender\commands\clans\KickCommand.class

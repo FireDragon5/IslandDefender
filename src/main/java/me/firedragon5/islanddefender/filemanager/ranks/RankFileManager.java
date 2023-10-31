@@ -21,6 +21,7 @@ public class RankFileManager {
 		return instance;
 	}
 
+
 	public void setup() {
 
 		rankFile = new File("plugins/IslandDefender/ranks.yml");
@@ -70,6 +71,7 @@ public class RankFileManager {
 			rankConfig.addDefault("Default.slot", 9);
 			rankConfig.addDefault("Default.color", "&a");
 			rankConfig.addDefault("Default.next-rank", "Max");
+			rankConfig.addDefault("Default.weight", 1);
 		}
 
 		saveRankConfig();
@@ -86,6 +88,10 @@ public class RankFileManager {
 
 
 //	Getters
+
+	public int getRankPriority(String rank) {
+		return rankConfig.getInt(rank + ".weight");
+	}
 
 	//	Name
 	public String getName(String rank) {

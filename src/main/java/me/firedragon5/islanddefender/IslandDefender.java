@@ -30,8 +30,10 @@ import me.firedragon5.islanddefender.menu.mines.MinePurchaseMenu;
 import me.firedragon5.islanddefender.menu.ranks.RankMenu;
 import me.firedragon5.islanddefender.menu.ranks.RankPurchaseMenu;
 import me.firedragon5.islanddefender.menu.shop.SellMenu;
+import me.firedragon5.islanddefender.task.MinesTask;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 
@@ -46,6 +48,12 @@ public final class IslandDefender extends JavaPlugin {
 
 	//	This is a hashmap for all the pending friend requests
 	public static HashMap<Player, Player> pendingFriendRequests = new HashMap<>();
+
+	//	instance
+	private static IslandDefender instance;
+
+	//	task
+	private BukkitTask task;
 
 
 	@Override
@@ -110,7 +118,37 @@ public final class IslandDefender extends JavaPlugin {
 		new CoinCommand();
 
 
-//		Create a world called hub, make it a void world
+//		task
+		task = new MinesTask().runTaskTimer(this, 0, MineFileManager.getFileManager().getResetTicksInMin());
+
+
+	}
+
+
+	@Override
+	public void onDisable() {
+		// Plugin shutdown logic
+
+		clanManager.saveClanConfig();
+		mineManager.saveMineConfig();
+		configManager.saveConfig();
+		rankFileManager.saveRankConfig();
+		sellFileManager.saveSellConfig();
+
+//		Stop the task
+		if (task != null && !task.isCancelled()) {
+			task.cancel();
+		}
+
+
+	}
+
+	public static IslandDefender getInstance() {
+		return instance;
+	}
+
+
+	//		Create a world called hub, make it a void world
 //		if (Bukkit.getWorld("hub") == null) {
 //			WorldCreator hubCreator = new WorldCreator("hub");
 //			hubCreator.generator(new HubGenerator());
@@ -131,18 +169,5 @@ public final class IslandDefender extends JavaPlugin {
 //
 //		}
 
-	}
 
-
-	@Override
-	public void onDisable() {
-		// Plugin shutdown logic
-
-		clanManager.saveClanConfig();
-		mineManager.saveMineConfig();
-		configManager.saveConfig();
-		rankFileManager.saveRankConfig();
-
-
-	}
 }

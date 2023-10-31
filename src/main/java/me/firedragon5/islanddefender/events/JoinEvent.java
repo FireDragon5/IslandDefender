@@ -2,10 +2,14 @@ package me.firedragon5.islanddefender.events;
 
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
+import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+
+import java.util.Objects;
 
 public class JoinEvent implements Listener {
 
@@ -15,14 +19,14 @@ public class JoinEvent implements Listener {
 
 		Player player = event.getPlayer();
 
+		String rankDisplayName = RankFileManager.getFileManager().getPrefix(PlayerFileManager.getPlayerRank(player));
 
-//		When the player joins the server add them to the folderS
-		PlayerFileManager.addPlayer(player);
+		player.playerListName(Component.text(Objects.requireNonNull(Utils.chat(rankDisplayName + " &f" + player.getName()))));
 
-//		Check if the player has all the correct stuff in their yml file
-		PlayerFileManager.checkPlayer(player);
+		// Set the player's display name
+		player.displayName(Component.text(Objects.requireNonNull(Utils.chat(rankDisplayName + " &f" + player.getName()))));
 
-
+		// Set the join message
 		event.setJoinMessage(Utils.chat("&a&l+ &a" + player.getName()));
 
 	}

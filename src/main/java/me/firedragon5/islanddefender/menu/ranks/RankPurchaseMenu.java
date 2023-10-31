@@ -1,5 +1,6 @@
 package me.firedragon5.islanddefender.menu.ranks;
 
+import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
 import me.firedraong5.firesapi.menu.FireMenu;
@@ -101,6 +102,19 @@ public class RankPurchaseMenu extends FireMenu implements Listener {
 
 //					Change player config
 					PlayerFileManager.setPlayerRank(player, nextRank);
+
+					//		get the player rank
+					String rank = PlayerFileManager.getPlayerRank(player);
+//		get the display name of that rank
+					String rankDisplayName = RankFileManager.getFileManager().getPrefix(rank);
+
+					player.setPlayerListName(
+							Utils.chat(rankDisplayName + " &f" + player.getName()));
+
+//					Player name tag
+					player.setDisplayName(Utils.chat(rankDisplayName + " &f" + player.getName()));
+
+					return;
 
 
 				}

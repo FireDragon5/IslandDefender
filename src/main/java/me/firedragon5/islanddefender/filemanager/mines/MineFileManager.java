@@ -1,6 +1,7 @@
 package me.firedragon5.islanddefender.filemanager.mines;
 
 import me.firedraong5.firesapi.utils.UtilsMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -85,6 +86,9 @@ public class MineFileManager {
 	public void checkMineConfig() {
 
 		mineConfig.addDefault("Menu-size", 54);
+		mineConfig.addDefault("reset-time", 20);
+//		Command to reset the mines
+		mineConfig.addDefault("reset-command", "mineregions fill %mineName%");
 
 		if (!mineConfig.contains("Default")) {
 			mineConfig.addDefault("Default.name", "Default");
@@ -95,7 +99,6 @@ public class MineFileManager {
 			mineConfig.addDefault("Default.spawn", "0, 0, 0");
 			mineConfig.addDefault("Default.rank", "Default");
 			mineConfig.addDefault("Default.cost", 0);
-			mineConfig.addDefault("Default.reset-time", 0);
 			mineConfig.addDefault("Default.next-mine", "max");
 			mineConfig.addDefault("Default.mineColor", "&a");
 			mineConfig.addDefault("Default.slot", 0);
@@ -125,9 +128,28 @@ public class MineFileManager {
 	}
 
 	//	Get Reset time
-	public int getResetTime(String mine) {
-		return mineConfig.getInt(mine + ".reset-time");
+	public int getResetTime() {
+
+		return mineConfig.getInt(".reset-time");
 	}
+
+	//	Convert the ticks to min
+	public int getResetTicksInMin() {
+
+		return mineConfig.getInt(".reset-time") * 60 * 20;
+	}
+
+	//	Get Reset command
+	public void getResetCommand() {
+
+//		Reset all the mines in the config with a 20 sec delay between each mine
+		for (String mine : getMineList()) {
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+					mineConfig.getString("reset-command").replace("%mineName%", mine));
+		}
+
+	}
+
 
 	//	Get Cost
 	public int getCost(String mine) {
@@ -248,8 +270,10 @@ public class MineFileManager {
 
 	//	Get all the mines
 	public List<String> getMineList() {
+
+
 		return List.of(mineConfig.getKeys(false).stream()
-				.filter(key -> !key.equals("Menu-size"))
+				.filter(key -> !key.equals("Menu-size") && !key.equals("reset-time") && !key.equals("reset-command"))
 				.toArray(String[]::new));
 	}
 
