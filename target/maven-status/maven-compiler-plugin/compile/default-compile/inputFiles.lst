@@ -1,3 +1,4 @@
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\kits\KitsFileManger.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\DisbandCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\friends\FriendCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\staff\StaffCommand.java
@@ -34,6 +35,7 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\mines\MineCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\ranks\RankMenu.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\events\JoinEvent.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\kits\KitsMenu.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\mines\MineFileManager.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\JoinCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\DeleteCommand.java
@@ -48,5 +50,6 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\ranks\RankFileManager.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\generator\IslandGenerator.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\clan\ClanInfoMenu.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\kits\KitCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\ranks\RankCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\island\IslandFileManager.java

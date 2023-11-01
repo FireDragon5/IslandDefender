@@ -4,6 +4,8 @@ import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.logging.Logger;
+
 public class MinesTask extends BukkitRunnable {
 
 
@@ -21,6 +23,7 @@ public class MinesTask extends BukkitRunnable {
 
 //		Broadcast the reset message
 		UtilsMessage.broadcastMessage("&aThe mines have been reset!");
+		Logger.getLogger("MinesTask").info("The mines have been reset!");
 
 
 	}

@@ -49,7 +49,7 @@ public class MineMenu extends FireMenu implements Listener {
 			mineLore.add("");
 
 //			cost
-			mineLore.add(String.format("&7Cost: %s$%s", mineColor, mineManager.getCost(mine)));
+			mineLore.add("&7Cost: &a" + mineManager.getCost(mine));
 
 			mineLore.add("");
 
