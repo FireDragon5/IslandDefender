@@ -240,11 +240,25 @@ public class KitsFileManger {
 
 	public void giveKit(Player player, String kitName) {
 		ItemStack[] items = getItem(kitName);
+
+		// Calculate the number of empty slots in the player's inventory
+		int emptySlots = 0;
+		for (ItemStack itemStack : player.getInventory().getContents()) {
+			if (itemStack == null || itemStack.getType() == Material.AIR) {
+				emptySlots++;
+			}
+		}
+
+		// Check if there are no empty slots or if there are fewer empty slots than items in the kit
+		if (emptySlots == 0 || emptySlots < items.length) {
+			UtilsMessage.errorMessage(player, "&cYour inventory is full!");
+			return;
+		}
+
 		player.getInventory().addItem(items);
 
 		UtilsMessage.sendMessage(player, "&aYou have claimed the &7" + getName(kitName) + " &akit!");
 		player.closeInventory();
-
 	}
 
 	//	Get permission

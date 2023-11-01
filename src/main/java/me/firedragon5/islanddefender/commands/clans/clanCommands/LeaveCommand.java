@@ -1,4 +1,4 @@
-package me.firedragon5.islanddefender.commands.clans;
+package me.firedragon5.islanddefender.commands.clans.clanCommands;
 
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;

@@ -74,7 +74,8 @@ public class KitsMenu extends FireMenu implements Listener {
 //		Check if the player has the perms to claim the kit
 		if (event.getCurrentItem() != null) {
 			if (event.getCurrentItem().getItemMeta() != null) {
-				if (event.getCurrentItem().getItemMeta().getDisplayName() != null) {
+//				Don't do anything if the player clicks on a glass pane
+				if (event.getCurrentItem().getType() != Material.BLACK_STAINED_GLASS_PANE) {
 					String kitName = event.getCurrentItem().getItemMeta().getDisplayName();
 					if (KitsFileManger.getFileManager().getPermission(kitName) == null ||
 							player.hasPermission(KitsFileManger.getFileManager().getPermission(kitName))) {

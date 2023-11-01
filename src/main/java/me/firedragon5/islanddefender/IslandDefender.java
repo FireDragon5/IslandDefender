@@ -1,7 +1,8 @@
 package me.firedragon5.islanddefender;
 
 
-import me.firedragon5.islanddefender.commands.clans.ClanCommands;
+import me.firedragon5.islanddefender.commands.clans.adminCommands.AdminClanCommands;
+import me.firedragon5.islanddefender.commands.clans.clanCommands.ClanCommands;
 import me.firedragon5.islanddefender.commands.friends.FriendCommand;
 import me.firedragon5.islanddefender.commands.hub.HubCommand;
 import me.firedragon5.islanddefender.commands.island.IslandCommand;
@@ -128,6 +129,7 @@ public final class IslandDefender extends JavaPlugin {
 		new BalanceCommand();
 		new CoinCommand();
 		new KitCommand();
+		new AdminClanCommands();
 
 
 //		task

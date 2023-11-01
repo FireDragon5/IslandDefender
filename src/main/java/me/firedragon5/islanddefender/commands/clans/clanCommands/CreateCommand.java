@@ -1,4 +1,4 @@
-package me.firedragon5.islanddefender.commands.clans;
+package me.firedragon5.islanddefender.commands.clans.clanCommands;
 
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
@@ -10,7 +10,7 @@ import java.util.Objects;
 public class CreateCommand {
 
 	public static void createClan(Player player, String clanName, String clanTag) {
-		
+
 
 		if (!hasPermission(player)) {
 			UtilsMessage.errorMessage(player, "&cYou do not have permission to use this command!");

@@ -1,6 +1,7 @@
-package me.firedragon5.islanddefender.commands.clans;
+package me.firedragon5.islanddefender.commands.clans.clanCommands;
 
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
+import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.command.FireCommand;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.command.CommandSender;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ClanCommands extends FireCommand {
@@ -75,7 +77,6 @@ public class ClanCommands extends FireCommand {
 
 			}
 
-
 		} else if (args[0].equalsIgnoreCase("visibility")) {
 
 			VisibilityCommand.setVisibility(player, args[1], args[2]);
@@ -100,27 +101,57 @@ public class ClanCommands extends FireCommand {
 	public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
 		List<String> tabComplete = new ArrayList<>();
 
+		Player player = (Player) commandSender;
 
 		if (strings.length == 1) {
 			// Add all available commands that match the typed text
 			for (String commandName : Arrays.asList("info", "list", "help", "join", "leave", "create", "invite", "kick",
 					"promote", "demote", "disband", "delete", "setleader", "setadmin", "setmember")) {
-				if (commandName.startsWith(strings[0].toLowerCase()) && commandSender.hasPermission("islanddefender.clan."
+				if (commandName.startsWith(strings[0].toLowerCase()) && player.hasPermission("islanddefender.clan."
 						+ commandName)) {
 					tabComplete.add(commandName);
 				}
 			}
 		} else if (strings.length == 2) {
 			String commandName = strings[0].toLowerCase();
-			switch (commandName) {
-				case "create":
-				case "join":
-				case "invite":
-				case "delete":
-				case "disband":
-					tabComplete.add("<clanname>");
-					break;
 
+			//					The following command become only visable when they are in a clan
+			if (!Objects.equals(PlayerFileManager.getPlayerClanName(player), "none")) {
+				switch (commandName) {
+					case "leave":
+					case "invite":
+						tabComplete.add("<playername>");
+						break;
+				}
+
+//				if the player is the leader of the clan
+			} else if (ClanFolderManager.getFileManager().getClanLeader(PlayerFileManager.getPlayerClanName(player))
+					.equalsIgnoreCase(player.getName())) {
+				switch (commandName) {
+					case "setleader":
+					case "setadmin":
+					case "setmember":
+					case "kick":
+					case "promote":
+					case "demote":
+						tabComplete.add("<playername>");
+						break;
+
+					case "disband":
+						break;
+				}
+//				if player has the correct perm to create a clan
+			} else if (player.hasPermission("islanddefender.clan.create")) {
+
+				if (commandName.equals("create")) {
+					tabComplete.add("<clanName>");
+				}
+
+			}
+
+//			For normal players
+			switch (commandName) {
+				case "join":
 				case "info":
 //					/clan info <clanName>(List of all the clans)
 					for (String clanName : ClanFolderManager.getFileManager().getClanList()) {
@@ -129,21 +160,9 @@ public class ClanCommands extends FireCommand {
 						}
 					}
 					break;
-
 				case "visibility":
 					tabComplete.add("<public|private>");
 					break;
-
-				case "kick":
-				case "setadmin":
-				case "setmember":
-				case "setleader":
-				case "demote":
-				case "promote":
-					tabComplete.add("<playername>");
-					break;
-
-
 			}
 		} else if (strings.length == 3 && strings[0].equalsIgnoreCase("create")) {
 			// Add suggestions specific to the "create" command with 3 arguments

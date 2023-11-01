@@ -79,6 +79,11 @@ public class ConfigManger {
 			config.addDefault("max-coin-pay-amount", 1000000);
 		}
 
+//		Admin chat format
+		if (!config.contains("adminChatFormat")) {
+			config.addDefault("adminChatFormat", "&8[&4Admin&8] &7%player%&8: &7%message%");
+		}
+
 
 	}
 
@@ -101,6 +106,11 @@ public class ConfigManger {
 	//	Get the chat format
 	public String getChatFormatNoClan() {
 		return config.getString("chatFormatNoClan");
+	}
+
+	//	Get the admin chat format
+	public String getAdminChatFormat() {
+		return config.getString("adminChatFormat");
 	}
 
 
