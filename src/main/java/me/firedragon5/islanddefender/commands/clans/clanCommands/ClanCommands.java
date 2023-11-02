@@ -32,7 +32,15 @@ public class ClanCommands extends FireCommand {
 
 //	 /clan create|join|leave|invite|kick|promote|demote|disband|info|list|help
 		if (args.length == 0) {
-			UtilsMessage.sendMessage(player, "&c/clans create|join|leave|invite|kick|promote|demote|disband|info|list|help");
+
+			if (player.hasPermission("islanddefender.clan")) {
+				UtilsMessage.sendMessage(player, "&c/clan join|leave|info|list|help");
+			} else if (player.hasPermission("islanddefender.clan.create")) {
+				UtilsMessage.sendMessage(player, "&c/clan create|disband|info|list|help");
+//				if the player is the leader of the clan
+			} else if (ClanFolderManager.getFileManager().isLeader(player)) {
+				UtilsMessage.sendMessage(player, "&c/clan invite|kick|promote|demote|info|list|help");
+			}
 			return;
 		}
 
@@ -45,7 +53,6 @@ public class ClanCommands extends FireCommand {
 				UtilsMessage.sendMessage(player, "&c/clan create <clanName> <clanTag>");
 				return;
 			}
-
 			CreateCommand.createClan(player, args[1], args[2]);
 
 		} else if (args[0].equalsIgnoreCase("join")) {
@@ -94,6 +101,10 @@ public class ClanCommands extends FireCommand {
 
 			DisbandCommand.disbandClan(player, args[1]);
 
+		} else if (args[0].equalsIgnoreCase("help")) {
+
+			HelpCommand.helpClan(player);
+
 		}
 
 	}
@@ -105,7 +116,7 @@ public class ClanCommands extends FireCommand {
 		Player player = (Player) commandSender;
 
 		// Check if the player has the basic clan permission
-		if (player.hasPermission("islanddefender.clan")) {
+		if (player.hasPermission("islanddefender.clan") || player.isOp()) {
 			switch (strings.length) {
 				case 1:
 					tabComplete.add("join");
@@ -128,7 +139,7 @@ public class ClanCommands extends FireCommand {
 		}
 
 		// Check if the player has the permission to create and disband clans
-		if (player.hasPermission("islanddefender.clan.create")) {
+		if (player.hasPermission("islanddefender.clan.create") || player.isOp()) {
 			if (strings.length == 1) {
 				tabComplete.add("create");
 				tabComplete.add("disband");

@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.List;
 
 public class ConfigManger {
 
@@ -84,6 +85,14 @@ public class ConfigManger {
 			config.addDefault("adminChatFormat", "&8[&4Admin&8] &7%player%&8: &7%message%");
 		}
 
+//		When a player hovers over players names in chat this will show
+		if (!config.contains("chatHover")) {
+			config.addDefault("chatHover", List.of("&7Rank: &b%rank%", "&7Clan: &b%clan%"));
+		}
+
+		saveConfig();
+
+
 	}
 
 	//	Get the max coin pay amount
@@ -110,6 +119,11 @@ public class ConfigManger {
 	//	Get the admin chat format
 	public String getAdminChatFormat() {
 		return config.getString("adminChatFormat");
+	}
+
+	//	Get the chat hover
+	public List<String> getChatHover() {
+		return config.getStringList("chatHover");
 	}
 
 

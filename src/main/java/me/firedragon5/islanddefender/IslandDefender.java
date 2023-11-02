@@ -17,6 +17,7 @@ import me.firedragon5.islanddefender.commands.shop.SellCommand;
 import me.firedragon5.islanddefender.commands.shop.ShopCommands;
 import me.firedragon5.islanddefender.commands.staff.StaffChatCommand;
 import me.firedragon5.islanddefender.commands.staff.StaffCommand;
+import me.firedragon5.islanddefender.commands.trade.TradeCommand;
 import me.firedragon5.islanddefender.events.ChatEvent;
 import me.firedragon5.islanddefender.events.JoinEvent;
 import me.firedragon5.islanddefender.events.LeaveEvent;
@@ -130,6 +131,7 @@ public final class IslandDefender extends JavaPlugin {
 		new CoinCommand();
 		new KitCommand();
 		new AdminClanCommands();
+		new TradeCommand();
 
 
 //		task

@@ -4,12 +4,12 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\staff\StaffCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\island\IslandCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\config\ConfigManger.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\trade\TradeCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\friends\AddFriendCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\money\CoinCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\Utils.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\clanCommands\KickCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\player\PlayerFileManager.java
-C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\clanCommands\DeleteCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\islanddefender\IslandDefenderCommands.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\mines\MineRegionsCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\items\MineRegionTool.java
@@ -24,6 +24,7 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\adminCommands\AdminClanCommands.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\events\ChatEvent.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\hub\HubCommand.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\trade\TradeMenu.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\money\PayCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\events\LeaveEvent.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\clanCommands\ListCommand.java
@@ -35,6 +36,7 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\events\JoinEvent.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\kits\KitsMenu.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\mines\MineFileManager.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\trade\TradeFileManager.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\filemanager\shop\SellFileManager.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\task\MinesTask.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\money\BalanceCommand.java
@@ -44,6 +46,7 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\clanCommands\VisibilityCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\clanCommands\InviteCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\staff\AdminChatCommand.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\clanCommands\HelpCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\clanCommands\InfoCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\clanCommands\ClanCommands.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\IslandDefender.java
