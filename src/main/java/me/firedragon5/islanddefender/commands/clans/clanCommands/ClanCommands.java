@@ -4,13 +4,12 @@ import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.command.FireCommand;
 import me.firedraong5.firesapi.utils.UtilsMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 
 public class ClanCommands extends FireCommand {
@@ -55,7 +54,9 @@ public class ClanCommands extends FireCommand {
 
 		} else if (args[0].equalsIgnoreCase("leave")) {
 
-			LeaveCommand.leaveClan(player, args[1]);
+			LeaveCommand.leaveClan(player);
+
+
 		} else if (args[0].equalsIgnoreCase("invite")) {
 
 //			InviteCommand.invitePlayer(player, args[1], args[2]);
@@ -103,72 +104,58 @@ public class ClanCommands extends FireCommand {
 
 		Player player = (Player) commandSender;
 
-		if (strings.length == 1) {
-			// Add all available commands that match the typed text
-			for (String commandName : Arrays.asList("info", "list", "help", "join", "leave", "create", "invite", "kick",
-					"promote", "demote", "disband", "delete", "setleader", "setadmin", "setmember")) {
-				if (commandName.startsWith(strings[0].toLowerCase()) && player.hasPermission("islanddefender.clan."
-						+ commandName)) {
-					tabComplete.add(commandName);
-				}
+		// Check if the player has the basic clan permission
+		if (player.hasPermission("islanddefender.clan")) {
+			switch (strings.length) {
+				case 1:
+					tabComplete.add("join");
+
+//					if player is in clan
+					if (PlayerFileManager.isInClan(player)) {
+						tabComplete.add("leave");
+					}
+
+					tabComplete.add("info");
+					tabComplete.add("list");
+					tabComplete.add("help");
+					return tabComplete;
+				case 2:
+					if (strings[0].equalsIgnoreCase("join") || strings[0].equalsIgnoreCase("info")) {
+						tabComplete.addAll(ClanFolderManager.getFileManager().getClanList());
+						return tabComplete;
+					}
 			}
-		} else if (strings.length == 2) {
-			String commandName = strings[0].toLowerCase();
+		}
 
-			//					The following command become only visable when they are in a clan
-			if (!Objects.equals(PlayerFileManager.getPlayerClanName(player), "none")) {
-				switch (commandName) {
-					case "leave":
-					case "invite":
-						tabComplete.add("<playername>");
-						break;
-				}
-
-//				if the player is the leader of the clan
-			} else if (ClanFolderManager.getFileManager().getClanLeader(PlayerFileManager.getPlayerClanName(player))
-					.equalsIgnoreCase(player.getName())) {
-				switch (commandName) {
-					case "setleader":
-					case "setadmin":
-					case "setmember":
-					case "kick":
-					case "promote":
-					case "demote":
-						tabComplete.add("<playername>");
-						break;
-
-					case "disband":
-						break;
-				}
-//				if player has the correct perm to create a clan
-			} else if (player.hasPermission("islanddefender.clan.create")) {
-
-				if (commandName.equals("create")) {
-					tabComplete.add("<clanName>");
-				}
-
+		// Check if the player has the permission to create and disband clans
+		if (player.hasPermission("islanddefender.clan.create")) {
+			if (strings.length == 1) {
+				tabComplete.add("create");
+				tabComplete.add("disband");
 			}
+		}
 
-//			For normal players
-			switch (commandName) {
-				case "join":
-				case "info":
-//					/clan info <clanName>(List of all the clans)
-					for (String clanName : ClanFolderManager.getFileManager().getClanList()) {
-						if (clanName.startsWith(strings[1].toLowerCase())) {
-							tabComplete.add(clanName);
+		// Check if the player is a leader in the clan
+		if (ClanFolderManager.getFileManager().isLeader(player)) {
+			switch (strings.length) {
+				case 1:
+					tabComplete.add("invite");
+					tabComplete.add("kick");
+					tabComplete.add("promote");
+					tabComplete.add("demote");
+					return tabComplete;
+				case 2:
+					if (strings[0].equalsIgnoreCase("invite") || strings[0].equalsIgnoreCase("kick") ||
+							strings[0].equalsIgnoreCase("promote") || strings[0].equalsIgnoreCase("demote")) {
+						for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+							tabComplete.add(onlinePlayer.getName());
 						}
 					}
-					break;
-				case "visibility":
-					tabComplete.add("<public|private>");
-					break;
+					return tabComplete;
 			}
-		} else if (strings.length == 3 && strings[0].equalsIgnoreCase("create")) {
-			// Add suggestions specific to the "create" command with 3 arguments
-			tabComplete.add("<clantag>");
 		}
 
 		return tabComplete;
 	}
+
 }

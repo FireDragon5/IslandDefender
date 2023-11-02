@@ -30,7 +30,7 @@ public class ListCommand {
 
 	//	has permission
 	private static boolean hasPermission(Player player) {
-		return player.hasPermission("islanddefender.clan.list");
+		return player.hasPermission("islanddefender.clan");
 	}
 
 

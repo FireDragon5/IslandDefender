@@ -58,7 +58,7 @@ public class InfoCommand {
 
 	//	has permission
 	private static boolean hasPermission(Player player) {
-		return player.hasPermission("islanddefender.clan.info");
+		return player.hasPermission("islanddefender.clan");
 	}
 
 

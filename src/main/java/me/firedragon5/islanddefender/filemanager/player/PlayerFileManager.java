@@ -7,10 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerFileManager {
 
@@ -147,6 +144,11 @@ public class PlayerFileManager {
 //		Return null if the player file does not exist
 		return null;
 
+	}
+
+	//	is in clan
+	public static boolean isInClan(Player player) {
+		return !Objects.requireNonNull(getPlayerClanName(player)).equalsIgnoreCase("none");
 	}
 
 	//	Get mine name

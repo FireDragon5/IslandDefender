@@ -104,7 +104,7 @@ public class ClanFolderManager {
 		if (clanConfig.getString("clan-cost") == null) {
 			clanConfig.set("clan-cost", 1000);
 		}
-		
+
 	}
 
 
@@ -233,7 +233,10 @@ public class ClanFolderManager {
 
 	//	Leave clan
 	public void leaveClan(Player playerName) {
-		File clanFile = new File("plugins/IslandDefender/clans/" + playerName.getName() + ".yml");
+
+		String clanName = PlayerFileManager.getPlayerClanName(playerName);
+
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 
 		List<String> clanMembers = clanConfig.getStringList("clan-members");
@@ -355,7 +358,7 @@ public class ClanFolderManager {
 		return clanConfig.getString("clan-tag");
 	}
 
-	//	Clan leader
+	//	Check if the sender is the clan leader
 	public String getClanLeader(String clanName) {
 		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
@@ -507,6 +510,14 @@ public class ClanFolderManager {
 		}
 	}
 
+	//	isLeader
+	public boolean isLeader(Player player) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		return Objects.equals(getClanLeader(clanName), player.getName());
+	}
+
 
 //--------------------------------------------//
 
@@ -548,6 +559,7 @@ public class ClanFolderManager {
 			clanConfig.set("clan-enemies", enemies);
 		}
 	}
+
 
 	//	Clan created
 	public void setClanCreatedAdmin(String clanName, String date) {

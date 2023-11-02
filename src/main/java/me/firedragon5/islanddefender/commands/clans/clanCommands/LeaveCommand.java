@@ -11,14 +11,13 @@ public class LeaveCommand {
 
 //	leave clan
 
-	public static void leaveClan(Player player, String clanName) {
+	public static void leaveClan(Player player) {
 
 		if (!hasPermission(player)) {
 			UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
 
 			return;
 		}
-
 
 //		If the player is not in a clan, then return
 		if (Objects.requireNonNull(PlayerFileManager.getPlayerClanName(player)).equalsIgnoreCase("none")) {
@@ -27,16 +26,14 @@ public class LeaveCommand {
 		}
 
 
-		ClanFolderManager.getFileManager().joinClan(clanName, player);
-
-		PlayerFileManager.setPlayerClanName(player, clanName);
+		ClanFolderManager.getFileManager().leaveClan(player);
 
 	}
 
 
 	//	has permission
 	private static boolean hasPermission(Player player) {
-		return player.hasPermission("islanddefender.clan.join");
+		return player.hasPermission("islanddefender.clan");
 	}
 
 

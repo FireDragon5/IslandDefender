@@ -29,7 +29,7 @@ public class DisbandCommand {
 
 	//	Has perms
 	private static boolean hasPermission(Player player) {
-		return player.hasPermission("islanddefender.clan.delete");
+		return player.hasPermission("islanddefender.clan.create");
 	}
 
 

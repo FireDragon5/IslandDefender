@@ -84,7 +84,6 @@ public class ConfigManger {
 			config.addDefault("adminChatFormat", "&8[&4Admin&8] &7%player%&8: &7%message%");
 		}
 
-
 	}
 
 	//	Get the max coin pay amount

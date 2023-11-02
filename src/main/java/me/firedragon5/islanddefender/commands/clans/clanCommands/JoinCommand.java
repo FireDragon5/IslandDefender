@@ -3,6 +3,7 @@ package me.firedragon5.islanddefender.commands.clans.clanCommands;
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
@@ -30,15 +31,22 @@ public class JoinCommand {
 
 		ClanFolderManager.getFileManager().joinClan(clanName, player);
 
-		PlayerFileManager.setPlayerClanName(player, clanName);
+		UtilsMessage.sendMessage(player, "You have joined the clan " + clanName + "!");
 
+		for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+			if (PlayerFileManager.getPlayerClanName(onlinePlayer).equalsIgnoreCase(clanName)) {
+				UtilsMessage.sendMessage(onlinePlayer, player.getName() + " has joined the clan!");
+			}
+		}
+
+		PlayerFileManager.setPlayerClanName(player, clanName);
 
 	}
 
 
 	//	has permission
 	private static boolean hasPermission(Player player) {
-		return player.hasPermission("islanddefender.clan.join");
+		return player.hasPermission("islanddefender.clan");
 	}
 
 
