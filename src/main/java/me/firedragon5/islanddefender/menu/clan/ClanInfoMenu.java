@@ -22,6 +22,16 @@ public class ClanInfoMenu extends FireMenu implements Listener {
 		super(player, title, size);
 	}
 
+	@Override
+	public void setupMenu() {
+
+	}
+
+	@Override
+	public void openMenu(Player player) {
+
+	}
+
 	public void setupMenu(String clanName) {
 
 //		slotNumbers();

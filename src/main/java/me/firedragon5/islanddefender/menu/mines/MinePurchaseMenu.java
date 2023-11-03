@@ -26,6 +26,16 @@ public class MinePurchaseMenu extends FireMenu implements Listener {
 		super(player, name, size);
 	}
 
+	@Override
+	public void setupMenu() {
+
+	}
+
+	@Override
+	public void openMenu(Player player) {
+
+	}
+
 	public void setupMenu(String mine) {
 
 		setMine(mine);

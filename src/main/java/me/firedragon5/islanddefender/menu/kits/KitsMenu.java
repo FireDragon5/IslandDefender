@@ -56,6 +56,11 @@ public class KitsMenu extends FireMenu implements Listener {
 
 	}
 
+	@Override
+	public void openMenu(Player player) {
+
+	}
+
 
 	@Override
 	public void openMenu() {
