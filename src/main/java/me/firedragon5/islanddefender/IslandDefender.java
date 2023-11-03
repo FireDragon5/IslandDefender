@@ -20,7 +20,7 @@ import me.firedragon5.islanddefender.commands.staff.StaffCommand;
 import me.firedragon5.islanddefender.commands.trade.TradeCommand;
 import me.firedragon5.islanddefender.events.ChatEvent;
 import me.firedragon5.islanddefender.events.JoinEvent;
-import me.firedragon5.islanddefender.events.LeaveEvent;
+import me.firedragon5.islanddefender.events.QuitEvent;
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedragon5.islanddefender.filemanager.kits.KitsFileManger;
@@ -115,7 +115,7 @@ public final class IslandDefender extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new Utils(), this);
 		getServer().getPluginManager().registerEvents(new ClanInfoMenu(), this);
 		getServer().getPluginManager().registerEvents(new ChatEvent(), this);
-		getServer().getPluginManager().registerEvents(new LeaveEvent(), this);
+		getServer().getPluginManager().registerEvents(new QuitEvent(), this);
 		getServer().getPluginManager().registerEvents(new MineMenu(), this);
 		getServer().getPluginManager().registerEvents(new MinePurchaseMenu(), this);
 		getServer().getPluginManager().registerEvents(new RankMenu(), this);
@@ -123,6 +123,7 @@ public final class IslandDefender extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new FriendsMenu(), this);
 		getServer().getPluginManager().registerEvents(new SellMenu(), this);
 		getServer().getPluginManager().registerEvents(new KitsMenu(), this);
+
 
 //        register Commands
 		new StaffCommand();

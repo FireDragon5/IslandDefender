@@ -11,7 +11,7 @@ public class AdminClanCommands extends FireCommand {
 	public AdminClanCommands() {
 		super("adminclan", new String[]{"aclans", "ac"},
 				"Clan commands",
-				"islanddefender.clan");
+				"islanddefender.admin");
 
 	}
 

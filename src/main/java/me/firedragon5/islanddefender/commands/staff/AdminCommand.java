@@ -41,10 +41,15 @@ public class AdminCommand extends FireCommand {
 			}
 		} else {
 			// Combine the arguments into a single message
+
 			String message = String.join(" ", strings);
-			UtilsMessage.sendMessage(player, configManager.getAdminChatFormat()
-					.replace("%player%", player.getName())
-					.replace("%message%", message));
+			for (Player onlinePlayer : player.getServer().getOnlinePlayers()) {
+				if (onlinePlayer.hasPermission("islanddefender.admin")) {
+					UtilsMessage.sendMessage(onlinePlayer, configManager.getAdminChatFormat()
+							.replace("%player%", player.getName())
+							.replace("%message%", message));
+				}
+			}
 		}
 	}
 

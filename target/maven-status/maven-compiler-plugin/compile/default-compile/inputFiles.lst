@@ -17,6 +17,8 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\mines\Cuboid.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\friends\FriendsMenu.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\clanCommands\DisbandCommand.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\events\QuitEvent.java
+C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\manager\NameTagManager.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\generator\CustomIslandGenerator.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\generator\HubGenerator.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\shop\ShopCommands.java
@@ -27,7 +29,6 @@ C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\hub\HubCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\trade\TradeMenu.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\money\PayCommand.java
-C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\events\LeaveEvent.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\clans\clanCommands\ListCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\commands\shop\SellCommand.java
 C:\Users\User\Desktop\IslandDefender\src\main\java\me\firedragon5\islanddefender\menu\mines\MinePurchaseMenu.java

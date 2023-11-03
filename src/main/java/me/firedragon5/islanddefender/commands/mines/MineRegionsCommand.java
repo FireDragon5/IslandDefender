@@ -21,7 +21,7 @@ public class MineRegionsCommand extends FireCommand {
 	public MineRegionsCommand() {
 		super("mineregions", new String[]{"mr"},
 				"Show all the mine regions",
-				"islanddefender.mine.admin");
+				"islanddefender.admin");
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class MineRegionsCommand extends FireCommand {
 			if (strings.length == 1) {
 
 				for (String commandName : Arrays.asList("create", "delete", "reload", "fill")) {
-					if (commandName.startsWith(strings[0].toLowerCase()) && player.hasPermission("islanddefender.mine.admin")) {
+					if (commandName.startsWith(strings[0].toLowerCase()) && player.hasPermission("islanddefender.admin")) {
 						tabComplete.add(commandName);
 					}
 				}

@@ -4,6 +4,8 @@ import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedraong5.firesapi.command.FireCommand;
 import me.firedraong5.firesapi.utils.UtilsMessage;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -14,7 +16,7 @@ import java.util.Objects;
 public class StaffCommand extends FireCommand {
 
 	public StaffCommand() {
-		super("staffcommands", new String[]{"sc"},
+		super("staffcommands", new String[]{"sc", "staff"},
 				"Staff chat and staff list commands",
 				"islanddefender.staff");
 	}
@@ -26,6 +28,14 @@ public class StaffCommand extends FireCommand {
 		if (sender instanceof Player player) {
 			ConfigManger configManager = ConfigManger.getFileManager();
 
+
+			LuckPerms luckPerms = LuckPermsProvider.get();
+			String rankDisplayName = Objects.requireNonNull(luckPerms.getUserManager().getUser(player.getUniqueId())).getPrimaryGroup();
+			String prefix = Objects.requireNonNull(luckPerms.getGroupManager().getGroup(rankDisplayName))
+					.getCachedData()
+					.getMetaData()
+					.getPrefix();
+
 			if (args.length == 0) {
 				UtilsMessage.sendMessage(player, "&bStaff Commands:");
 				UtilsMessage.sendMessage(player, "&b/sc <message> &7- Send a message to the staff chat");
@@ -34,21 +44,30 @@ public class StaffCommand extends FireCommand {
 			} else {
 				if (args[0].equalsIgnoreCase("list")) {
 					if (player.hasPermission("islanddefender.staff")) {
+						UtilsMessage.sendMessage(player, "");
 						UtilsMessage.sendMessage(player, "&bStaff Chat Members:");
+						UtilsMessage.sendMessage(player, "&8=============================");
 						for (Player onlinePlayer : player.getServer().getOnlinePlayers()) {
-							if (onlinePlayer.hasPermission("islanddefender.staffchat")) {
-								UtilsMessage.sendMessage(player, "&a- &7" + onlinePlayer.getName());
+							if (onlinePlayer.hasPermission("islanddefender.staff")) {
+								UtilsMessage.sendMessage(player, "&a- " + prefix + "&7" + onlinePlayer.getName());
 							}
 						}
+						UtilsMessage.sendMessage(player, "&8=============================");
+						UtilsMessage.sendMessage(player, "");
+
 					} else {
 						UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
 					}
 				} else {
 					// Combine the arguments into a single message
 					String message = String.join(" ", args);
-					UtilsMessage.sendMessage(player, configManager.getStaffChatFormat()
-							.replace("%player%", player.getName())
-							.replace("%message%", message));
+					for (Player onlinePlayer : player.getServer().getOnlinePlayers()) {
+						if (onlinePlayer.hasPermission("islanddefender.staff")) {
+							UtilsMessage.sendMessage(onlinePlayer, configManager.getStaffChatFormat()
+									.replace("%player%", player.getName())
+									.replace("%message%", message));
+						}
+					}
 				}
 			}
 		} else {

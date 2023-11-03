@@ -26,7 +26,12 @@ public class ChatEvent implements Listener {
 		String chatFormat = configManager.getChatFormat();
 
 
-//		chatFormat: '&8[&4%staffRank%&8] &7[&b%rank%&7] &7[&b%clan%&7] &f%player%&7: &f%message%'
+//		chatFormat: '%staffRank% %rank% %clan% &7%player%&7: &f%message%'
+//		[Helper] [Default] [Clan] [Player]: [Message] - Normal message
+//		if player is not a staff member
+//		 [Default] [Clan] [Player]: [Message] - there is a space in front of the message
+//		if the player is not in a clan
+//		[Helper] [Default]   [Player]: [Message] - there is a space in between the rank and player
 
 //		If the player that send a message not a staff member remove the staffRank
 		if (!player.hasPermission("islanddefender.staff")) {
@@ -48,8 +53,8 @@ public class ChatEvent implements Listener {
 //		if the player is not in a clan remove the clan tag
 		if (Objects.equals(clanTag, "none")) {
 
-//			Remove the []
 			chatFormat = chatFormat.replace("%clan%", "");
+
 		} else {
 			chatFormat = chatFormat.replace("%clan%", clanTag);
 		}
@@ -74,6 +79,7 @@ public class ChatEvent implements Listener {
 
 //		Replace the message
 		chatFormat = chatFormat.replace("%message%", message);
+
 
 		event.setFormat(UtilsMessage.onChat(chatFormat));
 

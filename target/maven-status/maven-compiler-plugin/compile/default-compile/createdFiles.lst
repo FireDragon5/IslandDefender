@@ -2,6 +2,7 @@ me\firedragon5\islanddefender\commands\money\PayCommand.class
 me\firedragon5\islanddefender\menu\clan\ClanInfoMenu.class
 me\firedragon5\islanddefender\commands\mines\Cuboid.class
 me\firedragon5\islanddefender\commands\money\CoinCommand.class
+me\firedragon5\islanddefender\manager\NameTagManager.class
 me\firedragon5\islanddefender\menu\ranks\RankPurchaseMenu.class
 me\firedragon5\islanddefender\menu\kits\KitsMenu.class
 me\firedragon5\islanddefender\commands\island\IslandCommand.class
@@ -16,7 +17,6 @@ me\firedragon5\islanddefender\menu\trade\TradeMenu.class
 me\firedragon5\islanddefender\generator\HubGenerator.class
 me\firedragon5\islanddefender\filemanager\trade\TradeFileManager.class
 me\firedragon5\islanddefender\filemanager\player\PlayerFileManager.class
-me\firedragon5\islanddefender\events\LeaveEvent.class
 me\firedragon5\islanddefender\generator\CustomIslandGenerator.class
 me\firedragon5\islanddefender\menu\shop\ShopMenu.class
 me\firedragon5\islanddefender\commands\islanddefender\IslandDefenderCommands.class
@@ -45,6 +45,7 @@ me\firedragon5\islanddefender\commands\clans\adminCommands\AdminClanCommands.cla
 me\firedragon5\islanddefender\filemanager\mines\MineFileManager.class
 me\firedragon5\islanddefender\commands\clans\clanCommands\HelpCommand.class
 me\firedragon5\islanddefender\commands\shop\SellCommand.class
+me\firedragon5\islanddefender\events\QuitEvent.class
 me\firedragon5\islanddefender\commands\clans\clanCommands\InviteCommand.class
 me\firedragon5\islanddefender\commands\money\BalanceCommand.class
 me\firedragon5\islanddefender\filemanager\config\ConfigManger.class
