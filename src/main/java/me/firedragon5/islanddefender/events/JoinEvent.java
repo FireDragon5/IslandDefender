@@ -3,6 +3,7 @@ package me.firedragon5.islanddefender.events;
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
+import me.firedraong5.firesapi.utils.UtilsMessage;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -32,6 +33,9 @@ public class JoinEvent implements Listener {
 
 		// Set the player's display name
 		player.displayName(Component.text(Objects.requireNonNull(Utils.chat(rankDisplayName + " &f" + player.getName()))));
+
+
+		UtilsMessage.checkPendingMessages();
 
 		// Set the join message
 		event.setJoinMessage(Utils.chat("&a&l+ &a" + player.getName()));
