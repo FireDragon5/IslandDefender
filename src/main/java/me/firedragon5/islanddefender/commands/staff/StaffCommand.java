@@ -58,6 +58,20 @@ public class StaffCommand extends FireCommand {
 					} else {
 						UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
 					}
+				} else if (args[0].equalsIgnoreCase("muteChat")) {
+//				This will mute the global chat so no player will be able to send a message exsept for staff memebers
+					if (player.hasPermission("islanddefender.staff")) {
+						if (configManager.isChatMuted()) {
+							configManager.setChatMuted(false);
+							UtilsMessage.broadcastMessage("&aThe chat has been unmuted!");
+						} else {
+							configManager.setChatMuted(true);
+							UtilsMessage.broadcastMessage("&cThe chat has been muted!");
+						}
+					} else {
+						UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
+					}
+
 				} else {
 					// Combine the arguments into a single message
 					String message = String.join(" ", args);
@@ -80,6 +94,7 @@ public class StaffCommand extends FireCommand {
 		List<String> tabComplete = new ArrayList<>();
 		if (strings.length == 1) {
 			tabComplete.add("list");
+			tabComplete.add("muteChat");
 		}
 		return tabComplete;
 	}

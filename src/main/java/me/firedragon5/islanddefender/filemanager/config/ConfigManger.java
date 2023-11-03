@@ -1,5 +1,6 @@
 package me.firedragon5.islanddefender.filemanager.config;
 
+import me.firedragon5.islanddefender.IslandDefender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -7,6 +8,7 @@ import java.io.File;
 import java.util.List;
 
 public class ConfigManger {
+
 
 	static ConfigManger instance = new ConfigManger();
 
@@ -73,7 +75,7 @@ public class ConfigManger {
 		if (!config.contains("max-coin-pay-amount")) {
 			config.addDefault("max-coin-pay-amount", 1000000);
 		}
-		
+
 		if (!config.contains("staffChatFormat")) {
 			config.addDefault("staffChatFormat", "&8[&4Staff&8] &7%player%&8: &7%message%");
 		}
@@ -130,4 +132,14 @@ public class ConfigManger {
 	}
 
 
+	public boolean isChatMuted() {
+
+		return IslandDefender.isChatMuted;
+
+	}
+
+	public void setChatMuted(boolean b) {
+		IslandDefender.isChatMuted = b;
+
+	}
 }

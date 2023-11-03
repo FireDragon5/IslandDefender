@@ -26,12 +26,15 @@ public class ChatEvent implements Listener {
 		String chatFormat = configManager.getChatFormat();
 
 
-//		chatFormat: '%staffRank% %rank% %clan% &7%player%&7: &f%message%'
-//		[Helper] [Default] [Clan] [Player]: [Message] - Normal message
-//		if player is not a staff member
-//		 [Default] [Clan] [Player]: [Message] - there is a space in front of the message
-//		if the player is not in a clan
-//		[Helper] [Default]   [Player]: [Message] - there is a space in between the rank and player
+//		if the chat is muted
+		if (ConfigManger.getFileManager().isChatMuted()) {
+			if (!player.hasPermission("islanddefender.staff")) {
+				UtilsMessage.errorMessage(player, "The chat is muted!");
+				event.setCancelled(true);
+				return;
+			}
+		}
+
 
 //		If the player that send a message not a staff member remove the staffRank
 		if (!player.hasPermission("islanddefender.staff")) {

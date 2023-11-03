@@ -60,6 +60,9 @@ public final class IslandDefender extends JavaPlugin {
 	//	This is a hashmap for all the pending friend requests
 	public static HashMap<Player, Player> pendingFriendRequests = new HashMap<>();
 
+	public static boolean isChatMuted = false;
+
+
 	//	instance
 	private static IslandDefender instance;
 
