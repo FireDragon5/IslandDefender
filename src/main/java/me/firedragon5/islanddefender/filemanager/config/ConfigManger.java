@@ -64,20 +64,18 @@ public class ConfigManger {
 
 	//	Check if the config file has all the required values
 	public void checkConfig() {
-		if (!config.contains("staffChatFormat")) {
-			config.addDefault("staffChatFormat", "&8[&4Staff&8] &7%player%&8: &7%message%");
-		}
-		if (!config.contains("chatFormat")) {
-			config.addDefault("chatFormat", "&7[&b%rank%&7] &7[&b%clan%&7] &f%player%&7: &f%message%");
-		}
 
-		if (!config.contains("chatFormatNoClan")) {
-			config.addDefault("chatFormatNoClan", "&7[&b%rank%&7] &f%player%&7: &f%message%");
+		if (!config.contains("chatFormat")) {
+			config.addDefault("chatFormat", "&8[&4%staffRank%&8] &7[&b%rank%&7] &7[&b%clan%&7] &f%player%&7: &f%message%");
 		}
 
 //		Max coin pay amount
 		if (!config.contains("max-coin-pay-amount")) {
 			config.addDefault("max-coin-pay-amount", 1000000);
+		}
+		
+		if (!config.contains("staffChatFormat")) {
+			config.addDefault("staffChatFormat", "&8[&4Staff&8] &7%player%&8: &7%message%");
 		}
 
 //		Admin chat format
@@ -124,6 +122,11 @@ public class ConfigManger {
 	//	Get the chat hover
 	public List<String> getChatHover() {
 		return config.getStringList("chatHover");
+	}
+
+	//	get the staff format
+	public String getStaffFormat() {
+		return config.getString("staffFormat");
 	}
 
 

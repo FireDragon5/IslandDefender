@@ -4,6 +4,8 @@ import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,42 +19,63 @@ public class ChatEvent implements Listener {
 	public static void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
-
 		ConfigManger configManager = ConfigManger.getFileManager();
-
-		// Get the player clan tag
 		String clanTag = ClanFolderManager.getPlayerClanTag(player);
 		String rank = PlayerFileManager.getPlayerRank(player);
 
-		// Format the message: [Tag] PlayerName: Message if the player is in a clan
-		String formattedMessage;
-		String chatFormat;
+		String chatFormat = configManager.getChatFormat();
 
-		if (!Objects.equals(clanTag, "none")) {
-			// Get the chat format from the config
-			chatFormat = configManager.getChatFormat();
+
+//		chatFormat: '&8[&4%staffRank%&8] &7[&b%rank%&7] &7[&b%clan%&7] &f%player%&7: &f%message%'
+
+//		If the player that send a message not a staff member remove the staffRank
+		if (!player.hasPermission("islanddefender.staff")) {
+			chatFormat = chatFormat.replace("%staffRank%", "");
 		} else {
-			// If no clan tag found, format the message like this: rank name: Message
-			chatFormat = configManager.getChatFormatNoClan();
-		}
+			LuckPerms luckPerms = LuckPermsProvider.get();
+			String staffRank = Objects.requireNonNull(luckPerms.getUserManager()
+					.getUser(player.getUniqueId())).getPrimaryGroup();
 
-		// Replace the placeholders
-		if (chatFormat != null) {
+			// Get the prefix of the rank
+			String prefix = Objects.requireNonNull(luckPerms.getGroupManager()
+							.getGroup(staffRank))
+					.getCachedData()
+					.getMetaData()
+					.getPrefix();
+
+			chatFormat = chatFormat.replace("%staffRank%", prefix);
+		}
+//		if the player is not in a clan remove the clan tag
+		if (Objects.equals(clanTag, "none")) {
+
+//			Remove the []
+			chatFormat = chatFormat.replace("%clan%", "");
+		} else {
 			chatFormat = chatFormat.replace("%clan%", clanTag);
-			chatFormat = chatFormat.replace("%player%", player.getName());
-			chatFormat = chatFormat.replace("%message%", message);
-			if (rank != null) {
-				chatFormat = chatFormat.replace("%rank%", rank);
-			}
+		}
+//		Replace the rank
+//		if rank is null replace with Default
+		if (rank == null) {
+			rank = "Default";
 		}
 
-		formattedMessage = chatFormat;
+//		 Get the prefix of the rank
+		String prefix = Objects.requireNonNull(LuckPermsProvider.get()
+						.getGroupManager()
+						.getGroup(rank))
+				.getCachedData()
+				.getMetaData()
+				.getPrefix();
 
+		chatFormat = chatFormat.replace("%rank%", prefix);
 
-		// Send the message to all players
-		event.setFormat(UtilsMessage.onChat(formattedMessage));
+//		Replace the player name
+		chatFormat = chatFormat.replace("%player%", player.getName());
+
+//		Replace the message
+		chatFormat = chatFormat.replace("%message%", message);
+
+		event.setFormat(UtilsMessage.onChat(chatFormat));
 
 	}
-
-
 }

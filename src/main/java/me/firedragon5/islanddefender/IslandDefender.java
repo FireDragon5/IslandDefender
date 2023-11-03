@@ -15,6 +15,7 @@ import me.firedragon5.islanddefender.commands.money.CoinCommand;
 import me.firedragon5.islanddefender.commands.ranks.RankCommand;
 import me.firedragon5.islanddefender.commands.shop.SellCommand;
 import me.firedragon5.islanddefender.commands.shop.ShopCommands;
+import me.firedragon5.islanddefender.commands.staff.AdminCommand;
 import me.firedragon5.islanddefender.commands.staff.StaffCommand;
 import me.firedragon5.islanddefender.commands.trade.TradeCommand;
 import me.firedragon5.islanddefender.events.ChatEvent;
@@ -35,6 +36,9 @@ import me.firedragon5.islanddefender.menu.ranks.RankMenu;
 import me.firedragon5.islanddefender.menu.ranks.RankPurchaseMenu;
 import me.firedragon5.islanddefender.menu.shop.SellMenu;
 import me.firedragon5.islanddefender.task.MinesTask;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -66,6 +70,13 @@ public final class IslandDefender extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		// Plugin startup logic
+
+		LuckPerms luckPerms = LuckPermsProvider.get();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			luckPerms.getUserManager().loadUser(player.getUniqueId());
+		}
+		instance = this;
+
 
 //		ClanManager
 		clanManager = ClanFolderManager.getFileManager();
@@ -130,6 +141,7 @@ public final class IslandDefender extends JavaPlugin {
 		new KitCommand();
 		new AdminClanCommands();
 		new TradeCommand();
+		new AdminCommand();
 
 
 //		task
