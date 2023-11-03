@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ClanCommands extends FireCommand {
@@ -66,11 +67,17 @@ public class ClanCommands extends FireCommand {
 
 		} else if (args[0].equalsIgnoreCase("invite")) {
 
-//			InviteCommand.invitePlayer(player, args[1], args[2]);
+			Player target = Bukkit.getPlayer(args[1]);
+
+
+			InviteCommand.invitePlayer(player, target);
 
 		} else if (args[0].equalsIgnoreCase("kick")) {
 
-//			KickCommand.kickPlayer(player, args[1], args[2]);
+			Player target = Bukkit.getPlayer(args[1]);
+
+
+			KickCommand.kickPlayer(player, target);
 
 		} else if (args[0].equalsIgnoreCase("list")) {
 
@@ -90,17 +97,37 @@ public class ClanCommands extends FireCommand {
 			VisibilityCommand.setVisibility(player, args[1], args[2]);
 
 		} else if (args[0].equalsIgnoreCase("disband")) {
+			if (args.length == 1) {
+				// Player typed "/clan disband" without "yes" or "no"
+				DisbandCommand.disbandClan(player);
+			} else if (args.length == 2) {
+				String confirmationArg = args[1].toLowerCase();
+				if (confirmationArg.equals("yes")) {
+					// Player confirmed to disband the clan
+					DisbandCommand.confirmDisband(player, true);
+				} else if (confirmationArg.equals("no")) {
+					// Player canceled the disband action
+					DisbandCommand.confirmDisband(player, false);
+				} else {
+					// Invalid confirmation, show usage or error message
+					// You can implement this part as needed
 
-//			//	Make the player click a message when the player clicks the message then disband the clan
-//			UtilsMessage.clickableMessage(player, "&cAre you sure you want to disband your clan? &aClick here" +
-//							" to disband your clan",
-//					"/clan disband " + args[1]);
+					UtilsMessage.errorMessage(player, "&cInvalid confirmation. Please type &a/clan disband yes &cor &a/clan disband no");
 
-//			only disband the clan if the player clicks the message
+//					Send a message to all the clan members that the clan has been disbanded
+					for (Player clanMember : Bukkit.getOnlinePlayers()) {
+
+						if (PlayerFileManager.isInClan(clanMember)) return;
+						if (Objects.requireNonNull(PlayerFileManager.getPlayerClanName(clanMember))
+								.equalsIgnoreCase(PlayerFileManager.getPlayerClanName(player))) {
+							UtilsMessage.offlineMessage(clanMember, "&cThe clan has been disbanded");
+						}
 
 
-			DisbandCommand.disbandClan(player, args[1]);
+					}
 
+				}
+			}
 		} else if (args[0].equalsIgnoreCase("help")) {
 
 			HelpCommand.helpClan(player);

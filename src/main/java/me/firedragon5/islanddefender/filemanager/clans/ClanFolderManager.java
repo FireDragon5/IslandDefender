@@ -519,6 +519,83 @@ public class ClanFolderManager {
 	}
 
 
+	public void invitePlayer(Player player, Player target) {
+
+		//		Check if player can do /invite
+		if (!isLeader(player)) {
+
+			UtilsMessage.errorMessage(player, "&cYou are not the correct clan rank to do this!");
+
+			return;
+		}
+
+		//		Check if the player is in a clan
+		if (!PlayerFileManager.isInClan(player)) {
+			UtilsMessage.errorMessage(player, "&cYou are not in a clan!");
+			return;
+		}
+
+		//		Check if the player is in a clan if so they can't invite
+		if (PlayerFileManager.isInClan(target)) {
+			UtilsMessage.errorMessage(player, "&cThis player is already in a clan!");
+			return;
+		}
+
+		//		Invite the target to your clan
+		invitePlayer(player, target);
+
+		UtilsMessage.sendMessage(player, "&aYou have invited &e" + target.getName() + " &ato your clan!");
+		UtilsMessage.sendMessage(target, "&aYou have been invited to &e"
+				+ PlayerFileManager.getPlayerClanName(player) + "&a's clan!");
+		UtilsMessage.sendMessage(target, "&aDo &e/clan join " +
+				PlayerFileManager.getPlayerClanName(player) + " &ato join!");
+
+
+	}
+
+
+	public void kickPlayer(Player player, Player target) {
+
+//		Check if the player is the correct clan rank to preform this command
+		if (!isLeader(player)) {
+
+			UtilsMessage.errorMessage(player, "&cYou are not the correct clan rank to do this!");
+
+			return;
+		}
+
+
+//		Check if the target is in the same clan as the player
+		if (!Objects.equals(PlayerFileManager.getPlayerClanName(player),
+				PlayerFileManager.getPlayerClanName(target))) {
+			UtilsMessage.errorMessage(player, "&cThis player is not in your clan!");
+			return;
+		}
+
+//		Remove the player form the clan list
+		leaveClan(target);
+
+//		Send message to the player
+		UtilsMessage.sendMessage(player, "&aYou have kicked &e" + target.getName() + " &afrom your clan!");
+
+//		If the target is offline then send them a message when they join
+		if (!target.isOnline()) {
+			UtilsMessage.sendMessage(target, "&aYou have been kicked from &e"
+					+ PlayerFileManager.getPlayerClanName(player) + "&a's clan!");
+			UtilsMessage.sendMessage(target, "&aDo &e/clan join " +
+					PlayerFileManager.getPlayerClanName(player) + " &ato join!");
+		} else {
+			UtilsMessage.sendMessage(target, "&aYou have been kicked from &e"
+					+ PlayerFileManager.getPlayerClanName(player) + "&a's clan!");
+			UtilsMessage.sendMessage(target, "&aDo &e/clan join " +
+					PlayerFileManager.getPlayerClanName(player) + " &ato join!");
+
+		}
+
+
+	}
+
+
 //--------------------------------------------//
 
 
