@@ -301,7 +301,7 @@ public class ClanFolderManager {
 //---------- Methods to get details about the clan  ---------------//
 
 	//	Max clans
-	public int getMaxClans() {
+	private int getMaxClans() {
 		return clanConfig.getInt("max-clans");
 	}
 

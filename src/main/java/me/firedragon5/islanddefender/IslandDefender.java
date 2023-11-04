@@ -12,6 +12,7 @@ import me.firedragon5.islanddefender.commands.mines.MineCommand;
 import me.firedragon5.islanddefender.commands.mines.MineRegionsCommand;
 import me.firedragon5.islanddefender.commands.money.BalanceCommand;
 import me.firedragon5.islanddefender.commands.money.CoinCommand;
+import me.firedragon5.islanddefender.commands.playerStatsCommand.PlayerStatsCommand;
 import me.firedragon5.islanddefender.commands.ranks.RankCommand;
 import me.firedragon5.islanddefender.commands.shop.SellCommand;
 import me.firedragon5.islanddefender.commands.shop.ShopCommands;
@@ -33,6 +34,7 @@ import me.firedragon5.islanddefender.menu.friends.FriendsMenu;
 import me.firedragon5.islanddefender.menu.kits.KitsMenu;
 import me.firedragon5.islanddefender.menu.mines.MineMenu;
 import me.firedragon5.islanddefender.menu.mines.MinePurchaseMenu;
+import me.firedragon5.islanddefender.menu.playerStats.PlayerStatsMenu;
 import me.firedragon5.islanddefender.menu.ranks.RankMenu;
 import me.firedragon5.islanddefender.menu.ranks.RankPurchaseMenu;
 import me.firedragon5.islanddefender.menu.shop.SellMenu;
@@ -128,6 +130,7 @@ public final class IslandDefender extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new SellMenu(), this);
 		getServer().getPluginManager().registerEvents(new KitsMenu(), this);
 		getServer().getPluginManager().registerEvents(new InvSeeMenu(), this);
+		getServer().getPluginManager().registerEvents(new PlayerStatsMenu(), this);
 
 
 //        register Commands
@@ -148,6 +151,7 @@ public final class IslandDefender extends JavaPlugin {
 		new AdminClanCommands();
 		new TradeCommand();
 		new AdminCommand();
+		new PlayerStatsCommand();
 
 
 //		task

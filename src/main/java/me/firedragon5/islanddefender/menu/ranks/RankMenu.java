@@ -118,10 +118,6 @@ public class RankMenu extends FireMenu implements Listener {
 
 	}
 
-	@Override
-	public void openMenu(Player player) {
-
-	}
 
 	private int getNextOpenSlot() {
 		int nextOpenSlot = 0;

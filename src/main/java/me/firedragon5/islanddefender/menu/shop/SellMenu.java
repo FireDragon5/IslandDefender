@@ -25,15 +25,6 @@ public class SellMenu extends FireMenu implements Listener {
 		super(player, title, size);
 	}
 
-	@Override
-	public void setupMenu() {
-
-	}
-
-	@Override
-	public void openMenu(Player player) {
-
-	}
 
 
 	public void setup() {
