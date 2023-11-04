@@ -83,7 +83,7 @@
         <dependency>
             <groupId>com.github.FireDragon5</groupId>
             <artifactId>FireApi</artifactId>
-            <version>v1.5</version>
+            <version>1.5.1</version>
             <scope>compile</scope>
         </dependency>
 
