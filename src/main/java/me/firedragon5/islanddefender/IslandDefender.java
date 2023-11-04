@@ -16,8 +16,7 @@ import me.firedragon5.islanddefender.commands.playerStatsCommand.PlayerStatsComm
 import me.firedragon5.islanddefender.commands.ranks.RankCommand;
 import me.firedragon5.islanddefender.commands.shop.SellCommand;
 import me.firedragon5.islanddefender.commands.shop.ShopCommands;
-import me.firedragon5.islanddefender.commands.staff.AdminCommand;
-import me.firedragon5.islanddefender.commands.staff.StaffCommand;
+import me.firedragon5.islanddefender.commands.staff.*;
 import me.firedragon5.islanddefender.commands.trade.TradeCommand;
 import me.firedragon5.islanddefender.events.ChatEvent;
 import me.firedragon5.islanddefender.events.JoinEvent;
@@ -47,6 +46,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 
 public final class IslandDefender extends JavaPlugin {
@@ -62,8 +64,9 @@ public final class IslandDefender extends JavaPlugin {
 
 	//	This is a hashmap for all the pending friend requests
 	public static HashMap<Player, Player> pendingFriendRequests = new HashMap<>();
-
 	public static boolean isChatMuted = false;
+	public final Set<UUID> vanished = new HashSet<>();
+
 
 
 	//	instance
@@ -152,6 +155,9 @@ public final class IslandDefender extends JavaPlugin {
 		new TradeCommand();
 		new AdminCommand();
 		new PlayerStatsCommand();
+		new InvSeeCommand();
+		new MuteCommand();
+		new VanishCommand();
 
 
 //		task
