@@ -48,6 +48,11 @@ public class PlayerStatsCommand extends FireCommand {
 
 		if (strings.length == 1) {
 			for (Player player : Bukkit.getOnlinePlayers()){
+
+				if (commandSender.getName().equals(player.getName())){
+					continue;
+				}
+
 				tabComplete.add(player.getName());
 			}
 		}
