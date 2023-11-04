@@ -6,12 +6,14 @@ import me.firedraong5.firesapi.command.FireCommand;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class StaffCommand extends FireCommand {
 
@@ -72,7 +74,32 @@ public class StaffCommand extends FireCommand {
 						UtilsMessage.errorMessage(player, "You don't have permission to use this command!");
 					}
 
-				} else {
+				}else if (args[0].equalsIgnoreCase("invsee")) {
+
+					Player target = Bukkit.getPlayer(args[1]);
+
+					if (player.hasPermission("islanddefender.staff")) {
+						if (args.length != 2) {
+							UtilsMessage.errorMessage(player, "Usage: /staff invsee <player>");
+							return;
+						}
+
+
+
+						if (target == null) {
+							UtilsMessage.errorMessage(player, "That player is not online!");
+							return;
+						}
+
+
+
+						player.openInventory(getInventory(target));
+					}
+
+				}
+
+
+				else {
 					// Combine the arguments into a single message
 					String message = String.join(" ", args);
 					for (Player onlinePlayer : player.getServer().getOnlinePlayers()) {
@@ -98,4 +125,30 @@ public class StaffCommand extends FireCommand {
 		}
 		return tabComplete;
 	}
+
+
+
+	public Inventory getInventory(Player target){
+		Inventory inv = Bukkit.createInventory(null, 54, Objects.requireNonNull(Utils.chat("&7" + target.getName() + "'s Inventory")));
+
+		ItemStack[] armour = target.getInventory().getArmorContents();
+		ItemStack[] invContent = target.getInventory().getStorageContents();
+
+		List<ItemStack> contents = new ArrayList<>(Arrays.asList(invContent));
+
+		for (int i = 0; i < 9; i++){
+			contents.add(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+		}
+
+		Collections.addAll(contents, armour);
+
+		ItemStack[] cont = contents.toArray(new ItemStack[0]);
+
+		inv.setContents(cont);
+		return inv;
+	}
+
+
+
+
 }
