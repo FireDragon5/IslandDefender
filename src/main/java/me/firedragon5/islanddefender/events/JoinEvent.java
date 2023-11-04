@@ -41,8 +41,8 @@ public class JoinEvent implements Listener {
 				.getPrefix();
 
 
-		player.setPlayerListHeader(ConfigManger.getFileManager().getTablistHeader());
-		player.setPlayerListFooter(ConfigManger.getFileManager().getTablistFooter());
+		player.setPlayerListHeader(Utils.chat(ConfigManger.getFileManager().getTablistHeader()));
+		player.setPlayerListFooter(Utils.chat(ConfigManger.getFileManager().getTablistFooter()));
 
 
 		// Set the join message
