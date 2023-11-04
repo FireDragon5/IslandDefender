@@ -17,11 +17,12 @@ public class InvSeeMenu implements Listener {
 	private static Player target;
 
 
+
+
 	public static Inventory getInventory(Player target){
 
-		InvSeeMenu.target = target;
-
-		Inventory inv = Bukkit.createInventory(null, 54, Objects.requireNonNull(Utils.chat("&7" + target.getName() + "'s Inventory")));
+		Inventory inv = Bukkit.createInventory(null, 54,
+				Objects.requireNonNull(Utils.chat("&7" + target.getName() + "'s Inventory")));
 
 		ItemStack[] armour = target.getInventory().getArmorContents();
 		ItemStack[] invContent = target.getInventory().getStorageContents();
@@ -43,6 +44,7 @@ public class InvSeeMenu implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e){
 		if (e.getView().getTitle().equalsIgnoreCase(Utils.chat("&7" + getTarget() + "'s Inventory"))){
+			System.out.println("Invsee menu clicked");
 //			cancel the event if the user clicks on a black stained glass pane
 			if (e.getCurrentItem().getType().equals(Material.BLACK_STAINED_GLASS_PANE)){
 				e.setCancelled(true);
@@ -53,5 +55,9 @@ public class InvSeeMenu implements Listener {
 
 	public Player getTarget() {
 		return target;
+	}
+
+	public static void setTarget(Player target) {
+		InvSeeMenu.target = target;
 	}
 }

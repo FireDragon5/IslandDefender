@@ -92,7 +92,7 @@ public class StaffCommand extends FireCommand {
 						}
 
 
-
+						InvSeeMenu.setTarget(target);
 						player.openInventory(InvSeeMenu.getInventory(target));
 					}
 
