@@ -1,6 +1,7 @@
 package me.firedragon5.islanddefender.events;
 
 import me.firedragon5.islanddefender.Utils;
+import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedragon5.islanddefender.manager.NameTagManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import net.luckperms.api.LuckPerms;
@@ -38,6 +39,10 @@ public class JoinEvent implements Listener {
 				.getCachedData()
 				.getMetaData()
 				.getPrefix();
+
+
+		player.setPlayerListHeader(ConfigManger.getFileManager().getTablistHeader());
+		player.setPlayerListFooter(ConfigManger.getFileManager().getTablistFooter());
 
 
 		// Set the join message

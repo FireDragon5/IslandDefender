@@ -90,6 +90,17 @@ public class ConfigManger {
 			config.addDefault("chatHover", List.of("&7Rank: &b%rank%", "&7Clan: &b%clan%"));
 		}
 
+//		Header for the tablist
+		if (!config.contains("tablistHeader")) {
+			config.addDefault("tablistHeader", "&8&m----------------------");
+		}
+
+//		Footer for the tablist
+		if (!config.contains("tablistFooter")) {
+			config.addDefault("tablistFooter", "&8&m----------------------");
+		}
+
+
 		saveConfig();
 
 
@@ -142,4 +153,13 @@ public class ConfigManger {
 		IslandDefender.isChatMuted = b;
 
 	}
+
+	public String getTablistHeader() {
+		return config.getString("tablistHeader");
+	}
+
+	public String getTablistFooter() {
+		return config.getString("tablistFooter");
+	}
+
 }
