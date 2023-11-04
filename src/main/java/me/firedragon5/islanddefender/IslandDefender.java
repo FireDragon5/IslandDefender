@@ -27,6 +27,7 @@ import me.firedragon5.islanddefender.filemanager.kits.KitsFileManger;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
 import me.firedragon5.islanddefender.filemanager.shop.SellFileManager;
+import me.firedragon5.islanddefender.menu.Invsee.InvSeeMenu;
 import me.firedragon5.islanddefender.menu.clan.ClanInfoMenu;
 import me.firedragon5.islanddefender.menu.friends.FriendsMenu;
 import me.firedragon5.islanddefender.menu.kits.KitsMenu;
@@ -126,6 +127,7 @@ public final class IslandDefender extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new FriendsMenu(), this);
 		getServer().getPluginManager().registerEvents(new SellMenu(), this);
 		getServer().getPluginManager().registerEvents(new KitsMenu(), this);
+		getServer().getPluginManager().registerEvents(new InvSeeMenu(), this);
 
 
 //        register Commands

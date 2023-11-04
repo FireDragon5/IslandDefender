@@ -2,18 +2,18 @@ package me.firedragon5.islanddefender.commands.staff;
 
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
+import me.firedragon5.islanddefender.menu.Invsee.InvSeeMenu;
 import me.firedraong5.firesapi.command.FireCommand;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class StaffCommand extends FireCommand {
 
@@ -93,7 +93,7 @@ public class StaffCommand extends FireCommand {
 
 
 
-						player.openInventory(getInventory(target));
+						player.openInventory(InvSeeMenu.getInventory(target));
 					}
 
 				}
@@ -119,34 +119,27 @@ public class StaffCommand extends FireCommand {
 	@Override
 	public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
 		List<String> tabComplete = new ArrayList<>();
-		if (strings.length == 1) {
-			tabComplete.add("list");
-			tabComplete.add("muteChat");
+		switch (strings.length) {
+			case 1:
+				tabComplete.add("list");
+				tabComplete.add("help");
+				tabComplete.add("muteChat");
+				tabComplete.add("invsee");
+				break;
+			case 2:
+				if (strings[0].equalsIgnoreCase("invsee")) {
+					for (Player player : Bukkit.getOnlinePlayers()) {
+						tabComplete.add(player.getName());
+					}
+				}
+				break;
 		}
 		return tabComplete;
 	}
 
 
 
-	public Inventory getInventory(Player target){
-		Inventory inv = Bukkit.createInventory(null, 54, Objects.requireNonNull(Utils.chat("&7" + target.getName() + "'s Inventory")));
 
-		ItemStack[] armour = target.getInventory().getArmorContents();
-		ItemStack[] invContent = target.getInventory().getStorageContents();
-
-		List<ItemStack> contents = new ArrayList<>(Arrays.asList(invContent));
-
-		for (int i = 0; i < 9; i++){
-			contents.add(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
-		}
-
-		Collections.addAll(contents, armour);
-
-		ItemStack[] cont = contents.toArray(new ItemStack[0]);
-
-		inv.setContents(cont);
-		return inv;
-	}
 
 
 
