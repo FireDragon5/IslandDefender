@@ -16,10 +16,10 @@ import java.util.Objects;
 public class QuitEvent implements Listener {
 
 
-	private final IslandDefender plugin;
+	private static IslandDefender plugin;
 
 	public QuitEvent(IslandDefender plugin) {
-		this.plugin = plugin;
+		QuitEvent.plugin = plugin;
 	}
 
 	@EventHandler
@@ -38,16 +38,17 @@ public class QuitEvent implements Listener {
 
 
 //		Remove player from a vanished list
-		IslandDefender.getInstance().vanished.remove(player.getUniqueId());
+		plugin.vanished.remove(player.getUniqueId());
 
 //		Remove player from pending friend requests
 		IslandDefender.pendingFriendRequests.remove(player);
 
 //		Remove player from active cosmetics
-		if (IslandDefender.getInstance().getActiveCosmetics().containsKey(player.getUniqueId())) {
-			for (Cosmetic cosmetic : IslandDefender.getInstance().getActiveCosmetics().get(player.getUniqueId())) {
+		if (plugin.getActiveCosmetics().containsKey(player.getUniqueId())) {
+			for (Cosmetic cosmetic : plugin.getActiveCosmetics().get(player.getUniqueId())) {
 				cosmetic.disable();
 			}
+			plugin.getActiveCosmetics().remove(player.getUniqueId());
 		}
 
 
