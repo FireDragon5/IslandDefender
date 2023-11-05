@@ -19,6 +19,7 @@ import me.firedragon5.islanddefender.commands.shop.ShopCommands;
 import me.firedragon5.islanddefender.commands.staff.*;
 import me.firedragon5.islanddefender.commands.trade.TradeCommand;
 import me.firedragon5.islanddefender.events.ChatEvent;
+import me.firedragon5.islanddefender.events.CosmeticListener;
 import me.firedragon5.islanddefender.events.JoinEvent;
 import me.firedragon5.islanddefender.events.QuitEvent;
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
@@ -28,6 +29,7 @@ import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
 import me.firedragon5.islanddefender.filemanager.shop.SellFileManager;
 import me.firedragon5.islanddefender.generator.IslandGenerator;
+import me.firedragon5.islanddefender.instance.Cosmetic;
 import me.firedragon5.islanddefender.menu.Invsee.InvSeeMenu;
 import me.firedragon5.islanddefender.menu.clan.ClanInfoMenu;
 import me.firedragon5.islanddefender.menu.friends.FriendsMenu;
@@ -48,10 +50,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 public final class IslandDefender extends JavaPlugin {
@@ -61,10 +60,7 @@ public final class IslandDefender extends JavaPlugin {
 	ConfigManger configManager;
 	RankFileManager rankFileManager;
 	SellFileManager sellFileManager;
-
 	KitsFileManger kitsFileManger;
-
-
 
 
 	//	This is a hashmap for all the pending friend requests
@@ -72,6 +68,7 @@ public final class IslandDefender extends JavaPlugin {
 	public static boolean isChatMuted = false;
 	public final Set<UUID> vanished = new HashSet<>();
 
+	private final HashMap<UUID, List<Cosmetic>> activeCosmetics = new HashMap<>();
 
 
 	//	instance
@@ -130,7 +127,7 @@ public final class IslandDefender extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new Utils(), this);
 		getServer().getPluginManager().registerEvents(new ClanInfoMenu(), this);
 		getServer().getPluginManager().registerEvents(new ChatEvent(), this);
-		getServer().getPluginManager().registerEvents(new QuitEvent(), this);
+		getServer().getPluginManager().registerEvents(new QuitEvent(this), this);
 		getServer().getPluginManager().registerEvents(new MineMenu(), this);
 		getServer().getPluginManager().registerEvents(new MinePurchaseMenu(), this);
 		getServer().getPluginManager().registerEvents(new RankMenu(), this);
@@ -140,6 +137,7 @@ public final class IslandDefender extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new KitsMenu(), this);
 		getServer().getPluginManager().registerEvents(new InvSeeMenu(), this);
 		getServer().getPluginManager().registerEvents(new PlayerStatsMenu(), this);
+		getServer().getPluginManager().registerEvents(new CosmeticListener(), this);
 
 
 //        register Commands
@@ -182,8 +180,6 @@ public final class IslandDefender extends JavaPlugin {
 
 		}
 
-
-
 	}
 
 
@@ -209,6 +205,10 @@ public final class IslandDefender extends JavaPlugin {
 
 	public static IslandDefender getInstance() {
 		return instance;
+	}
+
+	public HashMap<UUID, List<Cosmetic>> getActiveCosmetics() {
+		return activeCosmetics;
 	}
 
 
