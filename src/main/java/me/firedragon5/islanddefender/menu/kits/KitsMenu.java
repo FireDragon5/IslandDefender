@@ -29,7 +29,7 @@ public class KitsMenu extends FireMenu implements Listener {
 
 		List<String> lore = new ArrayList<>();
 
-		int i = 0;
+		int i = 10;
 
 		for (String kit : kitsFileManger.getKits()) {
 
@@ -52,7 +52,7 @@ public class KitsMenu extends FireMenu implements Listener {
 			lore.clear();
 		}
 
-		glass(Material.BLACK_STAINED_GLASS_PANE);
+		borderGlass(Material.BLACK_STAINED_GLASS_PANE);
 
 	}
 

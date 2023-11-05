@@ -64,6 +64,8 @@ public class NameTagManager {
 					onlinePlayerTeam.addEntry(onlinePlayer.getName());
 				}
 			}
+
+
 		}
 	}
 

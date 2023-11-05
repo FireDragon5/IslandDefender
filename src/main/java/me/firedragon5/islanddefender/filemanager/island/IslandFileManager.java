@@ -1,5 +1,6 @@
 package me.firedragon5.islanddefender.filemanager.island;
 
+import com.sk89q.worldedit.WorldEdit;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -181,6 +182,20 @@ public class IslandFileManager {
 		}
 	}
 
+//	Spawn the townhall at the player's island
+	public static void spawnTownHall(Player player) {
+
+		WorldEdit worldEdit = WorldEdit.getInstance();
+
+		//	Load the schematic
+		//	Place the schematic at the player's island
+
+
+
+
+
+
+	}
 
 	//	getters and setter
 	public static int getX() {

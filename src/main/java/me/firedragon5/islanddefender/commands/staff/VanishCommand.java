@@ -40,15 +40,28 @@ public class VanishCommand extends FireCommand {
 		boolean vanished = IslandDefender.getInstance().vanished.contains(target.getUniqueId());
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (player.hasPermission("islanddefender.staff")) {
 				if (target.equals(player)) {
 					continue;
 				}
+//				if the player is in the vanished set then hide them
 				if (vanished)
 					player.showPlayer(target);
-				 else
+				else
 					player.hidePlayer(target);
-			}
+
+
+
+
+
+//				if you have the staff perm you can see them
+				if (player.hasPermission("islanddefender.staff")) {
+					player.showPlayer(target);
+//					Let the other staff know if the player is vanished or not
+					UtilsMessage.sendMessage(player, "&c"
+							+ target.getName()
+							+ " &7has been " + (vanished ? "unvanished" : "vanished") + "&7.");
+				}
+
 		}
 
 
@@ -57,18 +70,10 @@ public class VanishCommand extends FireCommand {
 				+ " &7has been " + (vanished ? "unvanished" : "vanished") + "&7.");
 
 
-		if (vanished) {
+		if (vanished)
 			IslandDefender.getInstance().vanished.remove(target.getUniqueId());
-		} else {
+		else
 			IslandDefender.getInstance().vanished.add(target.getUniqueId());
-		}
-
-
-
-
-
-
-
 
 
 

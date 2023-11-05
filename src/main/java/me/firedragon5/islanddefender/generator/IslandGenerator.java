@@ -8,11 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
-
 public class IslandGenerator extends ChunkGenerator {
 
-
-	//	Create a super flat world
+	// Create a super flat world
 	@Override
 	public @NotNull ChunkData generateChunkData(@NotNull World world, @NotNull Random random, int chunkX, int chunkZ, @NotNull BiomeGrid biome) {
 		ChunkData chunkData = createChunkData(world);
@@ -34,15 +32,17 @@ public class IslandGenerator extends ChunkGenerator {
 		return chunkData;
 	}
 
-
-	//	Each player can expand their island by eight chunks so make the world border 13 chunks
+	// Check if a player can spawn in this location
 	@Override
 	public boolean canSpawn(@NotNull World world, int x, int z) {
 		WorldBorder border = world.getWorldBorder();
 		int halfBorderSize = (int) (border.getSize() / 2);
 
-		return x >= -halfBorderSize && x < halfBorderSize && z >= -halfBorderSize && z < halfBorderSize;
+		// Calculate the minimum distance between player spawns (50 chunks)
+		int minDistance = 50 * 16;
+
+		// Ensure that the spawn locations are at least 50 chunks apart
+		return x >= -halfBorderSize + minDistance && x < halfBorderSize - minDistance
+				&& z >= -halfBorderSize + minDistance && z < halfBorderSize - minDistance;
 	}
-
-
 }

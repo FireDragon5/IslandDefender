@@ -22,8 +22,12 @@ public class JoinEvent implements Listener {
 
 		Player player = event.getPlayer();
 
+//		When player spawn spawn them in the world "world"
+		player.teleport(Bukkit.getWorld("world").getSpawnLocation());
+
 //		First time join add the Default luckperms rank
 		if (!player.hasPlayedBefore()) {
+			player.teleport(Bukkit.getWorld("world").getSpawnLocation());
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set default");
 		}
 

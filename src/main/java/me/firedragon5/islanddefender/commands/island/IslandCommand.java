@@ -10,8 +10,9 @@ import java.util.List;
 
 public class IslandCommand extends FireCommand {
 
+
 	public IslandCommand() {
-		super("island", new String[]{"is"}, "Island command", "island.command");
+		super("island", new String[]{"is"}, "Island command", "islanddefender.island");
 	}
 
 
@@ -23,13 +24,16 @@ public class IslandCommand extends FireCommand {
 
 		Player player = (Player) commandSender;
 
-//			If the player does not have an island
-		if (IslandFileManager.hasIsland(player)) {
-			IslandFileManager.addIsland(player);
-		} else {
+		if (strings.length == 0) {
+			// Check if the player already has an island
+			if (!IslandFileManager.hasIsland(player)) {
+				// If the player doesn't have an island, create one for them
+				IslandFileManager.addIsland(player);
+			}
+
+			// Teleport the player to their island
 			IslandFileManager.teleportPlayerToIsland(player);
 		}
-
 
 	}
 

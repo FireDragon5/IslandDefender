@@ -27,6 +27,7 @@ import me.firedragon5.islanddefender.filemanager.kits.KitsFileManger;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
 import me.firedragon5.islanddefender.filemanager.shop.SellFileManager;
+import me.firedragon5.islanddefender.generator.IslandGenerator;
 import me.firedragon5.islanddefender.menu.Invsee.InvSeeMenu;
 import me.firedragon5.islanddefender.menu.clan.ClanInfoMenu;
 import me.firedragon5.islanddefender.menu.friends.FriendsMenu;
@@ -41,6 +42,8 @@ import me.firedragon5.islanddefender.task.MinesTask;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
+import org.bukkit.WorldCreator;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -60,6 +63,8 @@ public final class IslandDefender extends JavaPlugin {
 	SellFileManager sellFileManager;
 
 	KitsFileManger kitsFileManger;
+
+
 
 
 	//	This is a hashmap for all the pending friend requests
@@ -119,6 +124,7 @@ public final class IslandDefender extends JavaPlugin {
 		kitsFileManger.setup();
 		kitsFileManger.load();
 
+
 //        register Events
 		getServer().getPluginManager().registerEvents(new JoinEvent(), this);
 		getServer().getPluginManager().registerEvents(new Utils(), this);
@@ -164,6 +170,20 @@ public final class IslandDefender extends JavaPlugin {
 		task = new MinesTask().runTaskTimer(this, 0, MineFileManager.getFileManager().getResetTicksInMin());
 
 
+//		Create a world with the name islandWorld. It must be a superflat world
+		if (Bukkit.getWorld("islandWorld") == null) {
+			WorldCreator islandCreator = new WorldCreator("islandWorld");
+			islandCreator.generator(new IslandGenerator());
+//			Stop mobs from spawning
+			islandCreator.generateStructures(false);
+//			remove all mobs like slimes and animals
+			islandCreator.createWorld().getEntities().forEach(Entity::remove);
+			islandCreator.createWorld();
+
+		}
+
+
+
 	}
 
 
@@ -178,6 +198,7 @@ public final class IslandDefender extends JavaPlugin {
 		sellFileManager.saveSellConfig();
 		kitsFileManger.save();
 
+
 //		Stop the task
 		if (task != null && !task.isCancelled()) {
 			task.cancel();
@@ -191,26 +212,7 @@ public final class IslandDefender extends JavaPlugin {
 	}
 
 
-	//		Create a world called hub, make it a void world
-//		if (Bukkit.getWorld("hub") == null) {
-//			WorldCreator hubCreator = new WorldCreator("hub");
-//			hubCreator.generator(new HubGenerator());
-//			hubCreator.type(WorldType.FLAT);
-//			hubCreator.createWorld();
-//
-//		}
 
-////		Create a world with the name islandWorld. It must be a superflat world
-//		if (Bukkit.getWorld("islandWorld") == null) {
-//			WorldCreator islandCreator = new WorldCreator("islandWorld");
-//			islandCreator.generator(new CustomIslandGenerator());
-////			Stop mobs from spawning
-//			islandCreator.generateStructures(false);
-//
-//			islandCreator.type(WorldType.FLAT);
-//			islandCreator.createWorld();
-//
-//		}
 
 
 }

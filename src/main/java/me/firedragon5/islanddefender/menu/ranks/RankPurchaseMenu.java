@@ -1,8 +1,8 @@
 package me.firedragon5.islanddefender.menu.ranks;
 
-import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
+import me.firedragon5.islanddefender.manager.NameTagManager;
 import me.firedraong5.firesapi.menu.FireMenu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Bukkit;
@@ -84,7 +84,6 @@ public class RankPurchaseMenu extends FireMenu implements Listener {
 				if (PlayerFileManager.getPlayerCoins(player) < rankFileManager.getCost(nextRank)) {
 					player.sendMessage(UtilsMessage.onChat("&cYou do not have enough coins to purchase this rank!"));
 					player.closeInventory();
-					return;
 				} else {
 
 //			If the users pass everything, then take the money and give them the rank
@@ -102,21 +101,14 @@ public class RankPurchaseMenu extends FireMenu implements Listener {
 //					Change player config
 					PlayerFileManager.setPlayerRank(player, nextRank);
 
-					//		get the player rank
-					String rank = PlayerFileManager.getPlayerRank(player);
-//		get the display name of that rank
-					String rankDisplayName = RankFileManager.getFileManager().getPrefix(rank);
-
-					player.setPlayerListName(
-							Utils.chat(rankDisplayName + " &f" + player.getName()));
-
-//					Player name tag
-					player.setDisplayName(Utils.chat(rankDisplayName + " &f" + player.getName()));
-
-					return;
+//					Change the players nametag
+					NameTagManager.removeTag(player);
+					NameTagManager.setNameTags(player);
+					NameTagManager.newTag(player);
 
 
 				}
+				return;
 			}
 
 			// Cancel button
