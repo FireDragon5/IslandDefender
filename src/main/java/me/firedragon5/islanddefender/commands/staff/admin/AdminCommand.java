@@ -1,5 +1,9 @@
 package me.firedragon5.islanddefender.commands.staff.admin;
 
+import me.firedragon5.islanddefender.commands.staff.admin.handles.HandleClansCommands;
+import me.firedragon5.islanddefender.commands.staff.admin.handles.HandleMinesCommand;
+import me.firedragon5.islanddefender.commands.staff.admin.handles.HandleMoneyCommands;
+import me.firedragon5.islanddefender.commands.staff.admin.handles.HandleReloadCommand;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedraong5.firesapi.command.FireCommand;
 import me.firedraong5.firesapi.utils.UtilsMessage;
@@ -30,7 +34,16 @@ public class AdminCommand extends FireCommand {
 				String reloadType = strings[1];
 
 				HandleReloadCommand.handleReloadCommand(player, reloadType);
-			} else {
+			}else if (strings[0].equalsIgnoreCase("clans")){
+				HandleClansCommands.handleClansCommands(player, strings);
+			}
+//			mines
+			else if (strings[0].equalsIgnoreCase("mines")) {
+				HandleMinesCommand.handleMinesCommand(player, strings);
+			}
+
+
+			else {
 				// Combine the arguments into a single message for admin chat
 				String message = String.join(" ", strings);
 				for (Player onlinePlayer : player.getServer().getOnlinePlayers()) {
