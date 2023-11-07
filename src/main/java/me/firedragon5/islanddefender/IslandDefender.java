@@ -15,7 +15,10 @@ import me.firedragon5.islanddefender.commands.playerStatsCommand.PlayerStatsComm
 import me.firedragon5.islanddefender.commands.ranks.RankCommand;
 import me.firedragon5.islanddefender.commands.shop.SellCommand;
 import me.firedragon5.islanddefender.commands.shop.ShopCommands;
-import me.firedragon5.islanddefender.commands.staff.*;
+import me.firedragon5.islanddefender.commands.staff.InvSeeCommand;
+import me.firedragon5.islanddefender.commands.staff.MuteCommand;
+import me.firedragon5.islanddefender.commands.staff.StaffCommand;
+import me.firedragon5.islanddefender.commands.staff.VanishCommand;
 import me.firedragon5.islanddefender.commands.staff.admin.AdminCommand;
 import me.firedragon5.islanddefender.commands.trade.TradeCommand;
 import me.firedragon5.islanddefender.events.ChatEvent;
@@ -156,7 +159,6 @@ public final class IslandDefender extends JavaPlugin {
 		new BalanceCommand();
 		new CoinCommand();
 		new KitCommand();
-		new AdminClanCommands();
 		new TradeCommand();
 		new AdminCommand();
 		new PlayerStatsCommand();
