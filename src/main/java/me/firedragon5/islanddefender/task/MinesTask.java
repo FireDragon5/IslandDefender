@@ -2,15 +2,13 @@ package me.firedragon5.islanddefender.task;
 
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.logging.Logger;
 
-public class MinesTask extends BukkitRunnable {
-
+public class MinesTask implements Runnable {
 
 	//	Instance
-	private static MinesTask instance;
+	private static final MinesTask instance = new MinesTask();
 
 	@Override
 	public void run() {

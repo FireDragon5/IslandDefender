@@ -2,7 +2,6 @@ package me.firedragon5.islanddefender.events;
 
 import me.firedragon5.islanddefender.Utils;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
-import me.firedragon5.islanddefender.manager.NameTagManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
@@ -30,9 +29,8 @@ public class JoinEvent implements Listener {
 			player.teleport(Bukkit.getWorld("world").getSpawnLocation());
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set default");
 		}
-
-		NameTagManager.setNameTags(player);
-		NameTagManager.newTag(player);
+		player.setPlayerListHeader(Utils.chat(ConfigManger.getFileManager().getTablistHeader()));
+		player.setPlayerListFooter(Utils.chat(ConfigManger.getFileManager().getTablistFooter()));
 
 
 		UtilsMessage.checkPendingMessages();
@@ -45,8 +43,7 @@ public class JoinEvent implements Listener {
 				.getPrefix();
 
 
-		player.setPlayerListHeader(Utils.chat(ConfigManger.getFileManager().getTablistHeader()));
-		player.setPlayerListFooter(Utils.chat(ConfigManger.getFileManager().getTablistFooter()));
+
 
 
 		// Set the join message

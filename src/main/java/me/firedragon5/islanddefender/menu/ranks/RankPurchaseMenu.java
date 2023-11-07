@@ -2,7 +2,6 @@ package me.firedragon5.islanddefender.menu.ranks;
 
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
-import me.firedragon5.islanddefender.manager.NameTagManager;
 import me.firedraong5.firesapi.menu.FireMenu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Bukkit;
@@ -101,10 +100,6 @@ public class RankPurchaseMenu extends FireMenu implements Listener {
 //					Change player config
 					PlayerFileManager.setPlayerRank(player, nextRank);
 
-//					Change the players nametag
-					NameTagManager.removeTag(player);
-					NameTagManager.setNameTags(player);
-					NameTagManager.newTag(player);
 
 
 				}

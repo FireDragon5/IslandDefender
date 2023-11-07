@@ -1,7 +1,11 @@
 package me.firedragon5.islanddefender.menu.cosmetic;
 
 import me.firedraong5.firesapi.menu.FireMenu;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CosmeticMenu extends FireMenu {
 
@@ -16,6 +20,11 @@ public class CosmeticMenu extends FireMenu {
 
 	public void setupMenu() {
 
+
+		List<String> hatLore = new ArrayList<>();
+		hatLore.add("&7Click to open hats menu");
+
+		setItem(0, Material.DIAMOND_HELMET, "&7Hats", hatLore);
 
 
 

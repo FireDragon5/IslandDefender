@@ -1,6 +1,7 @@
 package me.firedragon5.islanddefender;
 
 
+import me.firedragon5.islanddefender.board.Board;
 import me.firedragon5.islanddefender.commands.clans.adminCommands.AdminClanCommands;
 import me.firedragon5.islanddefender.commands.clans.clanCommands.ClanCommands;
 import me.firedragon5.islanddefender.commands.friends.FriendCommand;
@@ -10,6 +11,7 @@ import me.firedragon5.islanddefender.commands.islanddefender.IslandDefenderComma
 import me.firedragon5.islanddefender.commands.kits.KitCommand;
 import me.firedragon5.islanddefender.commands.mines.MineCommand;
 import me.firedragon5.islanddefender.commands.mines.MineRegionsCommand;
+import me.firedragon5.islanddefender.commands.money.AdminBalCommand;
 import me.firedragon5.islanddefender.commands.money.BalanceCommand;
 import me.firedragon5.islanddefender.commands.money.CoinCommand;
 import me.firedragon5.islanddefender.commands.playerStatsCommand.PlayerStatsCommand;
@@ -76,6 +78,8 @@ public final class IslandDefender extends JavaPlugin {
 
 	//	task
 	private BukkitTask task;
+	private BukkitTask boardTask;
+
 
 
 	@Override
@@ -162,11 +166,15 @@ public final class IslandDefender extends JavaPlugin {
 		new InvSeeCommand();
 		new MuteCommand();
 		new VanishCommand();
+		new AdminBalCommand();
+
+
 
 
 //		task
-		task = new MinesTask().runTaskTimer(this, 0, MineFileManager.getFileManager().getResetTicksInMin());
-
+		task = getServer().getScheduler().runTaskTimer(this, MinesTask.getInstance(), 0,
+				MineFileManager.getFileManager().getResetTicksInMin());
+		boardTask = getServer().getScheduler().runTaskTimer(this, Board.getInstance(), 0, 20);
 
 //		Create a world with the name islandWorld. It must be a superflat world
 		if (Bukkit.getWorld("islandWorld") == null) {
@@ -198,6 +206,10 @@ public final class IslandDefender extends JavaPlugin {
 //		Stop the task
 		if (task != null && !task.isCancelled()) {
 			task.cancel();
+		}
+
+		if (boardTask != null && !boardTask.isCancelled()) {
+			boardTask.cancel();
 		}
 
 

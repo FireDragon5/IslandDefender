@@ -13,7 +13,9 @@ public class CosmeticListener implements Listener {
 		if (e.getInventory() != null && e.getCurrentItem() != null){
 
 			if (e.getView().getTitle().equals(Utils.chat("&7Cosmetics"))) {
-				e.setCancelled(true);
+				if (e.getCurrentItem().getItemMeta().getDisplayName().equals(Utils.chat("&7Hats"))) {
+					e.setCancelled(true);
+				}
 			}
 
 		}
