@@ -1,13 +1,10 @@
 package me.firedragon5.islanddefender.commands.kits;
 
-import me.firedragon5.islanddefender.filemanager.kits.KitsFileManger;
 import me.firedragon5.islanddefender.menu.kits.KitsMenu;
 import me.firedraong5.firesapi.command.FireCommand;
-import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class KitCommand extends FireCommand {
@@ -31,16 +28,6 @@ public class KitCommand extends FireCommand {
 			menu.setupMenu();
 			menu.openMenu();
 		}
-//		kit reload
-
-		else if (player.hasPermission("islanddefender.kits.reload")) {
-			if (strings.length == 1) {
-				if (strings[0].equalsIgnoreCase("reload")) {
-					KitsFileManger.getFileManager().reload();
-					UtilsMessage.sendMessage(player, "&aReloaded kits.yml");
-				}
-			}
-		}
 
 
 	}
@@ -48,13 +35,6 @@ public class KitCommand extends FireCommand {
 	@Override
 	public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
 
-		List<String> tabComplete = new ArrayList<>();
-
-		if (strings.length == 1) {
-			tabComplete.add("reload");
-		}
-
-
-		return tabComplete;
+		return null;
 	}
 }

@@ -15,7 +15,7 @@ public class SellFileManager {
 
 	FileConfiguration sellConfig;
 
-	public static SellFileManager getInstance() {
+	public static SellFileManager getFileInstance() {
 		return instance;
 	}
 

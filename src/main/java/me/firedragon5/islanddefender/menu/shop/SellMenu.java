@@ -30,7 +30,7 @@ public class SellMenu extends FireMenu implements Listener {
 	public void setup() {
 
 
-		SellFileManager sellFileManager = SellFileManager.getInstance();
+		SellFileManager sellFileManager = SellFileManager.getFileInstance();
 
 		List<String> lore = new ArrayList<>();
 		lore.add("&7Click to sell all your items");
@@ -65,7 +65,7 @@ public class SellMenu extends FireMenu implements Listener {
 		if (event.getSlot() == 49) {
 			event.setCancelled(true);
 
-			SellFileManager sellFileManager = SellFileManager.getInstance();
+			SellFileManager sellFileManager = SellFileManager.getFileInstance();
 
 			int value = 0;
 

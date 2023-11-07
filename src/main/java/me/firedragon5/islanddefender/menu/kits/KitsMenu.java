@@ -1,6 +1,6 @@
 package me.firedragon5.islanddefender.menu.kits;
 
-import me.firedragon5.islanddefender.filemanager.kits.KitsFileManger;
+import me.firedragon5.islanddefender.filemanager.kits.KitsFileManager;
 import me.firedraong5.firesapi.menu.FireMenu;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Material;
@@ -24,36 +24,28 @@ public class KitsMenu extends FireMenu implements Listener {
 	}
 
 	public void setupMenu() {
+		KitsFileManager kitsFileManager = KitsFileManager.getFileManager();
+		int slot = 10;
 
-		KitsFileManger kitsFileManger = KitsFileManger.getFileManager();
+		for (String kit : kitsFileManager.getKits()) {
+			// Set up lore for the kit
+			List<String> lore = new ArrayList<>();
+			lore.add("&aKit Name: &7" + kitsFileManager.getName(kit));
+			lore.add("&7Items:");
 
-		List<String> lore = new ArrayList<>();
-
-		int i = 10;
-
-		for (String kit : kitsFileManger.getKits()) {
-
-//			Display name
-			lore.add("&aKit Name: &7" + kitsFileManger.getName(kit));
-
-			lore.add("");
-
-//			Show the kits items
-			lore.add("&7Items: ");
-			for (String item : kitsFileManger.getItems(kit)) {
-				lore.add("&a- &7" + item);
+			for (String item : kitsFileManager.getItems(kit)) {
+				lore.add("  &a- &7" + item);
 			}
 
-
-			Material material = kitsFileManger.getMaterial(kit);
-
-			setItem(i, material, kit, lore);
-
+			Material material = kitsFileManager.getMaterial(kit);
+			setItem(slot, material, kit, lore);
 			lore.clear();
+
+			// Increase the slot by 1
+			slot++;
 		}
 
 		borderGlass(Material.BLACK_STAINED_GLASS_PANE);
-
 	}
 
 
@@ -78,17 +70,17 @@ public class KitsMenu extends FireMenu implements Listener {
 //				Don't do anything if the player clicks on a glass pane
 				if (event.getCurrentItem().getType() != Material.BLACK_STAINED_GLASS_PANE) {
 					String kitName = event.getCurrentItem().getItemMeta().getDisplayName();
-					if (KitsFileManger.getFileManager().getPermission(kitName) == null ||
-							player.hasPermission(KitsFileManger.getFileManager().getPermission(kitName))) {
+					if (KitsFileManager.getFileManager().getPermission(kitName) == null ||
+							player.hasPermission(KitsFileManager.getFileManager().getPermission(kitName))) {
 
 //						Check the cooldown of the kit
-						if (KitsFileManger.getFileManager().getCoolDown(kitName) > 0) {
-							UtilsMessage.errorMessage(player, "You must wait " + KitsFileManger.getFileManager().getCoolDown(kitName) +
+						if (KitsFileManager.getFileManager().getCoolDown(kitName) > 0) {
+							UtilsMessage.errorMessage(player, "You must wait " + KitsFileManager.getFileManager().getCoolDown(kitName) +
 									" seconds before claiming this kit again!");
 							return;
 						}
 
-						KitsFileManger.getFileManager().giveKit(player, kitName);
+						KitsFileManager.getFileManager().giveKit(player, kitName);
 					} else {
 						UtilsMessage.errorMessage(player, "You do not have permission to claim this kit!");
 					}

@@ -13,10 +13,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.io.File;
 import java.util.*;
 
-public class KitsFileManger {
+public class KitsFileManager {
 
 
-	static KitsFileManger fileManager = new KitsFileManger();
+	static KitsFileManager fileManager = new KitsFileManager();
 
 	File file;
 
@@ -55,7 +55,7 @@ public class KitsFileManger {
 	}
 
 
-	public void reload() {
+	public void reloadKitsConfig() {
 		configFile = YamlConfiguration.loadConfiguration(file);
 	}
 
@@ -122,7 +122,7 @@ public class KitsFileManger {
 		save();
 	}
 
-	public static KitsFileManger getFileManager() {
+	public static KitsFileManager getFileManager() {
 		return fileManager;
 	}
 

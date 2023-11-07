@@ -2,16 +2,13 @@ package me.firedragon5.islanddefender;
 
 
 import me.firedragon5.islanddefender.board.Board;
-import me.firedragon5.islanddefender.commands.clans.adminCommands.AdminClanCommands;
 import me.firedragon5.islanddefender.commands.clans.clanCommands.ClanCommands;
 import me.firedragon5.islanddefender.commands.friends.FriendCommand;
 import me.firedragon5.islanddefender.commands.hub.HubCommand;
 import me.firedragon5.islanddefender.commands.island.IslandCommand;
-import me.firedragon5.islanddefender.commands.islanddefender.IslandDefenderCommands;
 import me.firedragon5.islanddefender.commands.kits.KitCommand;
 import me.firedragon5.islanddefender.commands.mines.MineCommand;
 import me.firedragon5.islanddefender.commands.mines.MineRegionsCommand;
-import me.firedragon5.islanddefender.commands.money.AdminBalCommand;
 import me.firedragon5.islanddefender.commands.money.BalanceCommand;
 import me.firedragon5.islanddefender.commands.money.CoinCommand;
 import me.firedragon5.islanddefender.commands.playerStatsCommand.PlayerStatsCommand;
@@ -19,6 +16,7 @@ import me.firedragon5.islanddefender.commands.ranks.RankCommand;
 import me.firedragon5.islanddefender.commands.shop.SellCommand;
 import me.firedragon5.islanddefender.commands.shop.ShopCommands;
 import me.firedragon5.islanddefender.commands.staff.*;
+import me.firedragon5.islanddefender.commands.staff.admin.AdminCommand;
 import me.firedragon5.islanddefender.commands.trade.TradeCommand;
 import me.firedragon5.islanddefender.events.ChatEvent;
 import me.firedragon5.islanddefender.events.CosmeticListener;
@@ -26,7 +24,7 @@ import me.firedragon5.islanddefender.events.JoinEvent;
 import me.firedragon5.islanddefender.events.QuitEvent;
 import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
-import me.firedragon5.islanddefender.filemanager.kits.KitsFileManger;
+import me.firedragon5.islanddefender.filemanager.kits.KitsFileManager;
 import me.firedragon5.islanddefender.filemanager.mines.MineFileManager;
 import me.firedragon5.islanddefender.filemanager.ranks.RankFileManager;
 import me.firedragon5.islanddefender.filemanager.shop.SellFileManager;
@@ -62,7 +60,7 @@ public final class IslandDefender extends JavaPlugin {
 	ConfigManger configManager;
 	RankFileManager rankFileManager;
 	SellFileManager sellFileManager;
-	KitsFileManger kitsFileManger;
+	KitsFileManager kitsFileManger;
 
 
 	//	This is a hashmap for all the pending friend requests
@@ -116,12 +114,12 @@ public final class IslandDefender extends JavaPlugin {
 		rankFileManager.loadRankConfig();
 
 //		SellManager
-		sellFileManager = SellFileManager.getInstance();
+		sellFileManager = SellFileManager.getFileInstance();
 		sellFileManager.setup();
 		sellFileManager.loadSellConfig();
 
 //		KitsManager
-		kitsFileManger = KitsFileManger.getFileManager();
+		kitsFileManger = KitsFileManager.getFileManager();
 		kitsFileManger.setup();
 		kitsFileManger.load();
 
@@ -149,7 +147,6 @@ public final class IslandDefender extends JavaPlugin {
 		new RankCommand();
 		new ClanCommands();
 		new MineCommand();
-		new IslandDefenderCommands();
 		new IslandCommand();
 		new HubCommand();
 		new MineRegionsCommand();
@@ -166,7 +163,6 @@ public final class IslandDefender extends JavaPlugin {
 		new InvSeeCommand();
 		new MuteCommand();
 		new VanishCommand();
-		new AdminBalCommand();
 
 
 

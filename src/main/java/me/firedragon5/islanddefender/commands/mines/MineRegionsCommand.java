@@ -29,7 +29,7 @@ public class MineRegionsCommand extends FireCommand {
 
 
 		if (args.length < 1) {
-			UtilsMessage.sendMessage(sender, "&cPlease use /mineregions <create/delete/reload/fill> [name]");
+			UtilsMessage.sendMessage(sender, "&cPlease use /mineregions <create/delete/fill> [name]");
 			return;
 		}
 
@@ -47,10 +47,6 @@ public class MineRegionsCommand extends FireCommand {
 			mineManager.deleteMine(args[1]);
 //		/mineregions reload
 
-		} else if (args[0].equalsIgnoreCase("reload")) {
-			UtilsMessage.sendMessage(player, "&aReloading the mines config!");
-			MineFileManager mineManager = MineFileManager.getFileManager();
-			mineManager.reloadMineConfig();
 		}
 
 
@@ -128,7 +124,7 @@ public class MineRegionsCommand extends FireCommand {
 		if (commandSender instanceof Player player) {
 			if (strings.length == 1) {
 
-				for (String commandName : Arrays.asList("create", "delete", "reload", "fill")) {
+				for (String commandName : Arrays.asList("create", "delete", "fill")) {
 					if (commandName.startsWith(strings[0].toLowerCase()) && player.hasPermission("islanddefender.admin")) {
 						tabComplete.add(commandName);
 					}
@@ -145,8 +141,6 @@ public class MineRegionsCommand extends FireCommand {
 						tabComplete.add("<name>");
 						break;
 
-					case "reload":
-						break;
 
 				}
 			}

@@ -1,4 +1,4 @@
-package me.firedragon5.islanddefender.commands.money;
+package me.firedragon5.islanddefender.commands.staff;
 
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.command.FireCommand;

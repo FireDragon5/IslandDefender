@@ -7,7 +7,6 @@ import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RankCommand extends FireCommand {
@@ -42,28 +41,11 @@ public class RankCommand extends FireCommand {
 
 		if (!player.hasPermission("islanddefender.admin")) {
 			UtilsMessage.sendMessage(player, "&cYou do not have permission to use this command");
-		} else {
-
-			if (args.length == 1) {
-				if (args[0].equalsIgnoreCase("reload")) {
-					UtilsMessage.sendMessage(player, "&aRank config reloaded");
-					RankFileManager.getFileManager().reloadRankConfig();
-				}
-			}
 		}
 	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, String[] args) {
-		List<String> tabComplete = new ArrayList<>();
-
-//		rank reload needs to be a permission
-		if (sender.hasPermission("islanddefender.admin")) {
-			if (args.length == 1) {
-				tabComplete.add("reload");
-			}
-		}
-
-		return tabComplete;
+		return null;
 	}
 }

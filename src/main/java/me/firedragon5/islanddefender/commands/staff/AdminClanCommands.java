@@ -1,4 +1,4 @@
-package me.firedragon5.islanddefender.commands.clans.adminCommands;
+package me.firedragon5.islanddefender.commands.staff;
 
 import me.firedraong5.firesapi.command.FireCommand;
 import org.bukkit.command.CommandSender;
