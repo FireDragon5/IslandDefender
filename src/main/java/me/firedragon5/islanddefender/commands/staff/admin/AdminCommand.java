@@ -58,46 +58,59 @@ public class AdminCommand extends FireCommand {
 	}
 
 
-
 	@Override
 	public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
 		List<String> tabComplete = new ArrayList<>();
 
-		if (strings.length == 1) {
-			tabComplete.add("money");
-			tabComplete.add("reload");
-		} else if (strings.length == 2 && strings[0].equalsIgnoreCase("money")) {
-			if (commandSender.hasPermission("islanddefender.admin")) {
-				tabComplete.add("balance");
-				tabComplete.add("give");
-				tabComplete.add("remove");
-			}
-		} else if (strings.length == 3 && strings[0].equalsIgnoreCase("money")) {
-			if (commandSender.hasPermission("islanddefender.admin")) {
-				tabComplete.add("<amount>");
-			}
-		} else if (strings.length == 4 && strings[0].equalsIgnoreCase("money")) {
-			if (commandSender.hasPermission("islanddefender.admin")) {
-				tabComplete.add("<player>");
-			}
-		}
-//		reload
-		else if (strings.length == 2 && strings[0].equalsIgnoreCase("reload")) {
-			if (commandSender.hasPermission("islanddefender.admin")) {
-				tabComplete.add("config");
-				tabComplete.add("mines");
-				tabComplete.add("ranks");
-				tabComplete.add("kits");
-				tabComplete.add("sells");
-				tabComplete.add("shop");
-			}
-		} else if (strings.length == 3 && strings[0].equalsIgnoreCase("reload")) {
-			if (commandSender.hasPermission("islanddefender.admin")) {
-				tabComplete.add("all");
-			}
+		if (strings.length < 1) {
+			return tabComplete;
 		}
 
+		String subCommand = strings[0].toLowerCase();
+		switch (subCommand) {
+			case "money":
+				if (strings.length == 2 && commandSender.hasPermission("islanddefender.admin")) {
+					tabComplete.add("balance");
+					tabComplete.add("give");
+					tabComplete.add("remove");
+				} else if (strings.length == 3 && commandSender.hasPermission("islanddefender.admin")) {
+					tabComplete.add("<amount>");
+				} else if (strings.length == 4 && commandSender.hasPermission("islanddefender.admin")) {
+					tabComplete.add("<player>");
+				}
+				break;
+			case "reload":
+				if (strings.length == 2 && commandSender.hasPermission("islanddefender.admin")) {
+					tabComplete.add("config");
+					tabComplete.add("mines");
+					tabComplete.add("ranks");
+					tabComplete.add("kits");
+					tabComplete.add("sells");
+					tabComplete.add("shop");
+				} else if (strings.length == 3 && commandSender.hasPermission("islanddefender.admin")) {
+					tabComplete.add("all");
+				}
+				break;
+
+			case "clans":
+				if (strings.length == 2 && commandSender.hasPermission("islanddefender.admin")) {
+					tabComplete.add("create");
+					tabComplete.add("delete");
+
+				} else if (strings.length == 3 && commandSender.hasPermission("islanddefender.admin")) {
+					tabComplete.add("<clan>");
+				}
+				break;
+
+			case "mines":
+				if (strings.length == 2 && commandSender.hasPermission("islanddefender.admin")) {
+					tabComplete.add("create");
+					tabComplete.add("delete");
+				}
+				break;
+		}
 
 		return tabComplete;
 	}
+
 }
