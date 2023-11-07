@@ -4,5 +4,8 @@ import org.bukkit.entity.Player;
 
 public class HandleMinesCommand {
 	public static void handleMinesCommand(Player player, String[] strings) {
+
+		
+
 	}
 }
