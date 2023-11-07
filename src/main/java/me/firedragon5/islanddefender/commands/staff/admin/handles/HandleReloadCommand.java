@@ -1,4 +1,4 @@
-package me.firedragon5.islanddefender.commands.staff.admin;
+package me.firedragon5.islanddefender.commands.staff.admin.handles;
 
 import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedragon5.islanddefender.filemanager.kits.KitsFileManager;
@@ -55,7 +55,7 @@ public class HandleReloadCommand {
 			rankFileManager.reloadRankConfig();
 			kitsFileManager.reloadKitsConfig();
 			sellFileManager.reloadSellConfig();
-			
+
 			UtilsMessage.sendMessage(player, "&aAll configs reloaded!");
 		} else {
 			UtilsMessage.errorMessage(player, "&cInvalid reload type!");

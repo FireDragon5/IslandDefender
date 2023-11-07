@@ -1,11 +1,11 @@
-package me.firedragon5.islanddefender.commands.staff.admin;
+package me.firedragon5.islanddefender.commands.staff.admin.handles;
 
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class CheckPlayerBalance {
+public class HandlesPlayerBalance {
 
 
 	public static void checkPlayerBalance(Player player, String[] strings) {

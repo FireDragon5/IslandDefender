@@ -1,11 +1,11 @@
-package me.firedragon5.islanddefender.commands.staff.admin;
+package me.firedragon5.islanddefender.commands.staff.admin.handles;
 
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class PerformMoneyTransaction {
+public class HandleMoneyTransaction {
 
 	public static void performMoneyTransaction(Player player, String[] strings, String operation) {
 		if (strings.length < 4) {

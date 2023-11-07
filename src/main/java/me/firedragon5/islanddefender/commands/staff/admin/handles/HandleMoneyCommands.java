@@ -1,4 +1,4 @@
-package me.firedragon5.islanddefender.commands.staff.admin;
+package me.firedragon5.islanddefender.commands.staff.admin.handles;
 
 import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.entity.Player;
@@ -20,9 +20,9 @@ public class HandleMoneyCommands {
 		} else if (strings.length >= 3) {
 			String operation = strings[1].toLowerCase();
 			if (operation.equals("balance")) {
-				CheckPlayerBalance.checkPlayerBalance(player, strings);
+				HandlesPlayerBalance.checkPlayerBalance(player, strings);
 			} else if (operation.equals("give") || operation.equals("remove")) {
-				PerformMoneyTransaction.performMoneyTransaction(player, strings, operation);
+				HandleMoneyTransaction.performMoneyTransaction(player, strings, operation);
 			}
 		}
 	}
