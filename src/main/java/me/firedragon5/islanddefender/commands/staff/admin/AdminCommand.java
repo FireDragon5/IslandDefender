@@ -1,12 +1,7 @@
 package me.firedragon5.islanddefender.commands.staff.admin;
 
-import me.firedragon5.islanddefender.commands.staff.admin.handles.HandleClansCommands;
-import me.firedragon5.islanddefender.commands.staff.admin.handles.HandleMinesCommand;
-import me.firedragon5.islanddefender.commands.staff.admin.handles.HandleMoneyCommands;
-import me.firedragon5.islanddefender.commands.staff.admin.handles.HandleReloadCommand;
-import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
+import me.firedragon5.islanddefender.commands.staff.admin.handles.*;
 import me.firedraong5.firesapi.command.FireCommand;
-import me.firedraong5.firesapi.utils.UtilsMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -24,50 +19,44 @@ public class AdminCommand extends FireCommand {
 		checkConsole();
 		Player player = (Player) commandSender;
 
-		ConfigManger configManager = ConfigManger.getFileManager();
 
-		if (strings.length >= 1) {
-			if (strings[0].equalsIgnoreCase("money")) {
-				HandleMoneyCommands.handleMoneyCommands(player, strings);
-			} else if (strings[0].equalsIgnoreCase("reload")) {
+		if (strings[0].equalsIgnoreCase("money")) {
+			HandleMoneyCommands.handleMoneyCommands(player, strings);
+		} else if (strings[0].equalsIgnoreCase("reload")) {
 
-				String reloadType = strings[1];
+			String reloadType = strings[1];
 
-				HandleReloadCommand.handleReloadCommand(player, reloadType);
-			}else if (strings[0].equalsIgnoreCase("clans")){
-				HandleClansCommands.handleClansCommands(player, strings);
-			}
-//			mines
-			else if (strings[0].equalsIgnoreCase("mines")) {
-				HandleMinesCommand.handleMinesCommand(player, strings);
-			}
-
-
-			else {
-				// Combine the arguments into a single message for admin chat
-				String message = String.join(" ", strings);
-				for (Player onlinePlayer : player.getServer().getOnlinePlayers()) {
-					if (onlinePlayer.hasPermission("islanddefender.admin")) {
-						UtilsMessage.sendMessage(onlinePlayer, configManager.getAdminChatFormat()
-								.replace("%player%", player.getName())
-								.replace("%message%", message));
-					}
-				}
-			}
+			HandleReloadCommand.handleReloadCommand(player, reloadType);
+		} else if (strings[0].equalsIgnoreCase("clans")) {
+			HandleClansCommands.handleClansCommands(player, strings);
 		}
+//			mines
+		else if (strings[0].equalsIgnoreCase("mines")) {
+			HandleMinesCommand.handleMinesCommand(player, strings);
+		}
+//			hub
+		else if (strings[0].equalsIgnoreCase("hub")) {
+//				set the hub
+			HandleHubSetCommand.handleHubSetCommand(player, strings);
+		}
+
 	}
 
 
 	@Override
 	public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
 		List<String> tabComplete = new ArrayList<>();
-
-		if (strings.length < 1) {
-			return tabComplete;
+		
+		if (strings.length == 1) {
+			tabComplete.add("money");
+			tabComplete.add("reload");
+			tabComplete.add("clans");
+			tabComplete.add("mines");
+			tabComplete.add("hub");
 		}
 
-		String subCommand = strings[0].toLowerCase();
-		switch (subCommand) {
+
+		switch (strings[0]) {
 			case "money":
 				if (strings.length == 2 && commandSender.hasPermission("islanddefender.admin")) {
 					tabComplete.add("balance");
@@ -87,8 +76,8 @@ public class AdminCommand extends FireCommand {
 					tabComplete.add("kits");
 					tabComplete.add("sells");
 					tabComplete.add("shop");
-				} else if (strings.length == 3 && commandSender.hasPermission("islanddefender.admin")) {
 					tabComplete.add("all");
+
 				}
 				break;
 
@@ -106,6 +95,12 @@ public class AdminCommand extends FireCommand {
 				if (strings.length == 2 && commandSender.hasPermission("islanddefender.admin")) {
 					tabComplete.add("create");
 					tabComplete.add("delete");
+				}
+				break;
+
+			case "hub":
+				if (strings.length == 2 && commandSender.hasPermission("islanddefender.admin")) {
+					tabComplete.add("set");
 				}
 				break;
 		}

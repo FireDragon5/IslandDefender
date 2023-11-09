@@ -19,6 +19,7 @@ import me.firedragon5.islanddefender.commands.staff.InvSeeCommand;
 import me.firedragon5.islanddefender.commands.staff.MuteCommand;
 import me.firedragon5.islanddefender.commands.staff.StaffCommand;
 import me.firedragon5.islanddefender.commands.staff.VanishCommand;
+import me.firedragon5.islanddefender.commands.staff.admin.AdminChatCommand;
 import me.firedragon5.islanddefender.commands.staff.admin.AdminCommand;
 import me.firedragon5.islanddefender.commands.trade.TradeCommand;
 import me.firedragon5.islanddefender.events.ChatEvent;
@@ -161,6 +162,7 @@ public final class IslandDefender extends JavaPlugin {
 		new KitCommand();
 		new TradeCommand();
 		new AdminCommand();
+		new AdminChatCommand();
 		new PlayerStatsCommand();
 		new InvSeeCommand();
 		new MuteCommand();

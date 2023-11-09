@@ -1,6 +1,7 @@
 package me.firedragon5.islanddefender.filemanager.config;
 
 import me.firedragon5.islanddefender.IslandDefender;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -100,6 +101,11 @@ public class ConfigManger {
 			config.addDefault("tablistFooter", "&8&m----------------------");
 		}
 
+//		HubSpawn location
+		if (!config.contains("hubSpawn")) {
+			config.addDefault("hubSpawn", "none");
+		}
+
 
 		saveConfig();
 
@@ -162,4 +168,12 @@ public class ConfigManger {
 		return config.getString("tablistFooter");
 	}
 
+	public void setHubWorld(Location location) {
+		config.set("hubSpawn", location);
+		saveConfig();
+	}
+
+	public Location getHubWorld() {
+		return (Location) config.get("hubSpawn");
+	}
 }

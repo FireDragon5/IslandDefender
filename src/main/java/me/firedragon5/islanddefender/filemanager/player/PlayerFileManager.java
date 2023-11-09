@@ -70,6 +70,16 @@ public class PlayerFileManager {
 
 	}
 
+//	Check if player has a yml file
+	public static boolean hasPlayer(Player playerName) {
+
+		UUID playerUUID = playerName.getUniqueId();
+
+		File playerFile = new File("plugins/islanddefender/players/" + playerUUID + ".yml");
+
+		return playerFile.exists();
+	}
+
 	//	make a method that checks if the players has all the correct stuff in their yml file
 	public static void checkPlayer(Player playerName) {
 

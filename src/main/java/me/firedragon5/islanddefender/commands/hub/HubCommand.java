@@ -1,5 +1,6 @@
 package me.firedragon5.islanddefender.commands.hub;
 
+import me.firedragon5.islanddefender.filemanager.config.ConfigManger;
 import me.firedraong5.firesapi.command.FireCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,9 +20,9 @@ public class HubCommand extends FireCommand {
 		Player player = (Player) commandSender;
 		checkConsole();
 
-
-		// Teleport the player to the hub world
-		player.teleport(player.getServer().getWorld("hub").getSpawnLocation());
+		ConfigManger configManager = ConfigManger.getFileManager();
+		
+		player.teleport(configManager.getHubWorld());
 
 
 	}

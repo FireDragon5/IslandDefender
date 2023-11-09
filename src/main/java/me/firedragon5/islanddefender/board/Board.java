@@ -83,33 +83,13 @@ public class Board implements Runnable{
 		Scoreboard scoreboard = player.getScoreboard();
 		Objective objective = scoreboard.getObjective(IslandDefender.getInstance().getName());
 
-		LuckPerms luckPerms = LuckPermsProvider.get();
-//		get the primary group of the player prefix
-		String rankDisplayName = Objects.requireNonNull(luckPerms.getUserManager().getUser(player.getUniqueId())).getPrimaryGroup();
-		String prefix = Objects.requireNonNull(luckPerms.getGroupManager().getGroup(rankDisplayName))
-				.getCachedData()
-				.getMetaData()
-				.getPrefix();
-
-
-		assert objective != null;
-		objective.getScore(Objects.requireNonNull(Utils.chat("&7&m-----------------------"))).setScore(8);
-		objective.getScore(Objects.requireNonNull(Utils.chat(" "))).setScore(7);
-		objective.getScore(Objects.requireNonNull(Utils.chat("&6&l" + player.getName() +
-				" | " + prefix))).setScore(6);
-		objective.getScore(Objects.requireNonNull(Utils.chat("  "))).setScore(5);
-
-//		coins
+//		Update the scoreboard
 		objective.getScore(Objects.requireNonNull(Utils.chat("&eCoins: " + PlayerFileManager.getPlayerCoins(player)))).setScore(4);
 //		crystal
 		objective.getScore(Objects.requireNonNull(Utils.chat("&bCrystal: " + PlayerFileManager.getPlayerCrystals(player)))).setScore(3);
 //		dark crystal
 		objective.getScore(Objects.requireNonNull(Utils.chat("&5Dark Crystal: " + PlayerFileManager.getPlayerDarkCrystals(player)))).setScore(2);
 
-		objective.getScore(Objects.requireNonNull(Utils.chat(""))).setScore(1);
-
-
-		objective.getScore(Objects.requireNonNull(Utils.chat("&7&m----------------------"))).setScore(0);
 
 	}
 
