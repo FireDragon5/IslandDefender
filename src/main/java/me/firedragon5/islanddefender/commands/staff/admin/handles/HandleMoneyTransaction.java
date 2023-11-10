@@ -13,6 +13,13 @@ public class HandleMoneyTransaction {
 			return;
 		}
 
+//		if one of the args are equal to <amount> then return
+		if (strings[3].equals("<amount>")) {
+			UtilsMessage.errorMessage(player, "&cUsage: /admin money " + operation + " <player> <amount>");
+			return;
+		}
+
+
 		String playerName = strings[2];
 		Player target = Bukkit.getPlayer(playerName);
 

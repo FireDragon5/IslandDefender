@@ -2,6 +2,7 @@ package me.firedragon5.islanddefender.filemanager.clans;
 
 import me.firedragon5.islanddefender.filemanager.player.PlayerFileManager;
 import me.firedraong5.firesapi.utils.UtilsMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -105,6 +106,18 @@ public class ClanFolderManager {
 			clanConfig.set("clan-cost", 1000);
 		}
 
+//		Admin spy clan chat format
+		if (clanConfig.getString("admin-spy-clan-chat-format") == null) {
+			clanConfig.set("admin-spy-clan-chat-format", "&7[&4&lAdminSpy&7] &7[&b&lClan&7] &b%player%&7: &f%message%");
+		}
+
+//		Clan chat format
+		if (clanConfig.getString("clan-chat-format") == null) {
+			clanConfig.set("clan-chat-format", "&7[&b&lClan&7] &b%player%&7: &f%message%");
+		}
+
+		saveClanConfig();
+
 	}
 
 
@@ -179,6 +192,11 @@ public class ClanFolderManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	//	Clan chat format
+	public String getClanChatFormat() {
+		return clanConfig.getString("clan-chat-format");
 	}
 
 	//	Remove a clan from the folder
@@ -378,6 +396,20 @@ public class ClanFolderManager {
 		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
 		return clanConfig.getStringList("clan-allies");
 	}
+
+	//	Clan chat format
+	public String getClanChatFormat(String clanName) {
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
+		FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+		return clanConfig.getString("clan-chat-format");
+	}
+
+//	get admin spy clan chat format
+
+	public String getAdminSpyClanChatFormat() {
+		return clanConfig.getString("admin-spy-clan-chat-format");
+	}
+
 
 
 //	----------Player--------
@@ -595,6 +627,56 @@ public class ClanFolderManager {
 
 	}
 
+//	Clan chat
+
+	public void clanChat(Player player, String message) {
+
+		String clanName = PlayerFileManager.getPlayerClanName(player);
+
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
+
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+
+			List<String> clanMembers = clanConfig.getStringList("clan-members");
+
+			for (String member : clanMembers) {
+				Player target = player.getServer().getPlayer(member);
+
+				if (target != null) {
+					UtilsMessage.sendMessage(target, getClanChatFormat(clanName)
+							.replace("%player%", player.getName())
+							.replace("%message%", message));
+				}
+			}
+		}
+	}
+
+	//	Clan chat
+	public void clanChat(Player player, String message, String clanName) {
+
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
+
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+
+//			Add the clan members and the leader of the clan to the list
+			List<String> clanMembers = clanConfig.getStringList("clan-members");
+			clanMembers.add(clanConfig.getString("clan-leader"));
+			for (String member : clanMembers) {
+				Player target = Bukkit.getPlayer(member);
+
+				if (target != null) {
+					UtilsMessage.sendMessage(target, getClanChatFormat(clanName)
+							.replace("%player%", player.getName())
+							.replace("%message%", message));
+				}
+			}
+		}
+	}
+
+
+
 
 //--------------------------------------------//
 
@@ -666,6 +748,37 @@ public class ClanFolderManager {
 			clanFile.delete();
 		}
 	}
+
+//	Clan spy chat this will allow admins to view clan chat
+
+	//	Clan chat
+	public void clanChatAdmin(Player playerAdmin, String message, String clanName) {
+
+		File clanFile = new File("plugins/IslandDefender/clans/" + clanName + ".yml");
+
+		if (clanFile.exists()) {
+			FileConfiguration clanConfig = YamlConfiguration.loadConfiguration(clanFile);
+
+//			Add the clan members and the leader of the clan to the list
+			List<String> clanMembers = clanConfig.getStringList("clan-members");
+			clanMembers.add(clanConfig.getString("clan-leader"));
+			clanMembers.add(playerAdmin.getName());
+
+			for (String member : clanMembers) {
+				Player target = Bukkit.getPlayer(member);
+
+				if (target != null) {
+					UtilsMessage.sendMessage(target, getAdminSpyClanChatFormat()
+							.replace("%player%", playerAdmin.getName())
+							.replace("%message%", message));
+				}
+			}
+		}
+	}
+
+
+
+
 
 
 //--------------------------------------------//

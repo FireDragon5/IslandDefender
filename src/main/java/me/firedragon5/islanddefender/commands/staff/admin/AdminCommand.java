@@ -1,7 +1,9 @@
 package me.firedragon5.islanddefender.commands.staff.admin;
 
 import me.firedragon5.islanddefender.commands.staff.admin.handles.*;
+import me.firedragon5.islanddefender.filemanager.clans.ClanFolderManager;
 import me.firedraong5.firesapi.command.FireCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -22,13 +24,14 @@ public class AdminCommand extends FireCommand {
 
 		if (strings[0].equalsIgnoreCase("money")) {
 			HandleMoneyCommands.handleMoneyCommands(player, strings);
+
 		} else if (strings[0].equalsIgnoreCase("reload")) {
 
 			String reloadType = strings[1];
 
 			HandleReloadCommand.handleReloadCommand(player, reloadType);
 		} else if (strings[0].equalsIgnoreCase("clans")) {
-			HandleClansCommands.handleClansCommands(player, strings);
+			HandleClansCommands.handleClanCommands(player, strings);
 		}
 //			mines
 		else if (strings[0].equalsIgnoreCase("mines")) {
@@ -63,9 +66,19 @@ public class AdminCommand extends FireCommand {
 					tabComplete.add("give");
 					tabComplete.add("remove");
 				} else if (strings.length == 3 && commandSender.hasPermission("islanddefender.admin")) {
-					tabComplete.add("<amount>");
+					for (Player player : Bukkit.getOnlinePlayers()) {
+
+//						Don't show the command sener in the tab complete
+						if (player.getName().equals(commandSender.getName())) {
+							continue;
+						}
+
+						tabComplete.add(player.getName());
+					}
 				} else if (strings.length == 4 && commandSender.hasPermission("islanddefender.admin")) {
-					tabComplete.add("<player>");
+					tabComplete.add("10");
+					tabComplete.add("100");
+					tabComplete.add("1000");
 				}
 				break;
 			case "reload":
@@ -85,10 +98,16 @@ public class AdminCommand extends FireCommand {
 				if (strings.length == 2 && commandSender.hasPermission("islanddefender.admin")) {
 					tabComplete.add("create");
 					tabComplete.add("delete");
+					tabComplete.add("info");
+					tabComplete.add("chat");
 
 				} else if (strings.length == 3 && commandSender.hasPermission("islanddefender.admin")) {
-					tabComplete.add("<clan>");
+					ClanFolderManager clanFolderManager = new ClanFolderManager();
+					tabComplete.addAll(clanFolderManager.getClanList());
 				}
+
+
+
 				break;
 
 			case "mines":
